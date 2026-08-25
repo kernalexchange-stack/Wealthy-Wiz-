@@ -1,0 +1,6 @@
+{
+  "name": "Wealthy Wiz",
+  "description": "Mutual fund lead-generation and discovery website for the Indian market with live AMFI NAV tracking, risk profiling quiz, MF vs FD return calculator, and educational guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

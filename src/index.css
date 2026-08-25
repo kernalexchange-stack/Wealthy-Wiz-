@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --indigo-deep: #161448;
+    --indigo-mid: #1c255e;
+    --ocean-deep: #08536b;
+    --cyan-vibrant: #06b6d4;
+    --cyan-electric: #22d3ee;
+    --periwinkle: #818cf8;
+    --periwinkle-light: #a5b4fc;
+    --gold: #f59e0b;
+    --gold-bright: #fbbf24;
+    --gold-deep: #d97706;
+    --ink: #0f172a;
+    --ink-soft: #475569;
+    --ink-faint: #94a3b8;
+    --paper: #f8fafc;
+    --paper-raised: #ffffff;
+    --brand-gradient: linear-gradient(135deg, #1e1656 0%, #192b6c 40%, #07627b 80%, #0891b2 100%);
+    --brand-gradient-dark: linear-gradient(145deg, #15113d 0%, #19255a 50%, #09475c 100%);
+    --brand-gradient-cyan: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #06b6d4 100%);
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Fraunces', Georgia, serif;
+  }
+
+  .font-mono, .data-num {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+}
+
+/* Custom brand gradients and glowing effects derived from the avatar */
+.brand-gradient {
+  background: var(--brand-gradient);
+}
+
+.brand-gradient-dark {
+  background: var(--brand-gradient-dark);
+}
+
+.brand-gradient-cyan {
+  background: var(--brand-gradient-cyan);
+}
+
+.brand-gradient-subtle {
+  background: linear-gradient(135deg, #18144b 0%, #1c2963 50%, #0a4f66 100%);
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.4);
+}
+
+.cyan-glow {
+  box-shadow: 0 0 30px -4px rgba(6, 182, 212, 0.45);
+}
+
+.periwinkle-glow {
+  box-shadow: 0 0 30px -4px rgba(129, 140, 248, 0.4);
+}
+
+/* Smooth continuous ticker animation */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker 40s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar for data tables */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 116, 144, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 116, 144, 0.45);
+}
