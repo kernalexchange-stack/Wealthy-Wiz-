@@ -2,37 +2,139 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WealthyWiz — Smart Mutual Fund Discovery, Risk Quiz & Return Calculator</title>
-    <meta name="description" content="Discover India's top mutual funds with live AMFI NAVs, take our 60-second risk profiling quiz, compare Mutual Funds vs Fixed Deposits side-by-side, and get unbiased expert advisory." />
-    <meta name="keywords" content="mutual fund calculator, SIP calculator, live mutual fund NAV, mutual fund vs fixed deposit, ELSS tax saving funds, how to start SIP, AMFI mutual funds India" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>WealthyWiz — Smart Mutual Fund Discovery, Live NAVs, Risk Quiz & Return Calculator</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="WealthyWiz — Smart Mutual Fund Discovery, Live NAVs, Risk Quiz & Return Calculator" />
+    <meta name="description" content="Discover India's top direct mutual funds with real-time AMFI NAVs, interactive 1M-MAX performance charts, 60-second risk profiling quiz, and mutual funds vs fixed deposit compounding calculator." />
+    <meta name="keywords" content="mutual fund calculator, SIP calculator, live mutual fund NAV, mutual fund vs fixed deposit, ELSS tax saving funds, how to start SIP, AMFI mutual funds India, Parag Parikh Flexi Cap, Quant Small Cap, direct mutual fund plans, wealth advisor India" />
     <meta name="author" content="WealthyWiz" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
     <link rel="canonical" href="https://wealthywiz.online" />
+
+    <!-- Mobile & PWA Meta -->
+    <meta name="theme-color" content="#17144e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="WealthyWiz" />
+    <meta name="application-name" content="WealthyWiz" />
 
     <!-- Google Fonts: Fraunces (Headings), IBM Plex Sans (Body), IBM Plex Mono (Financial Data/Ledger) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 
-    <!-- Open Graph & Social Cards -->
-    <meta property="og:title" content="WealthyWiz — Mutual Fund Intelligence & Return Calculator" />
-    <meta property="og:description" content="Browse live AMFI NAV data, discover your risk profile, and compare Mutual Funds vs FDs." />
-    <meta property="og:url" content="https://wealthywiz.online" />
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp Social Cards -->
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="WealthyWiz — Smart Mutual Fund Discovery" />
-    <meta name="twitter:description" content="Compare Mutual Funds vs Fixed Deposits with live AMFI data." />
+    <meta property="og:url" content="https://wealthywiz.online" />
+    <meta property="og:site_name" content="WealthyWiz" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content="WealthyWiz — Smart Mutual Fund Discovery & Return Calculator" />
+    <meta property="og:description" content="Track live AMFI NAVs, discover your ideal portfolio with a 60-second risk quiz, and compare Mutual Funds vs Fixed Deposits side-by-side." />
+    <meta property="og:image" content="https://wealthywiz.online/og-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="WealthyWiz Mutual Fund Intelligence Platform" />
 
-    <!-- JSON-LD Structured Data -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://wealthywiz.online" />
+    <meta name="twitter:title" content="WealthyWiz — Smart Mutual Fund Discovery & Return Calculator" />
+    <meta name="twitter:description" content="Track live AMFI NAVs, discover your ideal portfolio with a 60-second risk quiz, and compare Mutual Funds vs Fixed Deposits side-by-side." />
+    <meta name="twitter:image" content="https://wealthywiz.online/og-preview.png" />
+
+    <!-- JSON-LD Multi-Schema Structured Data for Google Rich Snippets -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "FinancialService",
-        "name": "WealthyWiz",
-        "url": "https://wealthywiz.online",
-        "description": "Mutual fund research, risk profile assessment, and wealth advisory lead generation.",
-        "areaServed": "IN",
-        "currenciesAccepted": "INR"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://wealthywiz.online/#website",
+            "url": "https://wealthywiz.online",
+            "name": "WealthyWiz",
+            "description": "Smart Mutual Fund Discovery, Live NAV Tracking, Investor Risk Profiling & SIP Compounding Calculator.",
+            "inLanguage": "en-IN",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://wealthywiz.online/#explorer?search={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "FinancialService",
+            "@id": "https://wealthywiz.online/#organization",
+            "name": "WealthyWiz",
+            "url": "https://wealthywiz.online",
+            "logo": "https://wealthywiz.online/favicon.ico",
+            "description": "Direct mutual fund research, personalized risk profiling, and wealth advisory lead generation in India.",
+            "areaServed": "IN",
+            "currenciesAccepted": "INR",
+            "priceRange": "Free / Zero Commission"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://wealthywiz.online/#calculator",
+            "name": "Mutual Fund vs Fixed Deposit Return Calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All modern browsers",
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "INR"
+            },
+            "description": "Calculate and compare real returns, tax impact, and wealth compounding between Systematic Investment Plans (SIP) and Bank Fixed Deposits."
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://wealthywiz.online/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is a Systematic Investment Plan (SIP) and why is it recommended for wealth creation?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A Systematic Investment Plan (SIP) allows investors to invest a fixed sum regularly into chosen mutual fund schemes. SIPs enforce financial discipline, eliminate market timing risk through Rupee Cost Averaging, and harness the power of compounding over long investment horizons."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do Mutual Funds compare to Bank Fixed Deposits (FD) for long-term wealth?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "While Bank FDs offer guaranteed capital safety with 6.5%–7.5% annual returns, their real post-tax and post-inflation returns often drop to 1%–2%. Diversified equity and flexi-cap mutual funds historically deliver 12%–15%+ annualized returns over 5–10 year cycles, generating substantially higher compounding wealth."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is the difference between Direct and Regular mutual fund plans?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Direct Plans are bought directly from the AMC without paying distributor commissions or broker fees, resulting in significantly lower expense ratios (0.5% to 1.5% lower per year) and 15%–25% higher corpus over 15–20 years."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What are ELSS Mutual Funds and how do they save income tax?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Equity Linked Savings Schemes (ELSS) are tax-saving mutual funds eligible for income tax deduction under Section 80C up to ₹1.5 Lakh per financial year, with the shortest mandatory lock-in period of 3 years among all 80C options."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How frequently are Mutual Fund Net Asset Values (NAVs) updated in India?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Mutual fund NAVs are updated on every business day after market close by the Association of Mutual Funds in India (AMFI) and mutual fund houses, typically by 11:00 PM IST on T+0 trading days."
+                }
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>
@@ -41,4 +143,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

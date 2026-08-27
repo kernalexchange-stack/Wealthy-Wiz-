@@ -16,7 +16,8 @@ import {
   Briefcase, 
   ChevronDown,
   LayoutDashboard,
-  KeyRound
+  KeyRound,
+  HelpCircle
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
 import { ROLE_CONFIGS } from '../data/mockUsers';
@@ -118,6 +119,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <BookOpen className="w-4 h-4 text-indigo-400" />
               Guides
+            </button>
+
+            <button
+              onClick={() => scrollTo('faq')}
+              className="px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:text-cyan-300 hover:bg-slate-800/60 transition-colors flex items-center gap-1.5"
+            >
+              <HelpCircle className="w-4 h-4 text-cyan-400" />
+              FAQ
             </button>
           </div>
 
@@ -411,6 +420,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <BookOpen className="w-4 h-4 text-indigo-400" />
             Educational Guides & News
+          </button>
+          <button
+            onClick={() => scrollTo('faq')}
+            className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-slate-800 flex items-center gap-2.5"
+          >
+            <HelpCircle className="w-4 h-4 text-cyan-400" />
+            Frequently Asked Questions
           </button>
           
           <div className="pt-2 border-t border-[#252063] flex flex-col gap-2">

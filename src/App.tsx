@@ -8,6 +8,7 @@ import { RiskQuiz } from './components/RiskQuiz';
 import { ReturnCalculator } from './components/ReturnCalculator';
 import { LeadForm } from './components/LeadForm';
 import { ArticlesSection } from './components/ArticlesSection';
+import { FaqSection } from './components/FaqSection';
 import { LeadsVaultModal } from './components/LeadsVaultModal';
 import { LoginModal } from './components/LoginModal';
 import { AdminDashboardModal } from './components/AdminDashboardModal';
@@ -165,37 +166,53 @@ export function App() {
     }
   }, []);
 
-  // Fetch live NAV updates for top curated funds in background
-  useEffect(() => {
-    let isMounted = true;
-    async function updateLiveNavs() {
-      try {
-        const promises = CURATED_FUNDS.slice(0, 5).map(f => fetchSchemeDetails(f.schemeCode));
-        const results = await Promise.allSettled(promises);
-        
-        if (!isMounted) return;
+  const [isRefreshingNavs, setIsRefreshingNavs] = useState(false);
 
-        setFunds(prevFunds => {
-          return prevFunds.map(fund => {
-            const matchedResult = results.find(
-              r => r.status === 'fulfilled' && r.value?.scheme.schemeCode === fund.schemeCode
-            );
-            if (matchedResult && matchedResult.status === 'fulfilled' && matchedResult.value) {
-              return matchedResult.value.scheme;
-            }
-            return fund;
-          });
+  // Fetch live NAV updates for all curated funds in background
+  const fetchAllLiveNavs = async (silent: boolean = false) => {
+    setIsRefreshingNavs(true);
+    try {
+      const promises = CURATED_FUNDS.map(f => fetchSchemeDetails(f.schemeCode));
+      const results = await Promise.allSettled(promises);
+      
+      setFunds(prevFunds => {
+        return prevFunds.map(fund => {
+          const matchedResult = results.find(
+            r => r.status === 'fulfilled' && r.value?.scheme.schemeCode === fund.schemeCode
+          );
+          if (matchedResult && matchedResult.status === 'fulfilled' && matchedResult.value) {
+            return matchedResult.value.scheme;
+          }
+          return fund;
         });
-      } catch (err) {
-        console.warn('Live NAV background fetch notice:', err);
-      }
-    }
+      });
 
-    updateLiveNavs();
-    return () => {
-      isMounted = false;
-    };
+      if (!silent) {
+        showToast('Live AMFI NAVs synced successfully.', 'success');
+      }
+    } catch (err) {
+      console.warn('Live NAV background fetch notice:', err);
+      if (!silent) {
+        showToast('Using latest verified AMFI cache.', 'info');
+      }
+    } finally {
+      setIsRefreshingNavs(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllLiveNavs(true);
+    // Periodic refresh every 4 minutes
+    const interval = setInterval(() => {
+      fetchAllLiveNavs(true);
+    }, 4 * 60 * 1000);
+
+    return () => clearInterval(interval);
   }, []);
+
+  const handleRefreshLiveNavs = () => {
+    fetchAllLiveNavs(false);
+  };
 
   // Handlers
   const handleSelectFundForAdvice = (fund: FundScheme) => {
@@ -332,8 +349,11 @@ export function App() {
 
         {/* 4. Live AMFI Fund Scheme Explorer */}
         <FundExplorer 
+          funds={funds}
           onSelectFundForAdvice={handleSelectFundForAdvice} 
           selectedFunds={selectedFunds} 
+          onRefreshLiveNavs={handleRefreshLiveNavs}
+          isRefreshing={isRefreshingNavs}
         />
 
         {/* 5. 60-Second Investor Risk Profiler Quiz */}
@@ -347,7 +367,10 @@ export function App() {
         {/* 7. Educational Guides & Market Insights */}
         <ArticlesSection />
 
-        {/* 8. Advisory Lead Generation Form */}
+        {/* 8. Frequently Asked Questions for SEO & Visitor Trust */}
+        <FaqSection />
+
+        {/* 9. Advisory Lead Generation Form */}
         <LeadForm 
           quizProfile={quizProfile}
           selectedFunds={selectedFunds}

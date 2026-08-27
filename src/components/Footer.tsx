@@ -70,6 +70,11 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
+                <button onClick={() => scrollTo('faq')} className="hover:text-cyan-300 transition-colors">
+                  Frequently Asked Questions (FAQ)
+                </button>
+              </li>
+              <li>
                 <button onClick={() => scrollTo('advice')} className="hover:text-cyan-300 transition-colors">
                   Request Custom Advisory Plan
                 </button>

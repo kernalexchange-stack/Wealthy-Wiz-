@@ -1,0 +1,7 @@
+# robots.txt for WealthyWiz
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+
+Sitemap: https://wealthywiz.online/sitemap.xml

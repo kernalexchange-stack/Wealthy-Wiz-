@@ -155,6 +155,70 @@ app.post("/api/visitors", (req, res) => {
   }
 });
 
+// AMFI Mutual Fund Live Proxy with In-Memory Caching
+const mfCache = new Map<string, { data: any; expiry: number }>();
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+app.get("/api/mf/:schemeCode", async (req, res) => {
+  const { schemeCode } = req.params;
+  const cacheKey = `scheme_${schemeCode}`;
+  const cached = mfCache.get(cacheKey);
+
+  if (cached && Date.now() < cached.expiry) {
+    return res.json(cached.data);
+  }
+
+  try {
+    const response = await fetch(`https://api.mfapi.in/mf/${schemeCode}`, {
+      headers: {
+        "User-Agent": "WealthyWiz/2.0",
+        "Accept": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: `AMFI service error ${response.status}` });
+    }
+
+    const data = await response.json();
+    if (data && data.data && data.data.length > 0) {
+      mfCache.set(cacheKey, { data, expiry: Date.now() + CACHE_TTL_MS });
+    }
+
+    return res.json(data);
+  } catch (error) {
+    console.error(`Failed to fetch AMFI scheme ${schemeCode}:`, error);
+    if (cached) {
+      return res.json(cached.data);
+    }
+    return res.status(502).json({ error: "Failed to connect to AMFI live data source" });
+  }
+});
+
+app.get("/api/mf-search", async (req, res) => {
+  const q = String(req.query.q || "").trim();
+  if (!q) return res.json([]);
+
+  const cacheKey = `search_${q.toLowerCase()}`;
+  const cached = mfCache.get(cacheKey);
+  if (cached && Date.now() < cached.expiry) {
+    return res.json(cached.data);
+  }
+
+  try {
+    const response = await fetch(`https://api.mfapi.in/mf/search?q=${encodeURIComponent(q)}`);
+    if (response.ok) {
+      const data = await response.json();
+      mfCache.set(cacheKey, { data, expiry: Date.now() + CACHE_TTL_MS });
+      return res.json(data);
+    }
+    return res.json([]);
+  } catch (error) {
+    console.error("AMFI search proxy error:", error);
+    return res.json([]);
+  }
+});
+
 // Optional AI Advisor Query Endpoint
 app.post("/api/advisor/chat", async (req, res) => {
   try {
