@@ -90,20 +90,28 @@ export interface CalculatorResults {
   }[];
 }
 
+export type ServiceType = 'mutual_fund_advisory' | 'loan_against_mf';
+
 export interface LeadPayload {
   id?: string;
+  serviceType?: ServiceType;
   name: string;
   email: string;
   phone: string;
   investmentGoal: string;
   investmentAmount: number;
-  investmentMode: 'monthly_sip' | 'one_time_lumpsum';
+  investmentMode: 'monthly_sip' | 'one_time_lumpsum' | 'lamf_overdraft' | 'lamf_term_loan' | string;
   riskProfile?: RiskProfileType | string;
   recommendedFunds?: string[];
   message?: string;
   sourcePage?: string;
   createdAt?: string;
   status?: 'new' | 'contacted' | 'converted';
+  // Specific Loan Against Mutual Funds (LAMF) fields
+  portfolioValue?: number;
+  requestedLoanAmount?: number;
+  rtaProvider?: 'CAMS' | 'KFintech' | 'Both' | 'Not Sure' | string;
+  portfolioType?: 'Equity Mutual Funds' | 'Debt & Liquid Funds' | 'Hybrid / Multi-Asset' | string;
 }
 
 export interface ArticleItem {

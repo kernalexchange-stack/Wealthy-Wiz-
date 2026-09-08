@@ -43,19 +43,19 @@ export const ReturnCalculator: React.FC = () => {
   };
 
   return (
-    <section id="calculator" className="py-16 sm:py-24 bg-[#f8fafc] text-slate-900 scroll-mt-20">
+    <section id="calculator" className="py-16 sm:py-24 bg-[#faf7f2] text-slate-900 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="max-w-3xl mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 text-cyan-900 text-xs font-semibold uppercase tracking-wider mb-3 border border-cyan-200">
-            <Calculator className="w-3.5 h-3.5 text-cyan-700" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fdf2f4] text-[#881337] text-xs font-bold uppercase tracking-wider mb-3 border border-rose-200 shadow-xs">
+            <Calculator className="w-3.5 h-3.5 text-[#881337]" />
             Compounding & Wealth Multiplier
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-['Fraunces',serif]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#701a2f] tracking-tight font-['Fraunces',serif]">
             Mutual Fund vs Fixed Deposit Return Calculator
           </h2>
-          <p className="text-slate-600 mt-2 text-sm sm:text-base">
+          <p className="text-[#645c60] mt-2 text-sm sm:text-base">
             See the exact compounding difference side-by-side. Compare how equity mutual funds outpace bank Fixed Deposits after inflation and taxes over your investment horizon.
           </p>
         </div>
@@ -63,14 +63,14 @@ export const ReturnCalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Controls Form (Left 5 cols) */}
-          <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-sm space-y-6">
+          <div className="lg:col-span-5 bg-white border border-[#ecdcd3] rounded-3xl p-6 sm:p-7 shadow-sm space-y-6">
             
             {/* Mode Switcher: SIP vs Lumpsum */}
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-stone-500 block mb-2">
                 Investment Strategy Mode
               </label>
-              <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+              <div className="grid grid-cols-2 gap-2 bg-[#f4ece7] p-1 rounded-xl">
                 <button
                   onClick={() => {
                     setMode('sip');
@@ -78,8 +78,8 @@ export const ReturnCalculator: React.FC = () => {
                   }}
                   className={`py-2 rounded-lg text-xs font-bold transition-all ${
                     mode === 'sip'
-                      ? 'bg-[#161448] text-white shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#881337] text-white shadow-sm'
+                      : 'text-stone-700 hover:text-stone-900'
                   }`}
                 >
                   Monthly SIP
@@ -91,8 +91,8 @@ export const ReturnCalculator: React.FC = () => {
                   }}
                   className={`py-2 rounded-lg text-xs font-bold transition-all ${
                     mode === 'lumpsum'
-                      ? 'bg-[#161448] text-white shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#881337] text-white shadow-sm'
+                      : 'text-stone-700 hover:text-stone-900'
                   }`}
                 >
                   One-Time Lumpsum
@@ -103,17 +103,17 @@ export const ReturnCalculator: React.FC = () => {
             {/* Category Return Preset Dropdown */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500">
                   Target Fund Category
                 </label>
-                <span className="text-[11px] text-cyan-700 font-semibold font-mono">
+                <span className="text-[11px] text-[#881337] font-semibold font-mono">
                   Benchmark: {CATEGORY_RETURN_PRESETS[selectedCategory]?.mfRate}% p.a.
                 </span>
               </div>
               <select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-cyan-500 focus:bg-white focus:outline-none"
+                className="w-full bg-[#faf7f2] border border-[#ecdcd3] rounded-xl px-3.5 py-2.5 text-sm font-semibold text-stone-800 focus:ring-2 focus:ring-[#881337] focus:bg-white focus:outline-none"
               >
                 {Object.keys(CATEGORY_RETURN_PRESETS).map((cat) => (
                   <option key={cat} value={cat}>
@@ -121,7 +121,7 @@ export const ReturnCalculator: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <p className="text-[11px] text-slate-400 mt-1">
+              <p className="text-[11px] text-stone-500 mt-1">
                 {CATEGORY_RETURN_PRESETS[selectedCategory]?.desc}
               </p>
             </div>
@@ -129,10 +129,10 @@ export const ReturnCalculator: React.FC = () => {
             {/* Investment Amount Slider & Input */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500">
                   {mode === 'sip' ? 'Monthly SIP Amount' : 'Lumpsum Investment Amount'}
                 </label>
-                <span className="text-base font-bold font-mono text-slate-900">
+                <span className="text-base font-bold font-mono text-[#701a2f]">
                   ₹{formatNumberINR(amount)}
                 </span>
               </div>
@@ -143,9 +143,9 @@ export const ReturnCalculator: React.FC = () => {
                 step={mode === 'sip' ? 500 : 10000}
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
+                className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#881337]"
               />
-              <div className="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+              <div className="flex justify-between text-[10px] text-stone-400 font-mono mt-1">
                 <span>{mode === 'sip' ? '₹500/mo' : '₹5,000'}</span>
                 <span>{mode === 'sip' ? '₹1.5 Lakh/mo' : '₹50 Lakhs'}</span>
               </div>
@@ -154,10 +154,10 @@ export const ReturnCalculator: React.FC = () => {
             {/* Investment Horizon Slider & Input */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500">
                   Time Horizon
                 </label>
-                <span className="text-base font-bold font-mono text-slate-900">
+                <span className="text-base font-bold font-mono text-[#701a2f]">
                   {years} {years === 1 ? 'Year' : 'Years'}
                 </span>
               </div>
@@ -168,9 +168,9 @@ export const ReturnCalculator: React.FC = () => {
                 step={1}
                 value={years}
                 onChange={(e) => setYears(Number(e.target.value))}
-                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
+                className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#881337]"
               />
-              <div className="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+              <div className="flex justify-between text-[10px] text-stone-400 font-mono mt-1">
                 <span>1 Year</span>
                 <span>15 Years</span>
                 <span>30 Years</span>
@@ -181,8 +181,8 @@ export const ReturnCalculator: React.FC = () => {
             <div className="grid grid-cols-2 gap-3 pt-1">
               
               {/* Mutual Fund Rate */}
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
+              <div className="bg-[#faf7f2] p-3 rounded-xl border border-[#ecdcd3]">
+                <label className="text-[11px] font-semibold text-stone-600 block mb-1">
                   MF Expected Return (%)
                 </label>
                 <div className="flex items-center gap-1">
@@ -193,15 +193,15 @@ export const ReturnCalculator: React.FC = () => {
                     step={0.5}
                     value={mfExpectedReturn}
                     onChange={(e) => setMfExpectedReturn(Number(e.target.value))}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-sm font-bold font-mono text-cyan-700 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                    className="w-full bg-white border border-[#ecdcd3] rounded-lg px-2 py-1 text-sm font-bold font-mono text-[#881337] focus:outline-none focus:ring-1 focus:ring-[#881337]"
                   />
-                  <span className="text-xs font-bold text-slate-500">%</span>
+                  <span className="text-xs font-bold text-stone-500">%</span>
                 </div>
               </div>
 
               {/* FD Rate (6.5% default as per README) */}
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
+              <div className="bg-[#faf7f2] p-3 rounded-xl border border-[#ecdcd3]">
+                <label className="text-[11px] font-semibold text-stone-600 block mb-1">
                   Bank FD Rate (%)
                 </label>
                 <div className="flex items-center gap-1">
@@ -212,9 +212,9 @@ export const ReturnCalculator: React.FC = () => {
                     step={0.1}
                     value={fdInterestRate}
                     onChange={(e) => setFdInterestRate(Number(e.target.value))}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-sm font-bold font-mono text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                    className="w-full bg-white border border-[#ecdcd3] rounded-lg px-2 py-1 text-sm font-bold font-mono text-stone-700 focus:outline-none focus:ring-1 focus:ring-stone-400"
                   />
-                  <span className="text-xs font-bold text-slate-500">%</span>
+                  <span className="text-xs font-bold text-stone-500">%</span>
                 </div>
               </div>
 
@@ -222,19 +222,19 @@ export const ReturnCalculator: React.FC = () => {
 
             {/* Optional Step-Up SIP */}
             {mode === 'sip' && (
-              <div className="pt-2 border-t border-slate-100">
+              <div className="pt-2 border-t border-[#f4ece7]">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 text-[#fbbf24]" />
+                    <span className="text-xs font-bold text-stone-700 flex items-center gap-1">
+                      <Zap className="w-3.5 h-3.5 text-amber-500" />
                       Annual SIP Step-Up (%)
                     </span>
-                    <span className="text-[10px] text-slate-400 block">Increase SIP yearly with salary hikes</span>
+                    <span className="text-[10px] text-stone-500 block">Increase SIP yearly with salary hikes</span>
                   </div>
                   <select
                     value={stepUpPct}
                     onChange={(e) => setStepUpPct(Number(e.target.value))}
-                    className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold font-mono text-slate-800"
+                    className="bg-[#faf7f2] border border-[#ecdcd3] rounded-lg px-2 py-1 text-xs font-bold font-mono text-stone-800"
                   >
                     <option value={0}>0% (Flat)</option>
                     <option value={5}>+5% / yr</option>
@@ -251,34 +251,34 @@ export const ReturnCalculator: React.FC = () => {
           {/* Side-by-Side Comparison Output (Right 7 cols) */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* Wealth Advantage Hero Callout */}
-            <div className="brand-gradient-dark text-white p-6 sm:p-7 rounded-3xl border border-[#2b3378] shadow-xl relative overflow-hidden">
+            {/* Wealth Advantage Hero Callout with Dark Element */}
+            <div className="bg-[#1c0a16] text-white p-6 sm:p-7 rounded-3xl border border-[#3e1631] shadow-xl relative overflow-hidden">
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider bg-cyan-950/90 text-cyan-300 px-3 py-1 rounded-full border border-cyan-800/60">
-                  <Flame className="w-3.5 h-3.5 text-[#fbbf24]" />
+                <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider bg-rose-950/90 text-rose-300 px-3 py-1 rounded-full border border-rose-800/60">
+                  <Flame className="w-3.5 h-3.5 text-amber-400" />
                   Mutual Fund Wealth Edge
                 </span>
-                <span className="text-xs text-slate-300 font-mono">
+                <span className="text-xs text-rose-200/80 font-mono">
                   {years} Years Compounding
                 </span>
               </div>
 
               <div className="space-y-1">
-                <div className="text-xs text-slate-300">
+                <div className="text-xs text-rose-200/80">
                   Extra Wealth Generated by Mutual Funds over Fixed Deposit:
                 </div>
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#38bdf8] tracking-tight">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-300 to-rose-300 tracking-tight">
                   +{formatINR(results.extraWealthOverFd)}
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
+              <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-rose-100/90">
                 <div>
-                  Capital Multiplier: <span className="font-bold text-cyan-300 font-mono text-sm">{results.wealthMultiplier}x</span> of invested money
+                  Capital Multiplier: <span className="font-bold text-amber-300 font-mono text-sm">{results.wealthMultiplier}x</span> of invested money
                 </div>
                 <button
                   onClick={handleScrollToAdvice}
-                  className="text-xs font-bold text-white hover:text-amber-300 flex items-center gap-1 underline underline-offset-4"
+                  className="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1 underline underline-offset-4"
                 >
                   Create Custom SIP Plan <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -289,27 +289,27 @@ export const ReturnCalculator: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
               {/* Card 1: Mutual Fund Outcome */}
-              <div className="bg-white border-2 border-cyan-500/40 rounded-3xl p-5 shadow-sm space-y-4 relative">
+              <div className="bg-white border-2 border-rose-200 rounded-3xl p-5 shadow-sm space-y-4 relative">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-cyan-900 bg-cyan-50 px-2.5 py-0.5 rounded-md border border-cyan-200">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#881337] bg-rose-50 px-2.5 py-0.5 rounded-md border border-rose-200">
                     Mutual Fund ({mfExpectedReturn}% p.a.)
                   </span>
-                  <TrendingUp className="w-4 h-4 text-cyan-600" />
+                  <TrendingUp className="w-4 h-4 text-[#881337]" />
                 </div>
 
                 <div>
-                  <div className="text-xs text-slate-500 font-medium">Estimated Maturity Corpus</div>
-                  <div className="text-2xl sm:text-3xl font-bold text-slate-900 font-mono mt-0.5">
+                  <div className="text-xs text-stone-500 font-medium">Estimated Maturity Corpus</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-[#701a2f] font-mono mt-0.5">
                     {formatINR(results.mfMaturityValue)}
                   </div>
                 </div>
 
-                <div className="space-y-1.5 text-xs pt-2 border-t border-slate-100">
-                  <div className="flex justify-between text-slate-600">
+                <div className="space-y-1.5 text-xs pt-2 border-t border-stone-100">
+                  <div className="flex justify-between text-stone-600">
                     <span>Total Invested:</span>
-                    <span className="font-bold text-slate-900 font-mono">{formatINR(results.totalInvested)}</span>
+                    <span className="font-bold text-stone-900 font-mono">{formatINR(results.totalInvested)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-stone-600">
                     <span>Estimated Gains:</span>
                     <span className="font-bold text-emerald-700 font-mono">+{formatINR(results.mfWealthGain)}</span>
                   </div>
@@ -317,29 +317,29 @@ export const ReturnCalculator: React.FC = () => {
               </div>
 
               {/* Card 2: Fixed Deposit Outcome */}
-              <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4 relative">
+              <div className="bg-white border border-[#ecdcd3] rounded-3xl p-5 shadow-sm space-y-4 relative">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md border border-slate-200">
+                  <span className="text-xs font-bold uppercase tracking-wider text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-md border border-stone-200">
                     Bank Fixed Deposit ({fdInterestRate}% p.a.)
                   </span>
-                  <ShieldCheck className="w-4 h-4 text-slate-400" />
+                  <ShieldCheck className="w-4 h-4 text-stone-400" />
                 </div>
 
                 <div>
-                  <div className="text-xs text-slate-500 font-medium">Estimated Maturity Corpus</div>
-                  <div className="text-2xl sm:text-3xl font-bold text-slate-700 font-mono mt-0.5">
+                  <div className="text-xs text-stone-500 font-medium">Estimated Maturity Corpus</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-stone-700 font-mono mt-0.5">
                     {formatINR(results.fdMaturityValue)}
                   </div>
                 </div>
 
-                <div className="space-y-1.5 text-xs pt-2 border-t border-slate-100">
-                  <div className="flex justify-between text-slate-600">
+                <div className="space-y-1.5 text-xs pt-2 border-t border-stone-100">
+                  <div className="flex justify-between text-stone-600">
                     <span>Total Invested:</span>
-                    <span className="font-bold text-slate-900 font-mono">{formatINR(results.totalInvested)}</span>
+                    <span className="font-bold text-stone-900 font-mono">{formatINR(results.totalInvested)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-stone-600">
                     <span>Estimated Gains:</span>
-                    <span className="font-bold text-slate-700 font-mono">+{formatINR(results.fdWealthGain)}</span>
+                    <span className="font-bold text-stone-700 font-mono">+{formatINR(results.fdWealthGain)}</span>
                   </div>
                 </div>
               </div>
@@ -347,29 +347,29 @@ export const ReturnCalculator: React.FC = () => {
             </div>
 
             {/* Quick Growth Breakdown Table */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-4 text-xs">
-              <div className="font-bold text-slate-800 mb-2">Milestone Year-by-Year Growth Check</div>
+            <div className="bg-white border border-[#ecdcd3] rounded-2xl p-4 text-xs">
+              <div className="font-bold text-stone-800 mb-2">Milestone Year-by-Year Growth Check</div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="border-b border-slate-100 text-slate-400 font-semibold">
+                    <tr className="border-b border-stone-200 text-stone-400 font-semibold">
                       <th className="pb-1.5">Timeline</th>
                       <th className="pb-1.5">Total Invested</th>
-                      <th className="pb-1.5 text-cyan-700">Mutual Fund</th>
-                      <th className="pb-1.5 text-slate-600">Fixed Deposit</th>
+                      <th className="pb-1.5 text-[#881337]">Mutual Fund</th>
+                      <th className="pb-1.5 text-stone-600">Fixed Deposit</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 font-mono text-slate-700">
+                  <tbody className="divide-y divide-stone-100 font-mono text-stone-700">
                     {results.yearlyBreakdown.filter((_, idx) => {
                       const total = results.yearlyBreakdown.length;
                       if (total <= 5) return true;
                       return idx === 0 || idx === 2 || idx === 4 || idx === 9 || idx === total - 1;
                     }).map((row) => (
-                      <tr key={row.year} className="hover:bg-slate-50">
-                        <td className="py-1.5 font-sans font-medium text-slate-800">Year {row.year}</td>
+                      <tr key={row.year} className="hover:bg-stone-50">
+                        <td className="py-1.5 font-sans font-medium text-stone-800">Year {row.year}</td>
                         <td className="py-1.5">{formatINR(row.invested)}</td>
-                        <td className="py-1.5 font-bold text-cyan-700">{formatINR(row.mfValue)}</td>
-                        <td className="py-1.5 text-slate-500">{formatINR(row.fdValue)}</td>
+                        <td className="py-1.5 font-bold text-[#881337]">{formatINR(row.mfValue)}</td>
+                        <td className="py-1.5 text-stone-500">{formatINR(row.fdValue)}</td>
                       </tr>
                     ))}
                   </tbody>

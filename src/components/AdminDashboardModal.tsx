@@ -101,10 +101,10 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-[#100e31] border border-[#2d2870] text-slate-100 rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl relative overflow-hidden">
+      <div className="bg-[#1e2945] border border-[#3b4f7e] text-slate-100 rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl relative overflow-hidden">
         
         {/* Modal Top Banner */}
-        <div className="p-5 sm:p-6 border-b border-[#252063] bg-gradient-to-r from-[#17144e] via-[#100e31] to-[#1e1957] flex flex-wrap items-center justify-between gap-4">
+        <div className="p-5 sm:p-6 border-b border-[#354a7c] bg-gradient-to-r from-[#22355e] via-[#1c2c50] to-[#273d6e] flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400">
               <ShieldCheck className="w-6 h-6" />
@@ -118,7 +118,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                   FULL PRIVILEGES
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-300">
                 Logged in as <span className="text-white font-medium">{currentUser.name}</span> ({currentUser.email})
               </p>
             </div>
@@ -126,8 +126,8 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
 
           <div className="flex items-center gap-2">
             {/* Quick Switch Role Pills */}
-            <div className="hidden sm:flex items-center gap-1.5 bg-[#0a0824] px-2 py-1 rounded-xl border border-[#282267]">
-              <span className="text-[10px] text-slate-400 uppercase font-bold px-1">Switch:</span>
+            <div className="hidden sm:flex items-center gap-1.5 bg-[#16223d] px-2 py-1 rounded-xl border border-[#334674]">
+              <span className="text-[10px] text-slate-300 uppercase font-bold px-1">Switch:</span>
               <button
                 onClick={() => onSwitchRole('operations')}
                 className="text-[11px] px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 transition-colors"
@@ -157,7 +157,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
               title="Close Workspace"
             >
               <X className="w-5 h-5" />
@@ -166,13 +166,13 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="px-6 border-b border-[#252063] bg-[#0c0a27] flex items-center gap-2 overflow-x-auto">
+        <div className="px-6 border-b border-[#334674] bg-[#18233e] flex items-center gap-2 overflow-x-auto">
           <button
             onClick={() => setActiveTab('overview')}
             className={`py-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'overview'
                 ? 'border-rose-400 text-rose-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                : 'border-transparent text-slate-300 hover:text-white'
             }`}
           >
             <Activity className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
             className={`py-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'leads'
                 ? 'border-rose-400 text-rose-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                : 'border-transparent text-slate-300 hover:text-white'
             }`}
           >
             <Users className="w-3.5 h-3.5" />
@@ -196,7 +196,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
             className={`py-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'schemes'
                 ? 'border-rose-400 text-rose-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                : 'border-transparent text-slate-300 hover:text-white'
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -208,7 +208,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
             className={`py-3 px-3 text-xs font-bold transition-all border-b-2 flex items-center gap-1.5 whitespace-nowrap ${
               activeTab === 'team'
                 ? 'border-rose-400 text-rose-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                : 'border-transparent text-slate-300 hover:text-white'
             }`}
           >
             <Lock className="w-3.5 h-3.5" />
@@ -225,43 +225,43 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
               
               {/* Stat Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-[#151242] border border-[#2b2571] rounded-2xl p-4">
-                  <div className="text-[11px] text-slate-400 uppercase font-bold">Total Inbound Leads</div>
+                <div className="bg-[#24345c] border border-[#3b5186] rounded-2xl p-4 shadow-sm">
+                  <div className="text-[11px] text-slate-300 uppercase font-bold">Total Inbound Leads</div>
                   <div className="text-2xl sm:text-3xl font-bold font-mono text-white mt-1">{totalLeads}</div>
                   <div className="text-[10px] text-emerald-400 mt-1 flex items-center gap-1">
                     <TrendingUp className="w-3 h-3" /> +100% active capture
                   </div>
                 </div>
 
-                <div className="bg-[#151242] border border-[#2b2571] rounded-2xl p-4">
-                  <div className="text-[11px] text-slate-400 uppercase font-bold">New Unassigned</div>
+                <div className="bg-[#24345c] border border-[#3b5186] rounded-2xl p-4 shadow-sm">
+                  <div className="text-[11px] text-slate-300 uppercase font-bold">New Unassigned</div>
                   <div className="text-2xl sm:text-3xl font-bold font-mono text-amber-400 mt-1">{newLeads}</div>
-                  <div className="text-[10px] text-slate-400 mt-1">Pending advisor outreach</div>
+                  <div className="text-[10px] text-slate-300 mt-1">Pending advisor outreach</div>
                 </div>
 
-                <div className="bg-[#151242] border border-[#2b2571] rounded-2xl p-4">
-                  <div className="text-[11px] text-slate-400 uppercase font-bold">Conversion Rate</div>
+                <div className="bg-[#24345c] border border-[#3b5186] rounded-2xl p-4 shadow-sm">
+                  <div className="text-[11px] text-slate-300 uppercase font-bold">Conversion Rate</div>
                   <div className="text-2xl sm:text-3xl font-bold font-mono text-cyan-300 mt-1">{conversionRate}%</div>
-                  <div className="text-[10px] text-cyan-400 mt-1">{convertedLeads} converted clients</div>
+                  <div className="text-[10px] text-cyan-300 mt-1">{convertedLeads} converted clients</div>
                 </div>
 
-                <div className="bg-[#151242] border border-[#2b2571] rounded-2xl p-4">
-                  <div className="text-[11px] text-slate-400 uppercase font-bold">Potential Annual AUM</div>
+                <div className="bg-[#24345c] border border-[#3b5186] rounded-2xl p-4 shadow-sm">
+                  <div className="text-[11px] text-slate-300 uppercase font-bold">Potential Annual AUM</div>
                   <div className="text-xl sm:text-2xl font-bold font-mono text-[#fbbf24] mt-1">
                     ₹{(totalAumPotential / 100000).toFixed(1)} Lakhs
                   </div>
-                  <div className="text-[10px] text-slate-400 mt-1">From investor requests</div>
+                  <div className="text-[10px] text-slate-300 mt-1">From investor requests</div>
                 </div>
               </div>
 
               {/* AMFI Sync & System Status Card */}
-              <div className="bg-[#151242] border border-[#2b2571] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="bg-[#24345c] border border-[#3b5186] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                     <h3 className="text-sm font-bold text-white">AMFI Official Feed (mfapi.in) Status</h3>
                   </div>
-                  <p className="text-xs text-slate-300">
+                  <p className="text-xs text-slate-200">
                     Live NAV endpoints operational. Auto-cached for high performance and fallback safety.
                   </p>
                   {syncSuccessMsg && (
@@ -282,42 +282,42 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
               </div>
 
               {/* Quick Actions Panel */}
-              <div className="bg-[#0e0c2d] border border-[#252063] rounded-2xl p-5">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+              <div className="bg-[#1a2542] border border-[#304370] rounded-2xl p-5 shadow-sm">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">
                   Super Admin Quick Actions
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <button
                     onClick={handleExportFullCRM}
-                    className="p-3 bg-[#17144e] hover:bg-[#201d68] border border-[#2e2978] rounded-xl text-left transition-all group"
+                    className="p-3 bg-[#24345c] hover:bg-[#2e4273] border border-[#3d538a] rounded-xl text-left transition-all group shadow-sm"
                   >
                     <div className="text-xs font-bold text-white group-hover:text-rose-300 flex items-center justify-between">
                       <span>Export Full CRM Data</span>
                       <Download className="w-3.5 h-3.5" />
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">Download CSV with all leads & profiles</div>
+                    <div className="text-[11px] text-slate-300 mt-1">Download CSV with all leads & profiles</div>
                   </button>
 
                   <button
                     onClick={() => setActiveTab('leads')}
-                    className="p-3 bg-[#17144e] hover:bg-[#201d68] border border-[#2e2978] rounded-xl text-left transition-all group"
+                    className="p-3 bg-[#24345c] hover:bg-[#2e4273] border border-[#3d538a] rounded-xl text-left transition-all group shadow-sm"
                   >
                     <div className="text-xs font-bold text-white group-hover:text-amber-300 flex items-center justify-between">
                       <span>Review Inbound Pipeline</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">{newLeads} new leads waiting for response</div>
+                    <div className="text-[11px] text-slate-300 mt-1">{newLeads} new leads waiting for response</div>
                   </button>
 
                   <button
                     onClick={() => setActiveTab('team')}
-                    className="p-3 bg-[#17144e] hover:bg-[#201d68] border border-[#2e2978] rounded-xl text-left transition-all group"
+                    className="p-3 bg-[#24345c] hover:bg-[#2e4273] border border-[#3d538a] rounded-xl text-left transition-all group shadow-sm"
                   >
                     <div className="text-xs font-bold text-white group-hover:text-cyan-300 flex items-center justify-between">
                       <span>Manage Role Matrix</span>
                       <Users className="w-3.5 h-3.5" />
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1">Admin, Operations, and Customer views</div>
+                    <div className="text-[11px] text-slate-300 mt-1">Admin, Operations, and Customer views</div>
                   </button>
                 </div>
               </div>
@@ -336,14 +336,14 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                     placeholder="Search by client name, email, or goal..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-[#090720] border border-[#29236b] rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full pl-9 pr-3 py-2 bg-[#151f38] border border-[#374c7e] rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500"
                   />
                 </div>
 
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <button
                     onClick={handleExportFullCRM}
-                    className="bg-[#17144e] hover:bg-[#201d68] border border-[#2e2978] text-xs font-bold text-slate-200 px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all"
+                    className="bg-[#24345c] hover:bg-[#2e4273] border border-[#3d538a] text-xs font-bold text-slate-200 px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-sm"
                   >
                     <Download className="w-3.5 h-3.5" />
                     Export CSV
@@ -352,10 +352,10 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
               </div>
 
               {/* Leads Table */}
-              <div className="bg-[#0d0b28] border border-[#231e5f] rounded-2xl overflow-hidden">
+              <div className="bg-[#1a2542] border border-[#304370] rounded-2xl overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-[#14103c] text-slate-400 uppercase font-semibold border-b border-[#231e5f]">
+                    <thead className="bg-[#23335a] text-slate-300 uppercase font-semibold border-b border-[#334778]">
                       <tr>
                         <th className="p-3">Client</th>
                         <th className="p-3">Goal & Strategy</th>
@@ -365,35 +365,35 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                         <th className="p-3 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#1e1957] text-slate-300">
+                    <tbody className="divide-y divide-[#293a64] text-slate-200">
                       {filteredLeads.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="p-8 text-center text-slate-500">
+                          <td colSpan={6} className="p-8 text-center text-slate-400">
                             No leads found matching "{searchTerm}".
                           </td>
                         </tr>
                       ) : (
                         filteredLeads.map((lead) => (
-                          <tr key={lead.id || lead.email} className="hover:bg-[#161245]/60 transition-colors">
+                          <tr key={lead.id || lead.email} className="hover:bg-[#273863]/60 transition-colors">
                             <td className="p-3">
                               <div className="font-bold text-white">{lead.name}</div>
-                              <div className="text-[11px] text-slate-400 font-mono">{lead.email}</div>
-                              <div className="text-[10px] text-slate-500 font-mono">{lead.phone}</div>
+                              <div className="text-[11px] text-slate-300 font-mono">{lead.email}</div>
+                              <div className="text-[10px] text-slate-400 font-mono">{lead.phone}</div>
                             </td>
                             <td className="p-3 max-w-xs">
-                              <div className="text-slate-200 font-medium line-clamp-1">{lead.investmentGoal}</div>
+                              <div className="text-slate-100 font-medium line-clamp-1">{lead.investmentGoal}</div>
                               {lead.message && (
-                                <div className="text-[10px] text-slate-400 italic line-clamp-1">"{lead.message}"</div>
+                                <div className="text-[10px] text-slate-300 italic line-clamp-1">"{lead.message}"</div>
                               )}
                             </td>
                             <td className="p-3 font-mono font-bold text-white">
                               ₹{lead.investmentAmount?.toLocaleString('en-IN')}
-                              <div className="text-[10px] text-slate-400 font-normal">
+                              <div className="text-[10px] text-slate-300 font-normal">
                                 {lead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'One-Time'}
                               </div>
                             </td>
                             <td className="p-3">
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/60">
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-600/50">
                                 {lead.riskProfile || 'Moderate'}
                               </span>
                             </td>
@@ -418,7 +418,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                               <button
                                 onClick={() => lead.id && onDeleteLead(lead.id)}
                                 title="Delete Lead"
-                                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
+                                className="p-1.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -436,15 +436,15 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
           {/* TAB 3: SCHEME CATALOG & API */}
           {activeTab === 'schemes' && (
             <div className="space-y-4">
-              <div className="p-4 bg-[#14103c] border border-[#2b2571] rounded-2xl flex items-center justify-between">
+              <div className="p-4 bg-[#24345c] border border-[#3b5186] rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h3 className="text-sm font-bold text-white">Curated Schemes & Live AMFI Endpoints</h3>
-                  <p className="text-xs text-slate-400">Total active schemes managed: {funds.length}</p>
+                  <p className="text-xs text-slate-300">Total active schemes managed: {funds.length}</p>
                 </div>
                 <button
                   onClick={handleTriggerAMFISync}
                   disabled={isSyncingAMFI}
-                  className="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold px-3 py-2 rounded-xl transition-all flex items-center gap-1.5"
+                  className="bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-sm"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isSyncingAMFI ? 'animate-spin' : ''}`} />
                   Refresh All NAVs
@@ -453,19 +453,19 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {funds.map((f) => (
-                  <div key={f.schemeCode} className="p-4 bg-[#0d0b28] border border-[#231e5f] rounded-2xl flex items-start justify-between gap-3">
+                  <div key={f.schemeCode} className="p-4 bg-[#1c2847] border border-[#324572] rounded-2xl flex items-start justify-between gap-3 shadow-sm">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-700/50">
                           {f.category}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-mono">Code: {f.schemeCode}</span>
+                        <span className="text-[10px] text-slate-300 font-mono">Code: {f.schemeCode}</span>
                       </div>
                       <h4 className="text-xs font-bold text-white line-clamp-1">{f.schemeName}</h4>
-                      <div className="text-[11px] text-slate-400 flex items-center gap-3 font-mono pt-1">
+                      <div className="text-[11px] text-slate-300 flex items-center gap-3 font-mono pt-1">
                         <span>NAV: <strong className="text-white">₹{f.nav.toFixed(2)}</strong></span>
                         <span>3Y: <strong className="text-emerald-400">+{f.return3Y}%</strong></span>
-                        <span>AUM: <strong className="text-slate-300">₹{f.aumCr} Cr</strong></span>
+                        <span>AUM: <strong className="text-slate-200">₹{f.aumCr} Cr</strong></span>
                       </div>
                     </div>
                   </div>
@@ -477,9 +477,9 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
           {/* TAB 4: ROLES & TEAM ACCESS MATRIX */}
           {activeTab === 'team' && (
             <div className="space-y-6">
-              <div className="p-4 bg-[#14103c] border border-[#2b2571] rounded-2xl">
+              <div className="p-4 bg-[#24345c] border border-[#3b5186] rounded-2xl shadow-sm">
                 <h3 className="text-sm font-bold text-white mb-1">Access Control & Role Matrix</h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-300">
                   WealthyWiz supports three access profiles through a single unified authentication gate.
                 </p>
               </div>
@@ -488,7 +488,7 @@ export const AdminDashboardModal: React.FC<AdminDashboardModalProps> = ({
                 {(['admin', 'operations', 'customer'] as UserRole[]).map((role) => {
                   const cfg = ROLE_CONFIGS[role];
                   return (
-                    <div key={role} className={`p-5 rounded-2xl border ${cfg.badgeBg} ${cfg.badgeBorder} space-y-3`}>
+                    <div key={role} className={`p-5 rounded-2xl border ${cfg.badgeBg} ${cfg.badgeBorder} space-y-3 shadow-sm`}>
                       <div className="flex items-center justify-between">
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${cfg.badgeBg} ${cfg.badgeText} border ${cfg.badgeBorder}`}>
                           {cfg.badgeLabel}

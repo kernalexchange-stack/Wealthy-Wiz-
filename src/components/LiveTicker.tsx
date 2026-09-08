@@ -11,14 +11,14 @@ export const LiveTicker: React.FC<LiveTickerProps> = ({ funds }) => {
   const tickerItems = [...funds, ...funds];
 
   return (
-    <div className="bg-[#14113e] border-y border-[#232766] text-slate-200 overflow-hidden py-2 select-none relative shadow-inner">
+    <div className="bg-[#180914] border-y border-[#38142c] text-slate-200 overflow-hidden py-2 select-none relative shadow-inner">
       <div className="flex items-center">
         
         {/* Live Badge Fixed Left */}
-        <div className="z-10 pl-3 pr-4 bg-[#14113e] flex items-center gap-1.5 border-r border-[#2d3480] shadow-lg text-[11px] font-semibold tracking-wide text-cyan-300 shrink-0">
+        <div className="z-10 pl-3 pr-4 bg-[#180914] flex items-center gap-1.5 border-r border-[#451837] shadow-lg text-[11px] font-semibold tracking-wide text-rose-300 shrink-0">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-400"></span>
           </span>
           <span className="font-mono uppercase tracking-wider text-[10px]">AMFI LIVE NAV</span>
         </div>
@@ -31,7 +31,7 @@ export const LiveTicker: React.FC<LiveTickerProps> = ({ funds }) => {
               return (
                 <div
                   key={`${fund.schemeCode}-${idx}`}
-                  className="flex items-center gap-2 text-xs shrink-0 cursor-pointer hover:bg-[#1f2669] px-2 py-1 rounded transition-colors"
+                  className="flex items-center gap-2 text-xs shrink-0 cursor-pointer hover:bg-white/10 px-2 py-1 rounded transition-colors"
                   onClick={() => {
                     const el = document.getElementById('explorer');
                     el?.scrollIntoView({ behavior: 'smooth' });

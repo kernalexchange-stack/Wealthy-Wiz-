@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { LeadPayload, RiskProfileInfo, FundScheme } from '../types';
-import { Send, CheckCircle2, ShieldCheck, Sparkles, X, Phone, Mail, User, Target, IndianRupee, MessageSquare, Download } from 'lucide-react';
+import { LeadPayload, RiskProfileInfo, FundScheme, ServiceType } from '../types';
+import { Send, CheckCircle2, ShieldCheck, Sparkles, X, Phone, Mail, User, Target, IndianRupee, MessageSquare, Download, CreditCard, Building2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface LeadFormProps {
@@ -16,12 +16,18 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   onRemoveSelectedFund,
   onLeadSubmitted,
 }) => {
+  const [serviceType, setServiceType] = useState<ServiceType>('mutual_fund_advisory');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [investmentGoal, setInvestmentGoal] = useState('Wealth Creation & Long-Term Compounding');
   const [investmentAmount, setInvestmentAmount] = useState<number>(10000);
   const [investmentMode, setInvestmentMode] = useState<'monthly_sip' | 'one_time_lumpsum'>('monthly_sip');
+  
+  // LAMF specific fields inside general form
+  const [portfolioValue, setPortfolioValue] = useState<number>(500000);
+  const [rtaProvider, setRtaProvider] = useState<'CAMS' | 'KFintech' | 'Both' | 'Not Sure'>('Both');
+  const [portfolioType, setPortfolioType] = useState<'Equity Mutual Funds' | 'Debt & Liquid Funds' | 'Hybrid / Multi-Asset'>('Equity Mutual Funds');
   const [message, setMessage] = useState('');
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +41,14 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     'Children’s Higher Education & Marriage',
     'Tax Saving (Section 80C ELSS)',
     'Emergency & Safety Buffer',
+  ];
+
+  const lamfGoals = [
+    'Emergency / Short-term Liquidity',
+    'Business Expansion / Working Capital',
+    'Home Renovation / Downpayment',
+    'Debt & High Interest Consolidation',
+    'Education / Travel / Big Purchases',
   ];
 
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljrqnzg';
@@ -60,25 +74,49 @@ export const LeadForm: React.FC<LeadFormProps> = ({
 
     setIsSubmitting(true);
 
+    const isLAMF = serviceType === 'loan_against_mf';
+
     const payload: LeadPayload = {
-      id: `LW-${Date.now().toString().slice(-6)}`,
+      id: `${isLAMF ? 'LAMF' : 'LW'}-${Date.now().toString().slice(-6)}`,
+      serviceType: serviceType,
       name: name.trim(),
       email: email.trim().toLowerCase(),
       phone: `+91 ${cleanPhone.slice(-10)}`,
-      investmentGoal,
-      investmentAmount: Number(investmentAmount) || 10000,
-      investmentMode,
-      riskProfile: quizProfile?.type || 'Not Specified',
+      investmentGoal: isLAMF ? `Loan Against MF: ${investmentGoal}` : investmentGoal,
+      investmentAmount: isLAMF ? Math.round(portfolioValue * 0.5) : (Number(investmentAmount) || 10000),
+      investmentMode: isLAMF ? 'lamf_overdraft' : investmentMode,
+      riskProfile: quizProfile?.type || (isLAMF ? 'Portfolio Pledging' : 'Not Specified'),
       recommendedFunds: selectedFunds.length > 0 ? selectedFunds : (quizProfile?.sampleFunds.map(f => f.schemeName) || []),
       message: message.trim(),
       sourcePage: window.location.pathname || '/',
       createdAt: new Date().toISOString(),
       status: 'new',
+      portfolioValue: isLAMF ? portfolioValue : undefined,
+      requestedLoanAmount: isLAMF ? Math.round(portfolioValue * 0.5) : undefined,
+      rtaProvider: isLAMF ? rtaProvider : undefined,
+      portfolioType: isLAMF ? portfolioType : undefined,
     };
 
     // 1. Submit lead to Formspree
     try {
-      const formspreePayload = {
+      const formspreePayload = isLAMF ? {
+        serviceType: 'Loan Against Mutual Funds (LAMF)',
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        portfolioValue: `₹${portfolioValue.toLocaleString('en-IN')}`,
+        estimatedCreditLimit: `₹${Math.round(portfolioValue * 0.5).toLocaleString('en-IN')}`,
+        portfolioType: portfolioType,
+        rtaRegistrar: rtaProvider,
+        loanPurpose: investmentGoal,
+        interestRateQuoted: '9.50% p.a.',
+        message: payload.message || 'No additional notes provided',
+        leadId: payload.id,
+        sourcePage: payload.sourcePage,
+        submittedAt: new Date(payload.createdAt || '').toLocaleString('en-IN'),
+        _subject: `[Loan Against MF Application] ${payload.name} - Portfolio: ₹${portfolioValue.toLocaleString('en-IN')}`,
+      } : {
+        serviceType: 'Mutual Fund Advisory',
         name: payload.name,
         email: payload.email,
         phone: payload.phone,
@@ -90,7 +128,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({
         message: payload.message || 'No additional notes provided',
         leadId: payload.id,
         sourcePage: payload.sourcePage,
-        submittedAt: new Date(payload.createdAt).toLocaleString('en-IN'),
+        submittedAt: new Date(payload.createdAt || '').toLocaleString('en-IN'),
         _subject: `New WealthyWiz Advisory Lead: ${payload.name} (${payload.investmentGoal})`,
       };
 
@@ -141,39 +179,46 @@ export const LeadForm: React.FC<LeadFormProps> = ({
 
   const handleDownloadReceipt = () => {
     if (!submittedLead) return;
-    const content = `WEALTHYWIZ - MUTUAL FUND ADVISORY REQUEST
+    const isLAMF = submittedLead.serviceType === 'loan_against_mf';
+
+    const content = `WEALTHYWIZ - ${isLAMF ? 'LOAN AGAINST MUTUAL FUNDS (LAMF) REQUEST' : 'MUTUAL FUND ADVISORY REQUEST'}
 --------------------------------------------------
 Lead Reference ID: ${submittedLead.id}
+Service Type: ${isLAMF ? 'Loan Against Mutual Funds' : 'Mutual Fund Advisory'}
 Date: ${new Date(submittedLead.createdAt || '').toLocaleString('en-IN')}
 
 Client Name: ${submittedLead.name}
 Email: ${submittedLead.email}
 Phone: ${submittedLead.phone}
 
-Investment Goal: ${submittedLead.investmentGoal}
+${isLAMF ? `Portfolio Value: ₹${(submittedLead.portfolioValue || 0).toLocaleString('en-IN')}
+Portfolio Mix: ${submittedLead.portfolioType || 'Equity Funds'}
+RTA Registrar: ${submittedLead.rtaProvider || 'Both'}
+Requested Credit Limit: ₹${submittedLead.investmentAmount.toLocaleString('en-IN')} (Starting @ 9.5% p.a.)
+Loan Purpose: ${submittedLead.investmentGoal}` : `Investment Goal: ${submittedLead.investmentGoal}
 Planned Investment: ₹${submittedLead.investmentAmount.toLocaleString('en-IN')} (${submittedLead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'One-Time Lumpsum'})
 Assessed Risk Profile: ${submittedLead.riskProfile}
 
 Selected / Recommended Funds:
-${submittedLead.recommendedFunds?.map((f, i) => `${i + 1}. ${f}`).join('\n') || 'General Multi-Cap Portfolio'}
+${submittedLead.recommendedFunds?.map((f, i) => `${i + 1}. ${f}`).join('\n') || 'General Multi-Cap Portfolio'}`}
 
 Client Query:
 ${submittedLead.message || 'No additional notes'}
 --------------------------------------------------
-Our AMFI registered mutual fund specialist will contact you within 24 hours.
+Our AMFI & RBI registered specialists will contact you within 24 hours.
 Visit us at https://wealthywiz.online`;
 
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `WealthyWiz_Advisory_Request_${submittedLead.id}.txt`;
+    a.download = `WealthyWiz_${isLAMF ? 'LAMF' : 'Advisory'}_Request_${submittedLead.id}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
-    <section id="advice" className="py-16 sm:py-24 bg-gradient-to-b from-[#f8fafc] to-[#0f0e30] text-slate-900 scroll-mt-20">
+    <section id="advice" className="py-16 sm:py-24 bg-gradient-to-b from-[#faf7f2] to-[#180914] text-slate-900 scroll-mt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -191,17 +236,17 @@ Visit us at https://wealthywiz.online`;
         </div>
 
         {/* Form Container Card */}
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+        <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
           
           {submittedLead ? (
             /* Success State */
             <div className="text-center space-y-6 py-6 animate-in fade-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 bg-cyan-100 text-cyan-700 rounded-full flex items-center justify-center mx-auto shadow-inner">
+              <div className="w-16 h-16 bg-rose-100 text-[#881337] rounded-full flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div className="space-y-2">
-                <span className="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">
+                <span className="text-xs font-mono font-bold bg-stone-100 text-slate-700 px-3 py-1 rounded-full border border-stone-200">
                   Ref #{submittedLead.id}
                 </span>
                 <h3 className="text-2xl font-bold text-slate-900 font-['Fraunces',serif]">
@@ -213,12 +258,12 @@ Visit us at https://wealthywiz.online`;
               </div>
 
               {/* Summary Details Box */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-left text-xs max-w-md mx-auto space-y-2">
-                <div className="flex justify-between pb-1.5 border-b border-slate-200">
+              <div className="bg-stone-50 border border-stone-200 rounded-2xl p-5 text-left text-xs max-w-md mx-auto space-y-2">
+                <div className="flex justify-between pb-1.5 border-b border-stone-200">
                   <span className="text-slate-500">Goal:</span>
                   <span className="font-bold text-slate-900">{submittedLead.investmentGoal}</span>
                 </div>
-                <div className="flex justify-between pb-1.5 border-b border-slate-200">
+                <div className="flex justify-between pb-1.5 border-b border-stone-200">
                   <span className="text-slate-500">Target Investment:</span>
                   <span className="font-bold text-slate-900 font-mono">
                     ₹{submittedLead.investmentAmount.toLocaleString('en-IN')} ({submittedLead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'Lumpsum'})
@@ -226,14 +271,14 @@ Visit us at https://wealthywiz.online`;
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Risk Profile:</span>
-                  <span className="font-bold text-cyan-700">{submittedLead.riskProfile}</span>
+                  <span className="font-bold text-[#881337]">{submittedLead.riskProfile}</span>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                 <button
                   onClick={handleDownloadReceipt}
-                  className="w-full sm:w-auto bg-[#17144e] text-white hover:bg-[#201d68] text-xs font-semibold px-5 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm"
+                  className="w-full sm:w-auto bg-[#180914] text-white hover:bg-[#2e1126] text-xs font-semibold px-5 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm"
                 >
                   <Download className="w-4 h-4" />
                   Download Summary Sheet (.txt)
@@ -241,7 +286,7 @@ Visit us at https://wealthywiz.online`;
 
                 <button
                   onClick={() => setSubmittedLead(null)}
-                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-5 py-3 rounded-xl transition-colors"
+                  className="w-full sm:w-auto bg-stone-100 hover:bg-stone-200 text-slate-700 text-xs font-semibold px-5 py-3 rounded-xl transition-colors"
                 >
                   Submit Another Request
                 </button>
@@ -251,24 +296,75 @@ Visit us at https://wealthywiz.online`;
             /* Active Form State */
             <form onSubmit={handleSubmit} className="space-y-6">
               
+              {/* Service Type Selection Tabs */}
+              <div className="bg-stone-100 p-1.5 rounded-2xl flex flex-col sm:flex-row gap-1.5 border border-stone-200">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setServiceType('mutual_fund_advisory');
+                    setInvestmentGoal('Wealth Creation & Long-Term Compounding');
+                  }}
+                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    serviceType === 'mutual_fund_advisory'
+                      ? 'bg-white text-[#881337] shadow-sm border border-stone-200'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4 text-[#881337]" />
+                  <span>Mutual Fund Portfolio Advisory</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setServiceType('loan_against_mf');
+                    setInvestmentGoal('Emergency / Short-term Liquidity');
+                  }}
+                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                    serviceType === 'loan_against_mf'
+                      ? 'bg-[#180914] text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <CreditCard className="w-4 h-4 text-amber-400" />
+                  <span>Loan Against Mutual Funds (9.5% p.a.)</span>
+                  <span className="text-[10px] bg-amber-400 text-slate-950 font-bold px-1.5 py-0.5 rounded ml-1">NEW</span>
+                </button>
+              </div>
+
               {/* Contextual Pill if Quiz was Completed */}
-              {quizProfile && (
-                <div className="bg-cyan-50 border border-cyan-200/80 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs">
+              {serviceType === 'mutual_fund_advisory' && quizProfile && (
+                <div className="bg-rose-50 border border-rose-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-cyan-700 shrink-0" />
+                    <Sparkles className="w-4 h-4 text-[#881337] shrink-0" />
                     <div>
-                      <span className="font-bold text-cyan-950">Quiz Profile Attached: </span>
-                      <span className="text-cyan-800 font-medium">{quizProfile.title}</span>
+                      <span className="font-bold text-slate-900">Quiz Profile Attached: </span>
+                      <span className="text-[#881337] font-semibold">{quizProfile.title}</span>
                     </div>
                   </div>
-                  <span className="text-[11px] font-bold text-cyan-900 bg-cyan-100 px-2 py-0.5 rounded">
+                  <span className="text-[11px] font-bold text-[#881337] bg-rose-100 px-2 py-0.5 rounded">
                     {quizProfile.equityAllocation}% Equity / {quizProfile.debtAllocation}% Debt
                   </span>
                 </div>
               )}
 
-              {/* Selected Funds Chips */}
-              {selectedFunds.length > 0 && (
+              {/* Contextual LAMF Quick Banner */}
+              {serviceType === 'loan_against_mf' && (
+                <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 text-amber-950">
+                    <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>
+                      <strong>Keep Compounding:</strong> Your mutual fund units continue earning market returns while you get an instant digital overdraft limit.
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded shrink-0">
+                    0% Capital Gains Tax
+                  </span>
+                </div>
+              )}
+
+              {/* Selected Funds Chips (For Advisory) */}
+              {serviceType === 'mutual_fund_advisory' && selectedFunds.length > 0 && (
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     Selected Funds to Include in Advisory Analysis ({selectedFunds.length})
@@ -277,7 +373,7 @@ Visit us at https://wealthywiz.online`;
                     {selectedFunds.map((fundName) => (
                       <span
                         key={fundName}
-                        className="inline-flex items-center gap-1.5 bg-slate-100 border border-slate-200 text-slate-800 text-xs font-medium px-3 py-1 rounded-full"
+                        className="inline-flex items-center gap-1.5 bg-rose-50 border border-rose-200 text-slate-800 text-xs font-medium px-3 py-1 rounded-full"
                       >
                         <span className="truncate max-w-[240px]">{fundName}</span>
                         <button
@@ -309,7 +405,7 @@ Visit us at https://wealthywiz.online`;
                       placeholder="e.g. Rahul Sharma"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
+                      className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                     />
                   </div>
                 </div>
@@ -327,7 +423,7 @@ Visit us at https://wealthywiz.online`;
                       placeholder="rahul@gmail.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
+                      className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                     />
                   </div>
                 </div>
@@ -345,94 +441,152 @@ Visit us at https://wealthywiz.online`;
                       placeholder="9876543210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
+                      className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
                     />
                   </div>
                 </div>
 
               </div>
 
-              {/* Goal & Amount Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                {/* Investment Goal */}
-                <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
-                    Primary Financial Milestone
-                  </label>
-                  <div className="relative">
-                    <Target className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              {/* Conditional Row: Mutual Fund Advisory vs LAMF */}
+              {serviceType === 'mutual_fund_advisory' ? (
+                /* Goal & Amount Row for Advisory */
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Investment Goal */}
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                      Primary Financial Milestone
+                    </label>
+                    <div className="relative">
+                      <Target className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <select
+                        value={investmentGoal}
+                        onChange={(e) => setInvestmentGoal(e.target.value)}
+                        className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-800 focus:ring-2 focus:ring-rose-500 focus:bg-white focus:outline-none"
+                      >
+                        {goals.map((g) => (
+                          <option key={g} value={g}>{g}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Amount & Mode */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                        Planned Investment (₹)
+                      </label>
+                      <div className="flex gap-2 text-[11px] font-bold">
+                        <button
+                          type="button"
+                          onClick={() => setInvestmentMode('monthly_sip')}
+                          className={`px-2 py-0.5 rounded ${
+                            investmentMode === 'monthly_sip'
+                              ? 'bg-[#180914] text-white'
+                              : 'text-slate-500 hover:text-slate-800'
+                          }`}
+                        >
+                          SIP
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setInvestmentMode('one_time_lumpsum')}
+                          className={`px-2 py-0.5 rounded ${
+                            investmentMode === 'one_time_lumpsum'
+                              ? 'bg-[#180914] text-white'
+                              : 'text-slate-500 hover:text-slate-800'
+                          }`}
+                        >
+                          Lumpsum
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="relative">
+                      <IndianRupee className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="number"
+                        step={500}
+                        min={500}
+                        value={investmentAmount}
+                        onChange={(e) => setInvestmentAmount(Number(e.target.value))}
+                        className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              ) : (
+                /* LAMF Specific Row */
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                      Approx Mutual Fund Portfolio (₹)
+                    </label>
+                    <div className="relative">
+                      <IndianRupee className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="number"
+                        step={10000}
+                        min={50000}
+                        value={portfolioValue}
+                        onChange={(e) => setPortfolioValue(Number(e.target.value))}
+                        className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                      Registrar (RTA)
+                    </label>
+                    <select
+                      value={rtaProvider}
+                      onChange={(e) => setRtaProvider(e.target.value as any)}
+                      className="w-full px-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-800 focus:ring-2 focus:ring-rose-500 focus:outline-none"
+                    >
+                      <option value="Both">CAMS + KFintech (All Funds)</option>
+                      <option value="CAMS">CAMS</option>
+                      <option value="KFintech">KFintech</option>
+                      <option value="Not Sure">Don't Know / Need Help</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
+                      Loan Requirement Purpose
+                    </label>
                     <select
                       value={investmentGoal}
                       onChange={(e) => setInvestmentGoal(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:ring-2 focus:ring-cyan-500 focus:bg-white focus:outline-none"
+                      className="w-full px-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-800 focus:ring-2 focus:ring-rose-500 focus:outline-none"
                     >
-                      {goals.map((g) => (
+                      {lamfGoals.map((g) => (
                         <option key={g} value={g}>{g}</option>
                       ))}
                     </select>
                   </div>
                 </div>
-
-                {/* Amount & Mode */}
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                      Planned Investment (₹)
-                    </label>
-                    <div className="flex gap-2 text-[11px] font-bold">
-                      <button
-                        type="button"
-                        onClick={() => setInvestmentMode('monthly_sip')}
-                        className={`px-2 py-0.5 rounded ${
-                          investmentMode === 'monthly_sip'
-                            ? 'bg-[#17144e] text-white'
-                            : 'text-slate-500 hover:text-slate-800'
-                        }`}
-                      >
-                        SIP
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setInvestmentMode('one_time_lumpsum')}
-                        className={`px-2 py-0.5 rounded ${
-                          investmentMode === 'one_time_lumpsum'
-                            ? 'bg-[#17144e] text-white'
-                            : 'text-slate-500 hover:text-slate-800'
-                        }`}
-                      >
-                        Lumpsum
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <IndianRupee className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                    <input
-                      type="number"
-                      step={500}
-                      min={500}
-                      value={investmentAmount}
-                      onChange={(e) => setInvestmentAmount(Number(e.target.value))}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
-
-              </div>
+              )}
 
               {/* Optional Query / Message */}
               <div>
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
-                  Specific Questions or Portfolio Needs (Optional)
+                  {serviceType === 'loan_against_mf' ? 'Specific Loan Query or Urgent Timelines (Optional)' : 'Specific Questions or Portfolio Needs (Optional)'}
                 </label>
                 <div className="relative">
                   <textarea
                     rows={3}
-                    placeholder="e.g. I already have ₹50,000 in FD and want to start an aggressive SIP for 15 years to buy a home..."
+                    placeholder={
+                      serviceType === 'loan_against_mf'
+                        ? 'e.g. Need ₹3 Lakhs within 24 hours for emergency working capital against HDFC & Quant mutual funds...'
+                        : 'e.g. I already have ₹50,000 in FD and want to start an aggressive SIP for 15 years to buy a home...'
+                    }
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white transition-all resize-none"
+                    className="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all resize-none"
                   />
                 </div>
               </div>
@@ -447,8 +601,8 @@ Visit us at https://wealthywiz.online`;
               {/* Submit CTA */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <ShieldCheck className="w-4 h-4 text-cyan-700 shrink-0" />
-                  <span>100% Privacy. Zero spam. We never share your contact details.</span>
+                  <ShieldCheck className="w-4 h-4 text-[#881337] shrink-0" />
+                  <span>100% Privacy. Zero spam. Synced to Formspree CRM.</span>
                 </div>
 
                 <button
@@ -457,7 +611,11 @@ Visit us at https://wealthywiz.online`;
                   className="w-full sm:w-auto bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] hover:brightness-105 text-slate-950 font-bold text-sm px-8 py-3.5 rounded-xl shadow-lg hover:shadow-amber-500/25 active:scale-98 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  {isSubmitting ? 'Sending Request...' : 'Get My Free Advisory Plan'}
+                  {isSubmitting
+                    ? 'Submitting...'
+                    : serviceType === 'loan_against_mf'
+                    ? 'Apply for Loan Against MF'
+                    : 'Get My Free Advisory Plan'}
                 </button>
               </div>
 

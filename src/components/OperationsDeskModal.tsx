@@ -83,10 +83,10 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-[#110e35] border border-[#2e2777] text-slate-100 rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl relative overflow-hidden">
+      <div className="bg-[#1e2945] border border-[#3b4f7e] text-slate-100 rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl relative overflow-hidden">
         
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-[#262066] bg-gradient-to-r from-[#191553] via-[#110e35] to-[#211b5e] flex flex-wrap items-center justify-between gap-4">
+        <div className="p-5 sm:p-6 border-b border-[#354a7c] bg-gradient-to-r from-[#243560] via-[#1c2c50] to-[#273d6e] flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
               <Briefcase className="w-6 h-6" />
@@ -100,15 +100,15 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
                   OPERATIONS DESK
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-300">
                 Staff: <span className="text-white font-medium">{currentUser.name}</span> • Mutual Fund Execution & Outreach
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-1.5 bg-[#0a0824] px-2 py-1 rounded-xl border border-[#282267]">
-              <span className="text-[10px] text-slate-400 uppercase font-bold px-1">Switch:</span>
+            <div className="hidden sm:flex items-center gap-1.5 bg-[#16223d] px-2 py-1 rounded-xl border border-[#334674]">
+              <span className="text-[10px] text-slate-300 uppercase font-bold px-1">Switch:</span>
               <button
                 onClick={() => onSwitchRole('admin')}
                 className="text-[11px] px-2 py-0.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 transition-colors"
@@ -138,7 +138,7 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
               title="Close Workspace"
             >
               <X className="w-5 h-5" />
@@ -147,24 +147,24 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
         </div>
 
         {/* Action & Metric Bar */}
-        <div className="p-4 sm:p-6 border-b border-[#262066] bg-[#0c0a29] grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="bg-[#161245] p-3 rounded-xl border border-[#2c2672]">
-            <div className="text-[10px] uppercase font-bold text-slate-400">Total Leads in Queue</div>
+        <div className="p-4 sm:p-6 border-b border-[#334674] bg-[#18233e] grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="bg-[#24345c] p-3 rounded-xl border border-[#3b5186] shadow-sm">
+            <div className="text-[10px] uppercase font-bold text-slate-300">Total Leads in Queue</div>
             <div className="text-xl font-bold font-mono text-white mt-0.5">{leads.length}</div>
           </div>
-          <div className="bg-[#161245] p-3 rounded-xl border border-[#2c2672]">
+          <div className="bg-[#24345c] p-3 rounded-xl border border-[#3b5186] shadow-sm">
             <div className="text-[10px] uppercase font-bold text-amber-400">Action Required</div>
             <div className="text-xl font-bold font-mono text-amber-300 mt-0.5">
               {leads.filter(l => (l.status || 'new') === 'new').length} New
             </div>
           </div>
-          <div className="bg-[#161245] p-3 rounded-xl border border-[#2c2672]">
-            <div className="text-[10px] uppercase font-bold text-cyan-400">In Discussion</div>
-            <div className="text-xl font-bold font-mono text-cyan-300 mt-0.5">
+          <div className="bg-[#24345c] p-3 rounded-xl border border-[#3b5186] shadow-sm">
+            <div className="text-[10px] uppercase font-bold text-cyan-300">In Discussion</div>
+            <div className="text-xl font-bold font-mono text-cyan-200 mt-0.5">
               {leads.filter(l => l.status === 'contacted').length}
             </div>
           </div>
-          <div className="bg-[#161245] p-3 rounded-xl border border-[#2c2672]">
+          <div className="bg-[#24345c] p-3 rounded-xl border border-[#3b5186] shadow-sm">
             <div className="text-[10px] uppercase font-bold text-emerald-400">Converted Clients</div>
             <div className="text-xl font-bold font-mono text-emerald-300 mt-0.5">
               {leads.filter(l => l.status === 'converted').length}
@@ -185,12 +185,12 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
                   placeholder="Search investor queue..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 bg-[#090720] border border-[#29236b] rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full pl-9 pr-3 py-2 bg-[#151f38] border border-[#374c7e] rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
               {/* Status Filter */}
-              <div className="flex items-center gap-1 bg-[#0c0a29] p-1 rounded-xl border border-[#252063]">
+              <div className="flex items-center gap-1 bg-[#18233e] p-1 rounded-xl border border-[#334674]">
                 {(['all', 'new', 'contacted', 'converted'] as const).map((st) => (
                   <button
                     key={st}
@@ -198,7 +198,7 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
                     className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg capitalize transition-all ${
                       statusFilter === st
                         ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                        : 'text-slate-400 hover:text-slate-200'
+                        : 'text-slate-300 hover:text-white'
                     }`}
                   >
                     {st}
@@ -211,7 +211,7 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
               <button
                 onClick={handleTriggerDailySync}
                 disabled={isSyncing}
-                className="bg-[#17144e] hover:bg-[#201d68] border border-[#2e2978] text-xs font-semibold text-cyan-300 px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all"
+                className="bg-[#24345c] hover:bg-[#2e4273] border border-[#3d538a] text-xs font-semibold text-cyan-300 px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-sm"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
                 <span>Refresh NAV Feed</span>
@@ -219,7 +219,7 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
 
               <button
                 onClick={handleExportDeskSheet}
-                className="bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all"
+                className="bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-sm"
               >
                 <Download className="w-3.5 h-3.5" />
                 Export Queue (.CSV)
@@ -237,7 +237,7 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
           {/* Leads Cards / Stream */}
           <div className="space-y-3">
             {filteredLeads.length === 0 ? (
-              <div className="p-12 text-center bg-[#0d0b28] border border-[#231e5f] rounded-2xl text-slate-500">
+              <div className="p-12 text-center bg-[#1a2542] border border-[#304370] rounded-2xl text-slate-400">
                 No investor requests found in this view.
               </div>
             ) : (
@@ -246,28 +246,28 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
                 return (
                   <div
                     key={leadId}
-                    className="p-5 bg-[#0e0c2f] border border-[#272266] hover:border-amber-500/40 rounded-2xl transition-all space-y-3"
+                    className="p-5 bg-[#24345c] border border-[#384e84] hover:border-amber-500/40 rounded-2xl transition-all space-y-3 shadow-sm"
                   >
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
                           <h4 className="text-base font-bold text-white">{lead.name}</h4>
-                          <span className="text-[10px] font-mono bg-[#1b1756] text-slate-300 px-2 py-0.5 rounded border border-[#2e2878]">
+                          <span className="text-[10px] font-mono bg-[#1c2847] text-slate-200 px-2 py-0.5 rounded border border-[#354877]">
                             {lead.id || 'LEAD'}
                           </span>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-700/50">
                             {lead.riskProfile || 'Moderate'}
                           </span>
                         </div>
-                        <div className="text-xs text-slate-400 flex flex-wrap items-center gap-3 mt-1">
-                          <span className="flex items-center gap-1 text-slate-300 font-mono">
+                        <div className="text-xs text-slate-300 flex flex-wrap items-center gap-3 mt-1">
+                          <span className="flex items-center gap-1 text-slate-200 font-mono">
                             <Mail className="w-3 h-3 text-cyan-400" /> {lead.email}
                           </span>
-                          <span className="flex items-center gap-1 text-slate-300 font-mono">
+                          <span className="flex items-center gap-1 text-slate-200 font-mono">
                             <Phone className="w-3 h-3 text-emerald-400" /> {lead.phone}
                           </span>
                           {lead.createdAt && (
-                            <span className="flex items-center gap-1 text-slate-500 text-[11px]">
+                            <span className="flex items-center gap-1 text-slate-400 text-[11px]">
                               <Clock className="w-3 h-3" /> {new Date(lead.createdAt).toLocaleDateString()}
                             </span>
                           )}
@@ -295,24 +295,24 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
                     </div>
 
                     {/* Goal & Amount Details */}
-                    <div className="p-3 bg-[#14113e] rounded-xl border border-[#272166] flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div className="p-3 bg-[#1b2645] rounded-xl border border-[#304370] flex flex-wrap items-center justify-between gap-3 text-xs">
                       <div>
-                        <span className="text-slate-400">Target Goal: </span>
+                        <span className="text-slate-300">Target Goal: </span>
                         <strong className="text-white">{lead.investmentGoal}</strong>
                       </div>
                       <div>
-                        <span className="text-slate-400">Commitment: </span>
+                        <span className="text-slate-300">Commitment: </span>
                         <strong className="text-amber-300 font-mono">
                           ₹{lead.investmentAmount?.toLocaleString('en-IN')}
                         </strong>{' '}
-                        <span className="text-slate-400">
+                        <span className="text-slate-300">
                           ({lead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'Lump Sum'})
                         </span>
                       </div>
                     </div>
 
                     {lead.message && (
-                      <div className="text-xs text-slate-300 bg-[#090724] p-3 rounded-xl border border-[#1e1957] italic">
+                      <div className="text-xs text-slate-200 bg-[#16203b] p-3 rounded-xl border border-[#2d3e69] italic">
                         "{lead.message}"
                       </div>
                     )}
@@ -341,7 +341,7 @@ export const OperationsDeskModal: React.FC<OperationsDeskModalProps> = ({
                             setActiveLeadNotes(prev => ({ ...prev, [leadId]: note }));
                           }
                         }}
-                        className="text-xs text-slate-400 hover:text-white flex items-center gap-1"
+                        className="text-xs text-slate-300 hover:text-white flex items-center gap-1"
                       >
                         <MessageSquare className="w-3.5 h-3.5 text-amber-400" />
                         <span>{activeLeadNotes[leadId] ? 'Edit Note' : 'Add Internal Note'}</span>

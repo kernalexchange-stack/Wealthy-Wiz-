@@ -62,13 +62,13 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-24 bg-white text-slate-900 scroll-mt-20 border-t border-slate-100">
+    <section id="faq" className="py-16 sm:py-24 bg-white text-slate-900 scroll-mt-20 border-t border-stone-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 text-cyan-900 text-xs font-semibold uppercase tracking-wider mb-3 border border-cyan-200">
-            <HelpCircle className="w-3.5 h-3.5 text-cyan-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-900/10 text-[#881337] text-xs font-semibold uppercase tracking-wider mb-3 border border-rose-900/20">
+            <HelpCircle className="w-3.5 h-3.5 text-[#881337]" />
             Frequently Asked Questions
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-['Fraunces',serif]">
@@ -88,8 +88,8 @@ export const FaqSection: React.FC = () => {
                 key={index}
                 className={`rounded-2xl border transition-all overflow-hidden ${
                   isOpen
-                    ? 'border-cyan-500/50 bg-cyan-50/20 shadow-sm'
-                    : 'border-slate-200 bg-white hover:border-slate-300'
+                    ? 'border-rose-300 bg-rose-50/30 shadow-sm'
+                    : 'border-stone-200 bg-white hover:border-stone-300'
                 }`}
               >
                 <button
@@ -98,7 +98,7 @@ export const FaqSection: React.FC = () => {
                   aria-expanded={isOpen}
                 >
                   <div className="space-y-1">
-                    <span className="text-[11px] font-semibold text-cyan-700 uppercase tracking-wider block">
+                    <span className="text-[11px] font-semibold text-[#881337] uppercase tracking-wider block">
                       {faq.category}
                     </span>
                     <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
@@ -106,14 +106,14 @@ export const FaqSection: React.FC = () => {
                     </h3>
                   </div>
                   <div className={`p-1.5 rounded-full mt-1 shrink-0 transition-transform ${
-                    isOpen ? 'bg-cyan-100 text-cyan-800 rotate-180' : 'bg-slate-100 text-slate-500'
+                    isOpen ? 'bg-rose-100 text-[#881337] rotate-180' : 'bg-stone-100 text-slate-500'
                   }`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 text-sm text-slate-600 leading-relaxed border-t border-cyan-100/60 mt-1">
+                  <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 text-sm text-slate-600 leading-relaxed border-t border-rose-100/80 mt-1">
                     <p className="pt-3">{faq.answer}</p>
                   </div>
                 )}
@@ -123,12 +123,12 @@ export const FaqSection: React.FC = () => {
         </div>
 
         {/* CTA Banner at the bottom of FAQ */}
-        <div className="mt-12 bg-gradient-to-r from-[#17144e] to-[#1c2966] text-white p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="mt-12 bg-[#180914] text-white p-6 sm:p-8 rounded-3xl border border-[#38142c] shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="text-lg sm:text-xl font-bold font-['Fraunces',serif]">
               Have custom questions about your mutual fund portfolio?
             </h4>
-            <p className="text-xs sm:text-sm text-cyan-200 mt-1 max-w-md">
+            <p className="text-xs sm:text-sm text-rose-200/80 mt-1 max-w-md">
               Get an unbiased, zero-commission portfolio review and custom asset allocation blueprint.
             </p>
           </div>

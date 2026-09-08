@@ -156,14 +156,20 @@ export const LeadsVaultModal: React.FC<LeadsVaultModalProps> = ({
                       <h4 className="text-sm font-bold text-slate-900">
                         {lead.name}
                       </h4>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                        lead.riskProfile === 'Aggressive' ? 'bg-amber-100 text-amber-800' :
-                        lead.riskProfile === 'Growth' ? 'bg-indigo-100 text-indigo-800' :
-                        lead.riskProfile === 'Moderate' ? 'bg-emerald-100 text-emerald-800' :
-                        'bg-blue-100 text-blue-800'
-                      }`}>
-                        {lead.riskProfile}
-                      </span>
+                      {lead.serviceType === 'loan_against_mf' ? (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+                          ⚡ Loan Against MF
+                        </span>
+                      ) : (
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          lead.riskProfile === 'Aggressive' ? 'bg-amber-100 text-amber-800' :
+                          lead.riskProfile === 'Growth' ? 'bg-indigo-100 text-indigo-800' :
+                          lead.riskProfile === 'Moderate' ? 'bg-emerald-100 text-emerald-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {lead.riskProfile || 'MF Advisory'}
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -197,20 +203,38 @@ export const LeadsVaultModal: React.FC<LeadsVaultModalProps> = ({
                       <span>{lead.phone}</span>
                     </div>
                     <div>
-                      <span className="text-slate-400">Target: </span>
-                      <span className="font-bold text-slate-900 font-mono">
-                        {formatINR(lead.investmentAmount)}
-                      </span>
-                      <span className="text-slate-500 text-[10px]"> ({lead.investmentMode === 'monthly_sip' ? 'SIP' : 'Lumpsum'})</span>
+                      {lead.serviceType === 'loan_against_mf' ? (
+                        <>
+                          <span className="text-slate-400">Portfolio / Limit: </span>
+                          <span className="font-bold text-emerald-700 font-mono">
+                            {formatINR(lead.requestedLoanAmount || lead.investmentAmount)}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-slate-400">Target: </span>
+                          <span className="font-bold text-slate-900 font-mono">
+                            {formatINR(lead.investmentAmount)}
+                          </span>
+                          <span className="text-slate-500 text-[10px]"> ({lead.investmentMode === 'monthly_sip' ? 'SIP' : 'Lumpsum'})</span>
+                        </>
+                      )}
                     </div>
                   </div>
 
                   {/* Goal & Message */}
                   <div className="text-xs bg-white p-3 rounded-xl border border-slate-200/70 space-y-1">
                     <div>
-                      <span className="font-semibold text-slate-700">Goal: </span>
+                      <span className="font-semibold text-slate-700">{lead.serviceType === 'loan_against_mf' ? 'Loan Purpose: ' : 'Goal: '}</span>
                       <span className="text-slate-800">{lead.investmentGoal}</span>
                     </div>
+                    {lead.serviceType === 'loan_against_mf' && (
+                      <div className="flex gap-4 text-slate-600 font-mono text-[11px]">
+                        <span>Portfolio: <strong>{formatINR(lead.portfolioValue || 0)}</strong></span>
+                        <span>Registrar: <strong>{lead.rtaProvider || 'All'}</strong></span>
+                        <span>Type: <strong>{lead.portfolioType || 'Equity + Debt'}</strong></span>
+                      </div>
+                    )}
                     {lead.recommendedFunds && lead.recommendedFunds.length > 0 && (
                       <div>
                         <span className="font-semibold text-teal-800">Attached Funds: </span>

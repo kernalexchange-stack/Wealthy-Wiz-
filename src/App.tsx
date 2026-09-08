@@ -6,6 +6,7 @@ import { Hero } from './components/Hero';
 import { FundExplorer } from './components/FundExplorer';
 import { RiskQuiz } from './components/RiskQuiz';
 import { ReturnCalculator } from './components/ReturnCalculator';
+import { LoanAgainstMfSection } from './components/LoanAgainstMfSection';
 import { LeadForm } from './components/LeadForm';
 import { ArticlesSection } from './components/ArticlesSection';
 import { FaqSection } from './components/FaqSection';
@@ -364,13 +365,16 @@ export function App() {
         {/* 6. Mutual Fund vs Fixed Deposit Side-by-Side Calculator */}
         <ReturnCalculator />
 
-        {/* 7. Educational Guides & Market Insights */}
+        {/* 7. Loan Against Mutual Funds (LAMF) Section & Calculator */}
+        <LoanAgainstMfSection onLeadSubmitted={handleLeadSubmitted} />
+
+        {/* 8. Educational Guides & Market Insights */}
         <ArticlesSection />
 
-        {/* 8. Frequently Asked Questions for SEO & Visitor Trust */}
+        {/* 9. Frequently Asked Questions for SEO & Visitor Trust */}
         <FaqSection />
 
-        {/* 9. Advisory Lead Generation Form */}
+        {/* 10. Advisory Lead Generation Form */}
         <LeadForm 
           quizProfile={quizProfile}
           selectedFunds={selectedFunds}

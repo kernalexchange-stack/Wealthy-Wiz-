@@ -2,24 +2,27 @@
 
 @layer base {
   :root {
-    --indigo-deep: #161448;
-    --indigo-mid: #1c255e;
-    --ocean-deep: #08536b;
-    --cyan-vibrant: #06b6d4;
-    --cyan-electric: #22d3ee;
-    --periwinkle: #818cf8;
-    --periwinkle-light: #a5b4fc;
+    --maroon-deep: #701a2f;
+    --maroon-rich: #881337;
+    --maroon-bright: #9f1239;
+    --maroon-dark: #230d1b;
+    --wine-midnight: #180913;
+    --rose-soft: #fdf2f4;
+    --rose-border: #fecdd3;
     --gold: #f59e0b;
     --gold-bright: #fbbf24;
-    --gold-deep: #d97706;
-    --ink: #0f172a;
-    --ink-soft: #475569;
-    --ink-faint: #94a3b8;
-    --paper: #f8fafc;
+    --gold-deep: #b45309;
+    --gold-ochre: #c2410c;
+    --ink: #1e1b1d;
+    --ink-soft: #4a4548;
+    --ink-faint: #888084;
+    --paper: #faf7f2;
     --paper-raised: #ffffff;
-    --brand-gradient: linear-gradient(135deg, #1e1656 0%, #192b6c 40%, #07627b 80%, #0891b2 100%);
-    --brand-gradient-dark: linear-gradient(145deg, #15113d 0%, #19255a 50%, #09475c 100%);
-    --brand-gradient-cyan: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #06b6d4 100%);
+    --paper-card: #fdfcfb;
+    --border-warm: #ebdcd3;
+    --brand-gradient: linear-gradient(135deg, #200c19 0%, #2f1025 45%, #421332 80%, #56163e 100%);
+    --brand-gradient-dark: linear-gradient(145deg, #180913 0%, #240c1c 50%, #3a102b 100%);
+    --brand-gradient-maroon: linear-gradient(135deg, #881337 0%, #9f1239 50%, #be123c 100%);
   }
 
   body {
@@ -37,7 +40,7 @@
   }
 }
 
-/* Custom brand gradients and glowing effects derived from the avatar */
+/* Custom brand gradients and glowing effects */
 .brand-gradient {
   background: var(--brand-gradient);
 }
@@ -46,24 +49,24 @@
   background: var(--brand-gradient-dark);
 }
 
-.brand-gradient-cyan {
-  background: var(--brand-gradient-cyan);
+.brand-gradient-maroon {
+  background: var(--brand-gradient-maroon);
 }
 
 .brand-gradient-subtle {
-  background: linear-gradient(135deg, #18144b 0%, #1c2963 50%, #0a4f66 100%);
+  background: linear-gradient(135deg, #200c19 0%, #2d1024 50%, #3e1430 100%);
 }
 
 .gold-glow {
   box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.4);
 }
 
-.cyan-glow {
-  box-shadow: 0 0 30px -4px rgba(6, 182, 212, 0.45);
+.maroon-glow {
+  box-shadow: 0 0 30px -4px rgba(136, 19, 55, 0.45);
 }
 
-.periwinkle-glow {
-  box-shadow: 0 0 30px -4px rgba(129, 140, 248, 0.4);
+.rose-glow {
+  box-shadow: 0 0 30px -4px rgba(244, 63, 94, 0.35);
 }
 
 /* Smooth continuous ticker animation */

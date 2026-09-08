@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#0c0b24] text-slate-400 pt-16 pb-12 border-t border-[#1e1b4b]">
+    <footer className="bg-[#180914] text-rose-200/70 pt-16 pb-12 border-t border-[#38142c]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Main Footer Grid */}
@@ -33,49 +33,54 @@ export const Footer: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
+            <p className="text-xs sm:text-sm text-rose-200/80 leading-relaxed max-w-sm">
               India's premier mutual fund discovery platform. Empowering retail investors with live AMFI data, quantitative risk profiling, and institutional-grade portfolio advisory.
             </p>
 
-            <div className="text-xs text-slate-500 space-y-1 pt-1">
-              <div>Domain: <span className="text-cyan-400 font-mono">wealthywiz.online</span></div>
-              <div>Data Source: <span className="text-slate-300">AMFI / mfapi.in (Live Official Feed)</span></div>
+            <div className="text-xs text-rose-300/60 space-y-1 pt-1">
+              <div>Domain: <span className="text-amber-300 font-mono">wealthywiz.online</span></div>
+              <div>Data Source: <span className="text-rose-200/90">AMFI / mfapi.in (Live Official Feed)</span></div>
             </div>
           </div>
 
           {/* Quick Links (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               Navigation & Tools
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button onClick={() => scrollTo('explorer')} className="hover:text-cyan-300 transition-colors">
+                <button onClick={() => scrollTo('explorer')} className="hover:text-amber-300 transition-colors">
                   Mutual Fund Scheme Explorer
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('quiz')} className="hover:text-cyan-300 transition-colors">
+                <button onClick={() => scrollTo('quiz')} className="hover:text-amber-300 transition-colors">
                   60-Second Risk Profiler Quiz
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('calculator')} className="hover:text-cyan-300 transition-colors">
+                <button onClick={() => scrollTo('calculator')} className="hover:text-amber-300 transition-colors">
                   Mutual Fund vs FD Compounding Calculator
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('blog')} className="hover:text-cyan-300 transition-colors">
+                <button onClick={() => scrollTo('loan-against-mf')} className="hover:text-amber-300 transition-colors">
+                  Loan Against Mutual Funds (LAMF)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollTo('blog')} className="hover:text-amber-300 transition-colors">
                   Educational Investment Guides
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('faq')} className="hover:text-cyan-300 transition-colors">
+                <button onClick={() => scrollTo('faq')} className="hover:text-amber-300 transition-colors">
                   Frequently Asked Questions (FAQ)
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('advice')} className="hover:text-cyan-300 transition-colors">
+                <button onClick={() => scrollTo('advice')} className="hover:text-amber-300 transition-colors">
                   Request Custom Advisory Plan
                 </button>
               </li>
@@ -84,25 +89,25 @@ export const Footer: React.FC = () => {
 
           {/* Popular Categories (4 cols) */}
           <div className="lg:col-span-4 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               Popular Mutual Fund Categories
             </h4>
             <div className="flex flex-wrap gap-2 text-xs">
-              <span className="bg-slate-900/90 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-800">Flexi Cap Funds</span>
-              <span className="bg-slate-900/90 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-800">Small Cap Alpha</span>
-              <span className="bg-slate-900/90 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-800">Large & Mid Cap</span>
-              <span className="bg-slate-900/90 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-800">ELSS Tax Savers (80C)</span>
-              <span className="bg-slate-900/90 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-800">Balanced Advantage</span>
-              <span className="bg-slate-900/90 px-2.5 py-1 rounded-lg text-slate-300 border border-slate-800">Liquid & Overnight</span>
+              <span className="bg-[#240e1f] px-2.5 py-1 rounded-lg text-rose-200 border border-[#3e1632]">Flexi Cap Funds</span>
+              <span className="bg-[#240e1f] px-2.5 py-1 rounded-lg text-rose-200 border border-[#3e1632]">Small Cap Alpha</span>
+              <span className="bg-[#240e1f] px-2.5 py-1 rounded-lg text-rose-200 border border-[#3e1632]">Large & Mid Cap</span>
+              <span className="bg-[#240e1f] px-2.5 py-1 rounded-lg text-rose-200 border border-[#3e1632]">ELSS Tax Savers (80C)</span>
+              <span className="bg-[#240e1f] px-2.5 py-1 rounded-lg text-rose-200 border border-[#3e1632]">Balanced Advantage</span>
+              <span className="bg-[#240e1f] px-2.5 py-1 rounded-lg text-rose-200 border border-[#3e1632]">Liquid & Overnight</span>
             </div>
           </div>
 
         </div>
 
         {/* Regulatory AMFI / SEBI Compliance Disclaimer */}
-        <div className="p-5 bg-slate-900/90 rounded-2xl border border-slate-800/80 text-[11px] leading-relaxed text-slate-400 space-y-2">
-          <div className="flex items-center gap-2 font-bold text-slate-300">
-            <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+        <div className="p-5 bg-[#240e1f] rounded-2xl border border-[#3e1632] text-[11px] leading-relaxed text-rose-200/80 space-y-2">
+          <div className="flex items-center gap-2 font-bold text-white">
+            <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
             <span>Statutory Regulatory Notice & Disclaimer</span>
           </div>
           <p>
@@ -111,12 +116,12 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <div className="pt-6 border-t border-[#38142c] flex flex-col sm:flex-row items-center justify-between text-xs text-rose-300/50 gap-4">
           <div>
             © {new Date().getFullYear()} WealthyWiz. Built for Indian Mutual Fund Investors. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://wealthywiz.online" className="hover:text-slate-400 transition-colors">
+            <a href="https://wealthywiz.online" className="hover:text-rose-200 transition-colors">
               wealthywiz.online
             </a>
             <span>•</span>

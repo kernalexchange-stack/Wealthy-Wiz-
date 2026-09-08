@@ -23,13 +23,13 @@ export const ArticlesSection: React.FC = () => {
   };
 
   return (
-    <section id="blog" className="py-16 sm:py-24 bg-[#f8fafc] text-slate-900 scroll-mt-20">
+    <section id="blog" className="py-16 sm:py-24 bg-[#faf7f2] text-slate-900 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-900 text-xs font-semibold uppercase tracking-wider mb-3 border border-indigo-200">
-            <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-900/10 text-[#881337] text-xs font-semibold uppercase tracking-wider mb-3 border border-rose-900/20">
+            <BookOpen className="w-3.5 h-3.5 text-[#881337]" />
             Educational Guides & Market Insights
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-['Fraunces',serif]">
@@ -46,12 +46,12 @@ export const ArticlesSection: React.FC = () => {
             <article
               key={art.slug}
               onClick={() => setActiveArticle(art)}
-              className="bg-white border border-slate-200/90 rounded-3xl p-6 hover:shadow-lg hover:border-cyan-500/40 transition-all flex flex-col justify-between cursor-pointer group"
+              className="bg-white border border-stone-200/90 rounded-3xl p-6 hover:shadow-lg hover:border-rose-300 transition-all flex flex-col justify-between cursor-pointer group"
             >
               <div>
                 {/* Meta Row */}
                 <div className="flex items-center justify-between gap-2 text-xs text-slate-500 mb-3">
-                  <span className="font-semibold text-cyan-900 bg-cyan-50 px-2.5 py-0.5 rounded-md border border-cyan-100">
+                  <span className="font-semibold text-[#881337] bg-rose-50 px-2.5 py-0.5 rounded-md border border-rose-100">
                     {art.category}
                   </span>
                   <div className="flex items-center gap-2 font-mono text-[11px]">
@@ -61,7 +61,7 @@ export const ArticlesSection: React.FC = () => {
                 </div>
 
                 {/* Article Title */}
-                <h3 className="text-lg font-bold text-slate-900 group-hover:text-cyan-700 transition-colors leading-snug font-['Fraunces',serif]">
+                <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#881337] transition-colors leading-snug font-['Fraunces',serif]">
                   {art.title}
                 </h3>
 
@@ -72,7 +72,7 @@ export const ArticlesSection: React.FC = () => {
               </div>
 
               {/* Card Footer CTA */}
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-cyan-700 group-hover:text-cyan-800">
+              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#881337] group-hover:text-rose-900">
                 <span>Read Full Guide</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </div>
@@ -84,8 +84,8 @@ export const ArticlesSection: React.FC = () => {
 
       {/* Interactive Article Modal */}
       {activeArticle && (
-        <div className="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-10 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 bg-[#180914]/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-10 shadow-2xl border border-stone-200 relative animate-in fade-in zoom-in-95 duration-200">
             
             {/* Close Button */}
             <button
@@ -98,7 +98,7 @@ export const ArticlesSection: React.FC = () => {
             {/* Article Header */}
             <div className="pr-8 space-y-2">
               <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
-                <span className="bg-cyan-50 text-cyan-900 px-2.5 py-0.5 rounded-md font-semibold border border-cyan-200">
+                <span className="bg-rose-50 text-[#881337] px-2.5 py-0.5 rounded-md font-semibold border border-rose-200">
                   {activeArticle.category}
                 </span>
                 <span>•</span>
@@ -119,15 +119,15 @@ export const ArticlesSection: React.FC = () => {
             </div>
 
             {/* Key Takeaways Box */}
-            <div className="my-6 p-5 bg-cyan-50/70 border border-cyan-200/80 rounded-2xl space-y-2">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-900 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-cyan-700" />
+            <div className="my-6 p-5 bg-rose-50/70 border border-rose-200/80 rounded-2xl space-y-2">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#881337] flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-500" />
                 Key Strategic Takeaways
               </h4>
-              <ul className="space-y-1.5 text-xs sm:text-sm text-cyan-950">
+              <ul className="space-y-1.5 text-xs sm:text-sm text-rose-950">
                 {activeArticle.keyTakeaways.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-cyan-700 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-[#881337] shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -142,7 +142,7 @@ export const ArticlesSection: React.FC = () => {
             </div>
 
             {/* In-Article Call to Action */}
-            <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50 p-5 rounded-2xl">
+            <div className="mt-8 pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-stone-50 p-5 rounded-2xl">
               <div>
                 <div className="text-xs font-bold text-slate-900">Ready to take action?</div>
                 <div className="text-xs text-slate-500">Apply what you learned to your personal wealth strategy.</div>

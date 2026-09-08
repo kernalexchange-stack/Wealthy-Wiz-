@@ -108,7 +108,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-[#12103a] border border-[#2d2975] text-slate-100 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-6 overflow-hidden">
+      <div className="bg-[#1e2945] border border-[#3b4f7e] text-slate-100 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-6 overflow-hidden">
         
         {/* Ambient Top Glow */}
         <div 
@@ -119,7 +119,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-5 right-5 p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors z-10"
         >
           <X className="w-5 h-5" />
         </button>
@@ -131,7 +131,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             <h2 className="text-xl sm:text-2xl font-bold font-['Fraunces',serif] text-white tracking-tight flex items-center gap-2">
               Wealthy<span className="text-[#fbbf24]">Wiz</span> Login
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-300">
               Sign in with authorized credentials
             </p>
           </div>
@@ -139,12 +139,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
         {/* Role Selection Tabs - 3 Access Types */}
         <div className="space-y-2 mb-5">
-          <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
             <span>Select Portal Access Level</span>
-            <span className="text-slate-500 font-mono text-[10px]">3 Security Tiers</span>
+            <span className="text-slate-400 font-mono text-[10px]">3 Security Tiers</span>
           </label>
 
-          <div className="grid grid-cols-3 gap-2 bg-[#0c0a27] p-1.5 rounded-2xl border border-[#23205b]">
+          <div className="grid grid-cols-3 gap-2 bg-[#15213b] p-1.5 rounded-2xl border border-[#334674]">
             
             {/* 1. Admin Tab */}
             <button
@@ -153,7 +153,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               className={`py-2.5 px-2 rounded-xl text-xs font-bold transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 ${
                 selectedRole === 'admin'
                   ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
               <ShieldCheck className="w-4 h-4 text-rose-400 shrink-0" />
@@ -167,7 +167,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               className={`py-2.5 px-2 rounded-xl text-xs font-bold transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 ${
                 selectedRole === 'operations'
                   ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
               <Briefcase className="w-4 h-4 text-amber-400 shrink-0" />
@@ -181,7 +181,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               className={`py-2.5 px-2 rounded-xl text-xs font-bold transition-all flex flex-col sm:flex-row items-center justify-center gap-1.5 ${
                 selectedRole === 'customer'
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
               <User className="w-4 h-4 text-cyan-400 shrink-0" />
@@ -191,7 +191,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         </div>
 
         {/* Designated Credentials Reference Card */}
-        <div className="p-3 bg-[#0d0b2b] border border-[#252063] rounded-2xl mb-4 space-y-2">
+        <div className="p-3 bg-[#17233f] border border-[#334674] rounded-2xl mb-4 space-y-2 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${currentRoleConfig.badgeBg} ${currentRoleConfig.badgeText} border ${currentRoleConfig.badgeBorder}`}>
@@ -203,7 +203,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             <button
               type="button"
               onClick={handleApplyOfficialCredentials}
-              className="text-[11px] font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 bg-cyan-950/60 hover:bg-cyan-900/60 px-2 py-1 rounded-lg border border-cyan-800/60 transition-colors"
+              className="text-[11px] font-semibold text-cyan-300 hover:text-cyan-200 flex items-center gap-1 bg-cyan-900/40 hover:bg-cyan-900/60 px-2 py-1 rounded-lg border border-cyan-700/60 transition-colors"
             >
               {copiedHint ? (
                 <>
@@ -219,13 +219,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 text-[11px] font-mono bg-[#14113e] p-2 rounded-xl border border-[#221c5b] text-slate-300">
+          <div className="grid grid-cols-2 gap-2 text-[11px] font-mono bg-[#223359] p-2 rounded-xl border border-[#384e84] text-slate-200">
             <div>
-              <span className="text-slate-500 text-[10px] block font-sans">User ID:</span>
+              <span className="text-slate-400 text-[10px] block font-sans">User ID:</span>
               <span className="text-white select-all">{currentRoleConfig.officialCredentials.email}</span>
             </div>
             <div>
-              <span className="text-slate-500 text-[10px] block font-sans">Password:</span>
+              <span className="text-slate-400 text-[10px] block font-sans">Password:</span>
               <span className="text-amber-300 select-all">{currentRoleConfig.officialCredentials.passwordHint}</span>
             </div>
           </div>
@@ -245,7 +245,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           {isRegisterMode && (
             <>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-200 mb-1">
                   Full Name
                 </label>
                 <div className="relative">
@@ -256,13 +256,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                     placeholder="e.g. Rahul Sharma"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2.5 bg-[#0a0822] border border-[#2b276e] rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                    className="w-full pl-10 pr-3 py-2.5 bg-[#141f38] border border-[#354877] rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-200 mb-1">
                   Phone Number
                 </label>
                 <input
@@ -270,7 +270,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                   placeholder="+91 9876543210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#0a0822] border border-[#2b276e] rounded-xl text-sm font-mono text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                  className="w-full px-3.5 py-2.5 bg-[#141f38] border border-[#354877] rounded-xl text-sm font-mono text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                 />
               </div>
             </>
@@ -278,7 +278,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
           {/* Email Field */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-200 mb-1">
               Email Address
             </label>
             <div className="relative">
@@ -289,7 +289,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                 placeholder={currentRoleConfig.officialCredentials.email}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-3 py-2.5 bg-[#0a0822] border border-[#2b276e] rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                className="w-full pl-10 pr-3 py-2.5 bg-[#141f38] border border-[#354877] rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
               />
             </div>
           </div>
@@ -297,13 +297,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           {/* Password Field */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-semibold text-slate-300">
+              <label className="text-xs font-semibold text-slate-200">
                 Password
               </label>
               <button
                 type="button"
                 onClick={handleApplyOfficialCredentials}
-                className="text-[11px] text-cyan-400 hover:underline"
+                className="text-[11px] text-cyan-300 hover:underline"
               >
                 Use Official Password ({currentRoleConfig.officialCredentials.passwordHint})
               </button>
@@ -317,7 +317,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-2.5 bg-[#0a0822] border border-[#2b276e] rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                className="w-full pl-10 pr-10 py-2.5 bg-[#141f38] border border-[#354877] rounded-xl text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
               />
               <button
                 type="button"
@@ -351,7 +351,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         </form>
 
         {/* Footer Mode Switcher */}
-        <div className="mt-5 pt-3.5 border-t border-[#23205b] text-center text-xs text-slate-400">
+        <div className="mt-5 pt-3.5 border-t border-[#334674] text-center text-xs text-slate-300">
           {isRegisterMode ? (
             <div>
               Already have an investor profile?{' '}
