@@ -15,8 +15,11 @@ import { LoginModal } from './components/LoginModal';
 import { AdminDashboardModal } from './components/AdminDashboardModal';
 import { OperationsDeskModal } from './components/OperationsDeskModal';
 import { CustomerPortalModal } from './components/CustomerPortalModal';
+import { LegalModal, LegalTab } from './components/LegalModal';
+import { AdBanner } from './components/AdBanner';
 import { Footer } from './components/Footer';
 import { CURATED_FUNDS } from './data/fundsData';
+
 import { FundScheme, RiskProfileInfo, LeadPayload, UserProfile, UserRole } from './types';
 import { fetchSchemeDetails } from './utils/mfapi';
 import { INITIAL_USERS } from './data/mockUsers';
@@ -54,7 +57,36 @@ export function App() {
   const [isCustomerWorkspaceOpen, setIsCustomerWorkspaceOpen] = useState(false);
   const [isAdvisorVaultOpen, setIsAdvisorVaultOpen] = useState(false);
   
+  // Legal & AdSense Compliance Modal State
+  const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
+  const [legalInitialTab, setLegalInitialTab] = useState<LegalTab>('privacy');
+
+  // Listen to URL hash for direct legal links (e.g. #privacy-policy, #terms-of-service, #adsense-policy)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#privacy-policy' || hash === '#privacy') {
+        setLegalInitialTab('privacy');
+        setIsLegalModalOpen(true);
+      } else if (hash === '#terms-of-service' || hash === '#terms') {
+        setLegalInitialTab('terms');
+        setIsLegalModalOpen(true);
+      } else if (hash === '#adsense-policy' || hash === '#cookie-policy' || hash === '#adsense') {
+        setLegalInitialTab('adsense');
+        setIsLegalModalOpen(true);
+      } else if (hash === '#disclaimer' || hash === '#regulatory-disclaimer') {
+        setLegalInitialTab('disclaimer');
+        setIsLegalModalOpen(true);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+  
   // Toast Notification State
+
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'info' | 'warn' } | null>(null);
 
   const showToast = (text: string, type: 'success' | 'info' | 'warn' = 'info') => {
@@ -357,6 +389,9 @@ export function App() {
           isRefreshing={isRefreshingNavs}
         />
 
+        {/* Google AdSense Responsive Display Unit 1 */}
+        <AdBanner onOpenPrivacyPolicy={() => { setLegalInitialTab('adsense'); setIsLegalModalOpen(true); }} />
+
         {/* 5. 60-Second Investor Risk Profiler Quiz */}
         <RiskQuiz 
           onCompleteQuiz={handleCompleteQuiz} 
@@ -371,6 +406,9 @@ export function App() {
         {/* 8. Educational Guides & Market Insights */}
         <ArticlesSection />
 
+        {/* Google AdSense Responsive Display Unit 2 */}
+        <AdBanner onOpenPrivacyPolicy={() => { setLegalInitialTab('adsense'); setIsLegalModalOpen(true); }} />
+
         {/* 9. Frequently Asked Questions for SEO & Visitor Trust */}
         <FaqSection />
 
@@ -383,8 +421,16 @@ export function App() {
         />
       </main>
 
-      {/* 9. Footer with AMFI Disclaimers */}
-      <Footer />
+      {/* 11. Footer with AMFI & Google AdSense Disclaimers */}
+      <Footer onOpenLegal={(tab) => { setLegalInitialTab(tab); setIsLegalModalOpen(true); }} />
+
+      {/* Privacy Policy, Terms of Service & Google AdSense Disclosures Modal */}
+      <LegalModal
+        isOpen={isLegalModalOpen}
+        onClose={() => setIsLegalModalOpen(false)}
+        initialTab={legalInitialTab}
+      />
+
 
       {/* Unified Login Modal (3 Access Types in 1 Login: Admin, Operations, Customer) */}
       <LoginModal

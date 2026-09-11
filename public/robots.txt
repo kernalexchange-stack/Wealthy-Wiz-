@@ -4,4 +4,9 @@ Allow: /
 Disallow: /api/
 Disallow: /admin
 
+# Google AdSense Crawler
+User-agent: Mediapartners-Google
+Allow: /
+
 Sitemap: https://wealthywiz.online/sitemap.xml
+
