@@ -250,12 +250,25 @@ export function App() {
   // Handlers
   const handleSelectFundForAdvice = (fund: FundScheme) => {
     setSelectedFunds(prev => {
-      if (prev.includes(fund.schemeName)) {
-        return prev.filter(f => f !== fund.schemeName);
-      } else {
+      if (!prev.includes(fund.schemeName)) {
         return [...prev, fund.schemeName];
       }
+      return prev;
     });
+
+    // Directly navigate to the advisory form section
+    const element = document.getElementById('advice');
+    if (element) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
   };
 
   const handleRemoveSelectedFund = (fundName: string) => {

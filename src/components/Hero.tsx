@@ -38,11 +38,11 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
             
             {/* AMFI & LAMF Top Badges */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
-              <div className="inline-flex items-center gap-2 bg-[#2d1022]/90 border border-rose-500/40 px-3.5 py-1.5 rounded-full text-xs text-rose-200 backdrop-blur-sm shadow-md">
-                <ShieldCheck className="w-4 h-4 text-rose-400" />
-                <span className="font-semibold tracking-wide">AMFI Registered Data & Advisory</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#fbbf24]"></span>
-                <span className="text-rose-100 font-mono text-[11px]">Free & Public</span>
+              <div className="inline-flex items-center gap-2 bg-[#022b2c]/90 border border-[#017374] px-3.5 py-1.5 rounded-full text-xs text-[#c2ece2] backdrop-blur-sm shadow-md">
+                <ShieldCheck className="w-4 h-4 text-[#2dd4bf]" />
+                <span className="font-semibold tracking-wide">AMFI Registered Distributor</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]"></span>
+                <span className="text-white font-mono font-bold text-[11px] bg-[#017374] px-2 py-0.5 rounded border border-[#2dd4bf]/30">ARN-363293</span>
               </div>
 
               <button
@@ -55,12 +55,12 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
               </button>
             </div>
 
-            {/* Display Headline in Fraunces */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15] font-['Fraunces',serif]">
-              Invest Smarter in India's <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#f43f5e]">Best Mutual Funds</span>
+            {/* Display Headline in Cardia / Echo & Keenon */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15] font-cardia">
+              Invest Smarter in India's <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c2ece2] via-[#2dd4bf] to-[#017374]">Best Mutual Funds</span>
             </h1>
 
-            {/* Body Copy in IBM Plex Sans */}
+            {/* Body Copy in Plus Jakarta Sans */}
             <p className="text-base sm:text-lg text-slate-200/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               Explore live AMFI NAVs, discover your personalized risk profile with our 60-second quiz, compare Mutual Funds vs Fixed Deposits, or get an instant <strong>Loan Against Mutual Funds (LAMF)</strong> starting at 9.5% without selling your portfolio.
             </p>
@@ -70,34 +70,34 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
               
               <button
                 onClick={() => scrollTo('quiz')}
-                className="bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#d97706] hover:brightness-105 text-slate-950 font-bold text-sm sm:text-base px-6 py-3 rounded-xl shadow-lg hover:shadow-amber-500/30 active:scale-98 transition-all flex items-center gap-2"
+                className="bg-gradient-to-r from-[#c2ece2] via-[#2dd4bf] to-[#017374] hover:brightness-105 text-slate-950 font-bold text-sm sm:text-base px-6 py-3 rounded-xl shadow-lg hover:shadow-[#017374]/30 active:scale-98 transition-all flex items-center gap-2"
               >
-                <Sparkles className="w-4 h-4" />
-                Take 60-Sec Risk Quiz
-                <ArrowRight className="w-4 h-4 ml-0.5" />
+                <Sparkles className="w-4 h-4 text-[#013536]" />
+                <span>Take 60-Sec Risk Quiz</span>
+                <ArrowRight className="w-4 h-4 ml-0.5 text-[#013536]" />
               </button>
 
               <button
                 onClick={() => scrollTo('loan-against-mf')}
-                className="bg-[#881337] hover:bg-[#70102d] text-white font-semibold text-sm sm:text-base px-5 py-3 rounded-xl border border-rose-600/50 backdrop-blur-sm transition-all flex items-center gap-2 shadow-md shadow-rose-950/50"
+                className="bg-[#017374] hover:bg-[#005f60] text-white font-semibold text-sm sm:text-base px-5 py-3 rounded-xl border border-[#2dd4bf]/40 backdrop-blur-sm transition-all flex items-center gap-2 shadow-md shadow-[#017374]/30"
               >
-                <CreditCard className="w-4 h-4 text-rose-200" />
+                <CreditCard className="w-4 h-4 text-[#c2ece2]" />
                 Loan Against MF (LAMF)
               </button>
 
               <button
                 onClick={() => scrollTo('calculator')}
-                className="bg-[#2d1023]/90 hover:bg-[#3d152f] text-slate-100 hover:text-white border border-[#4f1a3b] font-semibold text-sm sm:text-base px-5 py-3 rounded-xl backdrop-blur-sm transition-all flex items-center gap-2"
+                className="bg-[#022829]/90 hover:bg-[#033b3d] text-slate-100 hover:text-white border border-[#045254] font-semibold text-sm sm:text-base px-5 py-3 rounded-xl backdrop-blur-sm transition-all flex items-center gap-2"
               >
-                <Calculator className="w-4 h-4 text-rose-300" />
+                <Calculator className="w-4 h-4 text-[#2dd4bf]" />
                 Compare MF vs FD
               </button>
 
               <button
                 onClick={() => scrollTo('explorer')}
-                className="bg-transparent hover:bg-white/10 text-rose-200 hover:text-white font-medium text-sm px-4 py-3 rounded-xl transition-all flex items-center gap-1.5 border border-rose-400/30"
+                className="bg-transparent hover:bg-white/10 text-[#c2ece2] hover:text-white font-medium text-sm px-4 py-3 rounded-xl transition-all flex items-center gap-1.5 border border-[#2dd4bf]/30"
               >
-                <Compass className="w-4 h-4 text-rose-300" />
+                <Compass className="w-4 h-4 text-[#2dd4bf]" />
                 Browse 5,000+ Funds
               </button>
 
@@ -110,15 +110,15 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
                 <div className="text-xs text-slate-300">AMCs Tracked</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-bold font-mono text-rose-300">100%</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-[#c2ece2]">100%</div>
                 <div className="text-xs text-slate-300">Direct Plan Data</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-bold font-mono text-[#fbbf24]">₹0</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-amber-300">₹0</div>
                 <div className="text-xs text-slate-300">Advisory Fee</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">9.5%</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-[#2dd4bf]">9.5%</div>
                 <div className="text-xs text-slate-300">LAMF Starting ROI</div>
               </div>
             </div>
@@ -127,19 +127,19 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
 
           {/* Right Column: Live "Today's Movers" Dynamic Card */}
           <div className="lg:col-span-5">
-            <div className="bg-[#1b0a16]/95 border border-[#3e1631] rounded-2xl p-5 sm:p-6 shadow-2xl backdrop-blur-md relative">
+            <div className="bg-[#021d1e]/95 border border-[#044c4e] rounded-2xl p-5 sm:p-6 shadow-2xl backdrop-blur-md relative">
               
               {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-[#351229]">
+              <div className="flex items-center justify-between pb-4 border-b border-[#033638]">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                  <div className="p-1.5 rounded-lg bg-[#017374]/20 text-[#c2ece2] border border-[#017374]/40">
                     <Zap className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white font-['Fraunces',serif]">
+                    <h3 className="text-sm font-bold text-white font-cardia">
                       Today's Market Movers
                     </h3>
-                    <p className="text-[11px] text-rose-200/70">
+                    <p className="text-[11px] text-[#c2ece2]/70">
                       Live daily AMFI NAV updates
                     </p>
                   </div>
@@ -168,7 +168,7 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
                             {fund.category}
                           </span>
                           <span className="text-slate-500 text-[10px]">•</span>
-                          <span className="text-[10px] text-rose-300 font-mono font-medium">
+                          <span className="text-[10px] text-[#2dd4bf] font-mono font-medium">
                             1Y: +{fund.return1Y}%
                           </span>
                         </div>
@@ -180,7 +180,7 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
                         </div>
                         <div
                           className={`text-[11px] font-mono font-semibold flex items-center justify-end gap-0.5 ${
-                            isPositive ? 'text-emerald-400' : 'text-rose-400'
+                            isPositive ? 'text-[#2dd4bf]' : 'text-rose-400'
                           }`}
                         >
                           {isPositive ? (
@@ -198,13 +198,13 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
               </div>
 
               {/* Card Footer Call to Action */}
-              <div className="mt-4 pt-3 border-t border-[#351229] flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-[#033638] flex items-center justify-between">
                 <span className="text-[11px] text-slate-400">
                   Updated from official AMFI feed
                 </span>
                 <button
                   onClick={() => scrollTo('explorer')}
-                  className="text-xs font-semibold text-[#fbbf24] hover:text-amber-300 flex items-center gap-1 group"
+                  className="text-xs font-semibold text-[#c2ece2] hover:text-[#5eead4] flex items-center gap-1 group"
                 >
                   View All Funds
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />

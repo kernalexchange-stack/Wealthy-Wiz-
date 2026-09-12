@@ -494,12 +494,35 @@ export const LegalModal: React.FC<LegalModalProps> = ({
             <div className="space-y-6">
               <div className="border-b border-stone-200 pb-4">
                 <div className="text-xs text-stone-500 font-mono">Statutory Investment Warning • AMFI Code Compliance</div>
-                <h3 className="text-2xl font-bold font-['Fraunces',serif] text-stone-900 mt-1">
+                <h3 className="text-2xl font-bold font-cardia text-stone-900 mt-1">
                   SEBI & AMFI Regulatory Notices
                 </h3>
                 <p className="text-stone-600 text-xs sm:text-sm mt-1">
                   WealthyWiz operates strictly within the framework of Indian financial regulatory compliance guidelines established by the Securities and Exchange Board of India (SEBI) and Association of Mutual Funds in India (AMFI).
                 </p>
+              </div>
+
+              {/* AMFI Registration Verification Box */}
+              <div className="p-4 bg-[#f0fdf4] border-2 border-emerald-300 rounded-2xl flex items-center justify-between flex-wrap gap-4 shadow-sm">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-xl bg-[#017374] text-[#c2ece2] flex flex-col items-center justify-center font-bold text-xs shadow-inner">
+                    <span className="text-[10px] tracking-tighter">AMFI</span>
+                    <ShieldCheck className="w-4 h-4 text-[#c2ece2]" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-emerald-900">AMFI Registered Mutual Fund Distributor</div>
+                    <div className="text-base font-bold text-slate-900 font-mono tracking-wide flex items-center gap-2">
+                      ARN: ARN-363293
+                      <span className="text-[10px] font-sans font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">
+                        Active Registration
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right text-xs text-emerald-800">
+                  <div>Jurisdiction: <span className="font-semibold text-slate-900">India</span></div>
+                  <div>Entity: <span className="font-semibold text-slate-900">WealthyWiz</span></div>
+                </div>
               </div>
 
               {/* Statutory Warning Big Box */}
@@ -512,14 +535,14 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                   Mutual fund investments are subject to market risks, read all scheme-related documents carefully.
                 </p>
                 <p className="text-xs text-rose-900 leading-relaxed">
-                  Past performance of any mutual fund scheme is not an indicator or guarantee of future returns. Neither WealthyWiz nor its promoters, analysts, or contributors guarantee any specific returns, principal protection, or capital preservation on any scheme showcased on this platform.
+                  Past performance of any mutual fund scheme is not an indicator or guarantee of future returns. Neither WealthyWiz (ARN-363293) nor its promoters, analysts, or contributors guarantee any specific returns, principal protection, or capital preservation on any scheme showcased on this platform.
                 </p>
               </div>
 
               <div className="space-y-3 text-xs sm:text-sm text-stone-600">
-                <h4 className="font-bold text-stone-900 text-sm">AMFI Data Integrity</h4>
+                <h4 className="font-bold text-stone-900 text-sm">AMFI Data Integrity & Distribution</h4>
                 <p>
-                  All Net Asset Value (NAV) numbers, 52-week highs/lows, and historical tracking charts displayed on WealthyWiz are fetched directly from public AMFI / Scheme Registry endpoints. While we make every endeavor to keep the NAV feed real-time and error-free, NAV updates are governed by mutual fund house cut-off timings on Indian business days.
+                  WealthyWiz is registered with the Association of Mutual Funds in India under Registration Number <strong>ARN-363293</strong> as a Mutual Fund Distributor. All Net Asset Value (NAV) numbers, 52-week highs/lows, and historical tracking charts displayed on WealthyWiz are fetched directly from public AMFI / Scheme Registry endpoints. While we make every endeavor to keep the NAV feed real-time and error-free, NAV updates are governed by mutual fund house cut-off timings on Indian business days.
                 </p>
 
                 <h4 className="font-bold text-stone-900 text-sm pt-2">Advisory Notice</h4>

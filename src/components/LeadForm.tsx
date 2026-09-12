@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { LeadPayload, RiskProfileInfo, FundScheme, ServiceType } from '../types';
-import { Send, CheckCircle2, ShieldCheck, Sparkles, X, Phone, Mail, User, Target, IndianRupee, MessageSquare, Download, CreditCard, Building2 } from 'lucide-react';
+import { LeadPayload, RiskProfileInfo } from '../types';
+import { Send, CheckCircle2, ShieldCheck, Sparkles, X, Phone, Mail, User, Target, IndianRupee, Download } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface LeadFormProps {
@@ -16,18 +16,12 @@ export const LeadForm: React.FC<LeadFormProps> = ({
   onRemoveSelectedFund,
   onLeadSubmitted,
 }) => {
-  const [serviceType, setServiceType] = useState<ServiceType>('mutual_fund_advisory');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [investmentGoal, setInvestmentGoal] = useState('Wealth Creation & Long-Term Compounding');
   const [investmentAmount, setInvestmentAmount] = useState<number>(10000);
   const [investmentMode, setInvestmentMode] = useState<'monthly_sip' | 'one_time_lumpsum'>('monthly_sip');
-  
-  // LAMF specific fields inside general form
-  const [portfolioValue, setPortfolioValue] = useState<number>(500000);
-  const [rtaProvider, setRtaProvider] = useState<'CAMS' | 'KFintech' | 'Both' | 'Not Sure'>('Both');
-  const [portfolioType, setPortfolioType] = useState<'Equity Mutual Funds' | 'Debt & Liquid Funds' | 'Hybrid / Multi-Asset'>('Equity Mutual Funds');
   const [message, setMessage] = useState('');
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,14 +35,6 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     'Children’s Higher Education & Marriage',
     'Tax Saving (Section 80C ELSS)',
     'Emergency & Safety Buffer',
-  ];
-
-  const lamfGoals = [
-    'Emergency / Short-term Liquidity',
-    'Business Expansion / Working Capital',
-    'Home Renovation / Downpayment',
-    'Debt & High Interest Consolidation',
-    'Education / Travel / Big Purchases',
   ];
 
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljrqnzg';
@@ -74,48 +60,26 @@ export const LeadForm: React.FC<LeadFormProps> = ({
 
     setIsSubmitting(true);
 
-    const isLAMF = serviceType === 'loan_against_mf';
-
     const payload: LeadPayload = {
-      id: `${isLAMF ? 'LAMF' : 'LW'}-${Date.now().toString().slice(-6)}`,
-      serviceType: serviceType,
+      id: `LW-${Date.now().toString().slice(-6)}`,
+      serviceType: 'mutual_fund_advisory',
       name: name.trim(),
       email: email.trim().toLowerCase(),
       phone: `+91 ${cleanPhone.slice(-10)}`,
-      investmentGoal: isLAMF ? `Loan Against MF: ${investmentGoal}` : investmentGoal,
-      investmentAmount: isLAMF ? Math.round(portfolioValue * 0.5) : (Number(investmentAmount) || 10000),
-      investmentMode: isLAMF ? 'lamf_overdraft' : investmentMode,
-      riskProfile: quizProfile?.type || (isLAMF ? 'Portfolio Pledging' : 'Not Specified'),
+      investmentGoal: investmentGoal,
+      investmentAmount: Number(investmentAmount) || 10000,
+      investmentMode: investmentMode,
+      riskProfile: quizProfile?.type || 'Not Specified',
       recommendedFunds: selectedFunds.length > 0 ? selectedFunds : (quizProfile?.sampleFunds.map(f => f.schemeName) || []),
       message: message.trim(),
       sourcePage: window.location.pathname || '/',
       createdAt: new Date().toISOString(),
       status: 'new',
-      portfolioValue: isLAMF ? portfolioValue : undefined,
-      requestedLoanAmount: isLAMF ? Math.round(portfolioValue * 0.5) : undefined,
-      rtaProvider: isLAMF ? rtaProvider : undefined,
-      portfolioType: isLAMF ? portfolioType : undefined,
     };
 
     // 1. Submit lead to Formspree
     try {
-      const formspreePayload = isLAMF ? {
-        serviceType: 'Loan Against Mutual Funds (LAMF)',
-        name: payload.name,
-        email: payload.email,
-        phone: payload.phone,
-        portfolioValue: `₹${portfolioValue.toLocaleString('en-IN')}`,
-        estimatedCreditLimit: `₹${Math.round(portfolioValue * 0.5).toLocaleString('en-IN')}`,
-        portfolioType: portfolioType,
-        rtaRegistrar: rtaProvider,
-        loanPurpose: investmentGoal,
-        interestRateQuoted: '9.50% p.a.',
-        message: payload.message || 'No additional notes provided',
-        leadId: payload.id,
-        sourcePage: payload.sourcePage,
-        submittedAt: new Date(payload.createdAt || '').toLocaleString('en-IN'),
-        _subject: `[Loan Against MF Application] ${payload.name} - Portfolio: ₹${portfolioValue.toLocaleString('en-IN')}`,
-      } : {
+      const formspreePayload = {
         serviceType: 'Mutual Fund Advisory',
         name: payload.name,
         email: payload.email,
@@ -179,40 +143,36 @@ export const LeadForm: React.FC<LeadFormProps> = ({
 
   const handleDownloadReceipt = () => {
     if (!submittedLead) return;
-    const isLAMF = submittedLead.serviceType === 'loan_against_mf';
 
-    const content = `WEALTHYWIZ - ${isLAMF ? 'LOAN AGAINST MUTUAL FUNDS (LAMF) REQUEST' : 'MUTUAL FUND ADVISORY REQUEST'}
+    const content = `WEALTHYWIZ - MUTUAL FUND ADVISORY REQUEST
 --------------------------------------------------
 Lead Reference ID: ${submittedLead.id}
-Service Type: ${isLAMF ? 'Loan Against Mutual Funds' : 'Mutual Fund Advisory'}
+Service Type: Mutual Fund Advisory
+AMFI Registration: ARN-363293 (Registered Mutual Fund Distributor)
 Date: ${new Date(submittedLead.createdAt || '').toLocaleString('en-IN')}
 
 Client Name: ${submittedLead.name}
 Email: ${submittedLead.email}
 Phone: ${submittedLead.phone}
 
-${isLAMF ? `Portfolio Value: ₹${(submittedLead.portfolioValue || 0).toLocaleString('en-IN')}
-Portfolio Mix: ${submittedLead.portfolioType || 'Equity Funds'}
-RTA Registrar: ${submittedLead.rtaProvider || 'Both'}
-Requested Credit Limit: ₹${submittedLead.investmentAmount.toLocaleString('en-IN')} (Starting @ 9.5% p.a.)
-Loan Purpose: ${submittedLead.investmentGoal}` : `Investment Goal: ${submittedLead.investmentGoal}
+Investment Goal: ${submittedLead.investmentGoal}
 Planned Investment: ₹${submittedLead.investmentAmount.toLocaleString('en-IN')} (${submittedLead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'One-Time Lumpsum'})
 Assessed Risk Profile: ${submittedLead.riskProfile}
 
 Selected / Recommended Funds:
-${submittedLead.recommendedFunds?.map((f, i) => `${i + 1}. ${f}`).join('\n') || 'General Multi-Cap Portfolio'}`}
+${submittedLead.recommendedFunds?.map((f, i) => `${i + 1}. ${f}`).join('\n') || 'General Multi-Cap Portfolio'}
 
 Client Query:
 ${submittedLead.message || 'No additional notes'}
 --------------------------------------------------
-Our AMFI & RBI registered specialists will contact you within 24 hours.
+Our AMFI registered advisory team (ARN-363293) will contact you within 24 hours.
 Visit us at https://wealthywiz.online`;
 
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `WealthyWiz_${isLAMF ? 'LAMF' : 'Advisory'}_Request_${submittedLead.id}.txt`;
+    a.download = `WealthyWiz_Advisory_Request_${submittedLead.id}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -227,11 +187,11 @@ Visit us at https://wealthywiz.online`;
             <Sparkles className="w-3.5 h-3.5 text-[#fbbf24]" />
             Personalized Wealth Advisory
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-['Fraunces',serif]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-cardia">
             Get a Customized Mutual Fund Plan
           </h2>
           <p className="text-slate-600 mt-2 text-sm sm:text-base">
-            No spam. No pushy sales calls. Receive an institutional-grade, zero-commission portfolio blueprint aligned with your risk tolerance and life goals.
+            No spam. No pushy sales calls. Receive an institutional-grade portfolio blueprint aligned with your risk tolerance from an <strong className="text-slate-800">AMFI Registered Distributor (ARN-363293)</strong>.
           </p>
         </div>
 
@@ -296,44 +256,8 @@ Visit us at https://wealthywiz.online`;
             /* Active Form State */
             <form onSubmit={handleSubmit} className="space-y-6">
               
-              {/* Service Type Selection Tabs */}
-              <div className="bg-stone-100 p-1.5 rounded-2xl flex flex-col sm:flex-row gap-1.5 border border-stone-200">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setServiceType('mutual_fund_advisory');
-                    setInvestmentGoal('Wealth Creation & Long-Term Compounding');
-                  }}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
-                    serviceType === 'mutual_fund_advisory'
-                      ? 'bg-white text-[#881337] shadow-sm border border-stone-200'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  <Sparkles className="w-4 h-4 text-[#881337]" />
-                  <span>Mutual Fund Portfolio Advisory</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setServiceType('loan_against_mf');
-                    setInvestmentGoal('Emergency / Short-term Liquidity');
-                  }}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all ${
-                    serviceType === 'loan_against_mf'
-                      ? 'bg-[#180914] text-white shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  <CreditCard className="w-4 h-4 text-amber-400" />
-                  <span>Loan Against Mutual Funds (9.5% p.a.)</span>
-                  <span className="text-[10px] bg-amber-400 text-slate-950 font-bold px-1.5 py-0.5 rounded ml-1">NEW</span>
-                </button>
-              </div>
-
               {/* Contextual Pill if Quiz was Completed */}
-              {serviceType === 'mutual_fund_advisory' && quizProfile && (
+              {quizProfile && (
                 <div className="bg-rose-50 border border-rose-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs">
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-[#881337] shrink-0" />
@@ -348,27 +272,15 @@ Visit us at https://wealthywiz.online`;
                 </div>
               )}
 
-              {/* Contextual LAMF Quick Banner */}
-              {serviceType === 'loan_against_mf' && (
-                <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs">
-                  <div className="flex items-center gap-2 text-amber-950">
-                    <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
-                    <span>
-                      <strong>Keep Compounding:</strong> Your mutual fund units continue earning market returns while you get an instant digital overdraft limit.
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded shrink-0">
-                    0% Capital Gains Tax
-                  </span>
-                </div>
-              )}
-
               {/* Selected Funds Chips (For Advisory) */}
-              {serviceType === 'mutual_fund_advisory' && selectedFunds.length > 0 && (
+              {selectedFunds.length > 0 && (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                    Selected Funds to Include in Advisory Analysis ({selectedFunds.length})
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Selected Funds to Include in Advisory Request ({selectedFunds.length})
+                    </label>
+                    <span className="text-[11px] text-[#017374] font-medium">Added from Fund Explorer</span>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {selectedFunds.map((fundName) => (
                       <span
@@ -448,10 +360,8 @@ Visit us at https://wealthywiz.online`;
 
               </div>
 
-              {/* Conditional Row: Mutual Fund Advisory vs LAMF */}
-              {serviceType === 'mutual_fund_advisory' ? (
-                /* Goal & Amount Row for Advisory */
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Goal & Amount Row for Advisory */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   
                   {/* Investment Goal */}
                   <div>
@@ -518,75 +428,19 @@ Visit us at https://wealthywiz.online`;
                   </div>
 
                 </div>
-              ) : (
-                /* LAMF Specific Row */
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
-                      Approx Mutual Fund Portfolio (₹)
-                    </label>
-                    <div className="relative">
-                      <IndianRupee className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="number"
-                        step={10000}
-                        min={50000}
-                        value={portfolioValue}
-                        onChange={(e) => setPortfolioValue(Number(e.target.value))}
-                        className="w-full pl-9 pr-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
-                      Registrar (RTA)
-                    </label>
-                    <select
-                      value={rtaProvider}
-                      onChange={(e) => setRtaProvider(e.target.value as any)}
-                      className="w-full px-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-800 focus:ring-2 focus:ring-rose-500 focus:outline-none"
-                    >
-                      <option value="Both">CAMS + KFintech (All Funds)</option>
-                      <option value="CAMS">CAMS</option>
-                      <option value="KFintech">KFintech</option>
-                      <option value="Not Sure">Don't Know / Need Help</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
-                      Loan Requirement Purpose
-                    </label>
-                    <select
-                      value={investmentGoal}
-                      onChange={(e) => setInvestmentGoal(e.target.value)}
-                      className="w-full px-3 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium text-slate-800 focus:ring-2 focus:ring-rose-500 focus:outline-none"
-                    >
-                      {lamfGoals.map((g) => (
-                        <option key={g} value={g}>{g}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
 
               {/* Optional Query / Message */}
               <div>
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block mb-1.5">
-                  {serviceType === 'loan_against_mf' ? 'Specific Loan Query or Urgent Timelines (Optional)' : 'Specific Questions or Portfolio Needs (Optional)'}
+                  Specific Questions or Portfolio Needs (Optional)
                 </label>
                 <div className="relative">
                   <textarea
                     rows={3}
-                    placeholder={
-                      serviceType === 'loan_against_mf'
-                        ? 'e.g. Need ₹3 Lakhs within 24 hours for emergency working capital against HDFC & Quant mutual funds...'
-                        : 'e.g. I already have ₹50,000 in FD and want to start an aggressive SIP for 15 years to buy a home...'
-                    }
+                    placeholder="e.g. I want to build a long-term retirement corpus of ₹2 Cr in 15 years, or need review of my existing holdings..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all resize-none"
+                    className="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#017374] focus:bg-white transition-all resize-none"
                   />
                 </div>
               </div>
@@ -601,8 +455,8 @@ Visit us at https://wealthywiz.online`;
               {/* Submit CTA */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <ShieldCheck className="w-4 h-4 text-[#881337] shrink-0" />
-                  <span>100% Privacy. Zero spam. Synced to Formspree CRM.</span>
+                  <ShieldCheck className="w-4 h-4 text-[#017374] shrink-0" />
+                  <span>AMFI Registered (ARN-363293) • 100% Privacy • Zero Spam</span>
                 </div>
 
                 <button
@@ -611,11 +465,7 @@ Visit us at https://wealthywiz.online`;
                   className="w-full sm:w-auto bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] hover:brightness-105 text-slate-950 font-bold text-sm px-8 py-3.5 rounded-xl shadow-lg hover:shadow-amber-500/25 active:scale-98 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  {isSubmitting
-                    ? 'Submitting...'
-                    : serviceType === 'loan_against_mf'
-                    ? 'Apply for Loan Against MF'
-                    : 'Get My Free Advisory Plan'}
+                  {isSubmitting ? 'Submitting...' : 'Get My Free Advisory Plan'}
                 </button>
               </div>
 

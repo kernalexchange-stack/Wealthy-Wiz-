@@ -2,37 +2,51 @@
 
 @layer base {
   :root {
-    --maroon-deep: #701a2f;
-    --maroon-rich: #881337;
-    --maroon-bright: #9f1239;
-    --maroon-dark: #230d1b;
-    --wine-midnight: #180913;
-    --rose-soft: #fdf2f4;
-    --rose-border: #fecdd3;
+    /* Echo & Keenon Color Palette (Design.deb Combo 02) */
+    --echo: #017374;
+    --echo-hover: #005f60;
+    --echo-dark: #032b2c;
+    --echo-deep: #053b3c;
+    --echo-midnight: #021a1b;
+    --echo-light: #0d9488;
+    
+    --keenon: #c2ece2;
+    --keenon-light: #d8f5ee;
+    --keenon-pale: #eefaf6;
+    --keenon-canvas: #f3fbf8;
+    --keenon-border: #b0e7dc;
+    --keenon-dark: #00595a;
+    
+    /* Complementary Luxury Accents */
     --gold: #f59e0b;
     --gold-bright: #fbbf24;
     --gold-deep: #b45309;
-    --gold-ochre: #c2410c;
-    --ink: #1e1b1d;
-    --ink-soft: #4a4548;
-    --ink-faint: #888084;
-    --paper: #faf7f2;
+    
+    --ink: #0b1e1d;
+    --ink-soft: #284443;
+    --ink-faint: #597a79;
+    
+    --paper: #f3fbf8;
     --paper-raised: #ffffff;
-    --paper-card: #fdfcfb;
-    --border-warm: #ebdcd3;
-    --brand-gradient: linear-gradient(135deg, #200c19 0%, #2f1025 45%, #421332 80%, #56163e 100%);
-    --brand-gradient-dark: linear-gradient(145deg, #180913 0%, #240c1c 50%, #3a102b 100%);
-    --brand-gradient-maroon: linear-gradient(135deg, #881337 0%, #9f1239 50%, #be123c 100%);
+    --paper-card: #ffffff;
+    --border-warm: #c2ece2;
+    
+    --brand-gradient: linear-gradient(135deg, #021a1b 0%, #032b2c 45%, #015253 80%, #017374 100%);
+    --brand-gradient-dark: linear-gradient(145deg, #011415 0%, #022021 50%, #033233 100%);
+    --brand-gradient-echo: linear-gradient(135deg, #017374 0%, #008788 50%, #009d9f 100%);
+    --brand-gradient-keenon: linear-gradient(135deg, #c2ece2 0%, #a4e4d5 100%);
   }
 
   body {
     background-color: var(--paper);
     color: var(--ink);
-    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  h1, h2, h3, .font-display {
-    font-family: 'Fraunces', Georgia, serif;
+  /* Cardia Luxury Editorial Serif Headings (Screenshot 1) */
+  h1, h2, h3, .font-display, .font-cardia, .font-serif {
+    font-family: 'Cardia', 'Cormorant Garamond', 'Bodoni Moda', Georgia, serif;
+    letter-spacing: -0.015em;
   }
 
   .font-mono, .data-num {
@@ -49,24 +63,37 @@
   background: var(--brand-gradient-dark);
 }
 
-.brand-gradient-maroon {
-  background: var(--brand-gradient-maroon);
+.brand-gradient-echo {
+  background: var(--brand-gradient-echo);
+}
+
+.brand-gradient-keenon {
+  background: var(--brand-gradient-keenon);
 }
 
 .brand-gradient-subtle {
-  background: linear-gradient(135deg, #200c19 0%, #2d1024 50%, #3e1430 100%);
+  background: linear-gradient(135deg, #021a1b 0%, #032627 50%, #014344 100%);
 }
 
 .gold-glow {
   box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.4);
 }
 
+.echo-glow {
+  box-shadow: 0 0 30px -4px rgba(1, 115, 116, 0.4);
+}
+
+.keenon-glow {
+  box-shadow: 0 0 25px -3px rgba(194, 236, 226, 0.6);
+}
+
+/* Legacy alias for backwards compatibility */
 .maroon-glow {
-  box-shadow: 0 0 30px -4px rgba(136, 19, 55, 0.45);
+  box-shadow: 0 0 30px -4px rgba(1, 115, 116, 0.4);
 }
 
 .rose-glow {
-  box-shadow: 0 0 30px -4px rgba(244, 63, 94, 0.35);
+  box-shadow: 0 0 25px -3px rgba(194, 236, 226, 0.5);
 }
 
 /* Smooth continuous ticker animation */
@@ -95,12 +122,13 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(1, 115, 116, 0.05);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(14, 116, 144, 0.25);
+  background: rgba(1, 115, 116, 0.35);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(14, 116, 144, 0.45);
+  background: rgba(1, 115, 116, 0.65);
 }
+

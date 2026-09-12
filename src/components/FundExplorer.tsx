@@ -320,17 +320,17 @@ export const FundExplorer: React.FC<FundExplorerProps> = ({
 
                     <button
                       onClick={() => onSelectFundForAdvice(fund)}
-                      className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 shrink-0 ${
+                      className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 ${
                         isSelected
-                          ? 'bg-emerald-600 text-white shadow-sm'
+                          ? 'bg-[#017374] hover:bg-[#005f60] text-white shadow-sm'
                           : 'bg-[#881337] hover:bg-[#70102d] text-white shadow-sm'
                       }`}
-                      title={isSelected ? 'Added to Advice Plan' : 'Add to Advice Request'}
+                      title={isSelected ? 'Already in Advisory Form - Click to view form' : 'Add to Advice & go directly to Form'}
                     >
                       {isSelected ? (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          <span>Selected</span>
+                          <span>In Advice Form</span>
                         </>
                       ) : (
                         <>

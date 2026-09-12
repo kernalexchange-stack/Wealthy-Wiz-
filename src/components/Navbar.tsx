@@ -63,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const currentRoleConfig = currentUser ? ROLE_CONFIGS[currentUser.role] : null;
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#190a16]/95 backdrop-blur-md border-b border-[#38142b] text-slate-100 transition-all shadow-lg">
+    <nav className="sticky top-0 z-50 bg-[#021d1e]/95 backdrop-blur-md border-b border-[#043d3e] text-slate-100 transition-all shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
@@ -75,15 +75,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             <OwlLogo size={46} className="transition-transform group-hover:scale-105" />
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="text-xl sm:text-2xl font-bold tracking-tight text-white font-['Fraunces',serif]">
-                  Wealthy<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#f43f5e]">Wiz</span>
+                <span className="text-xl sm:text-2xl font-bold tracking-tight text-white font-cardia">
+                  Wealthy<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c2ece2] via-[#5eead4] to-[#017374]">Wiz</span>
                 </span>
-                <span className="text-[10px] font-mono font-semibold uppercase px-1.5 py-0.5 rounded bg-[#3b1228] text-rose-200 border border-[#581c3e] hidden sm:inline-block">
-                  AMFI INDIA
+                <span 
+                  className="text-[10px] font-mono font-semibold uppercase px-2 py-0.5 rounded bg-[#043335] text-[#c2ece2] border border-[#0d9488]/40 hidden sm:inline-block shadow-sm"
+                  title="AMFI Registered Mutual Fund Distributor"
+                >
+                  AMFI • ARN-363293
                 </span>
               </div>
-              <span className="text-[11px] text-rose-200/70 font-medium tracking-wide hidden sm:block">
-                Mutual Fund Intelligence & Advisory
+              <span className="text-[11px] text-[#c2ece2]/70 font-medium tracking-wide hidden sm:block">
+                AMFI Registered Distributor • ARN-363293
               </span>
             </div>
           </div>
@@ -92,9 +95,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="hidden lg:flex items-center gap-1">
             <button
               onClick={() => scrollTo('explorer')}
-              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-rose-200 hover:bg-white/5 transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
-              <Compass className="w-3.5 h-3.5 text-rose-400" />
+              <Compass className="w-3.5 h-3.5 text-[#2dd4bf]" />
               Explore Funds
             </button>
 
@@ -117,15 +120,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => scrollTo('calculator')}
-              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-rose-200 hover:bg-white/5 transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
-              <Calculator className="w-3.5 h-3.5 text-rose-400" />
+              <Calculator className="w-3.5 h-3.5 text-[#2dd4bf]" />
               MF vs FD
             </button>
 
             <button
               onClick={() => scrollTo('blog')}
-              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-rose-200 hover:bg-white/5 transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
               <BookOpen className="w-3.5 h-3.5 text-amber-400" />
               Guides
@@ -133,9 +136,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => scrollTo('faq')}
-              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-rose-200 hover:bg-white/5 transition-colors flex items-center gap-1.5"
+              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
-              <HelpCircle className="w-3.5 h-3.5 text-rose-400" />
+              <HelpCircle className="w-3.5 h-3.5 text-[#2dd4bf]" />
               FAQ
             </button>
           </div>
@@ -150,22 +153,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all text-xs font-semibold ${
                     currentUser.role === 'admin'
-                      ? 'bg-rose-950/50 border-rose-800/60 text-rose-200 hover:bg-rose-900/50'
+                      ? 'bg-[#023133] border-[#017374] text-[#c2ece2] hover:bg-[#034042]'
                       : currentUser.role === 'operations'
                       ? 'bg-amber-950/50 border-amber-800/60 text-amber-200 hover:bg-amber-900/50'
-                      : 'bg-[#3b152d]/60 border-[#61244b]/60 text-rose-200 hover:bg-[#4d1c3c]/60'
+                      : 'bg-[#032e30]/70 border-[#0a5254]/70 text-[#c2ece2] hover:bg-[#043b3d]'
                   }`}
                 >
                   <div className={`w-2 h-2 rounded-full ${
-                    currentUser.role === 'admin' ? 'bg-rose-400' : currentUser.role === 'operations' ? 'bg-amber-400' : 'bg-rose-300'
+                    currentUser.role === 'admin' ? 'bg-[#2dd4bf]' : currentUser.role === 'operations' ? 'bg-amber-400' : 'bg-[#c2ece2]'
                   }`} />
                   
                   {currentUser.role === 'admin' ? (
-                    <ShieldCheck className="w-3.5 h-3.5 text-rose-400" />
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#2dd4bf]" />
                   ) : currentUser.role === 'operations' ? (
                     <Briefcase className="w-3.5 h-3.5 text-amber-400" />
                   ) : (
-                    <User className="w-3.5 h-3.5 text-rose-300" />
+                    <User className="w-3.5 h-3.5 text-[#c2ece2]" />
                   )}
 
                   <span className="font-bold uppercase tracking-wider text-[10px]">
@@ -186,8 +189,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className="fixed inset-0 z-40" 
                       onClick={() => setUserDropdownOpen(false)} 
                     />
-                    <div className="absolute right-0 mt-2 w-64 bg-[#230f1e] border border-[#481c3c] rounded-2xl p-3 shadow-2xl z-50 text-xs space-y-2 animate-in fade-in zoom-in-95 duration-150">
-                      <div className="p-2 bg-[#170914] rounded-xl border border-[#38142f] space-y-0.5">
+                    <div className="absolute right-0 mt-2 w-64 bg-[#022425] border border-[#044c4e] rounded-2xl p-3 shadow-2xl z-50 text-xs space-y-2 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="p-2 bg-[#011819] rounded-xl border border-[#033638] space-y-0.5">
                         <div className="font-bold text-white text-sm">{currentUser.name}</div>
                         <div className="text-[11px] text-slate-400 font-mono">{currentUser.email}</div>
                         <div className="text-[10px] font-bold text-amber-400 uppercase pt-1">
@@ -203,13 +206,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                         className="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold flex items-center justify-between transition-colors"
                       >
                         <div className="flex items-center gap-2">
-                          <LayoutDashboard className="w-4 h-4 text-rose-400" />
+                          <LayoutDashboard className="w-4 h-4 text-[#2dd4bf]" />
                           <span>Open {currentUser.role.toUpperCase()} Workspace</span>
                         </div>
                       </button>
 
                       {/* Switch Role Trigger */}
-                      <div className="pt-2 border-t border-[#38142f]">
+                      <div className="pt-2 border-t border-[#043d3f]">
                         <div className="text-[10px] text-slate-400 uppercase font-bold px-2 mb-1.5">
                           Switch Role View
                         </div>
@@ -219,7 +222,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                               setUserDropdownOpen(false);
                               onOpenLoginModal('admin');
                             }}
-                            className="p-1.5 rounded-lg text-center bg-rose-950/40 hover:bg-rose-900/50 text-rose-300 text-[10px] font-bold border border-rose-800/40"
+                            className="p-1.5 rounded-lg text-center bg-[#013536] hover:bg-[#014d4e] text-[#c2ece2] text-[10px] font-bold border border-[#017374]/60"
                           >
                             Admin
                           </button>
@@ -237,14 +240,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                               setUserDropdownOpen(false);
                               onOpenLoginModal('customer');
                             }}
-                            className="p-1.5 rounded-lg text-center bg-[#3a132c]/50 hover:bg-[#4d1c3c] text-rose-200 text-[10px] font-bold border border-[#5d2146]"
+                            className="p-1.5 rounded-lg text-center bg-[#022829] hover:bg-[#033c3e] text-[#c2ece2] text-[10px] font-bold border border-[#045254]"
                           >
                             Customer
                           </button>
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-[#38142f]">
+                      <div className="pt-2 border-t border-[#043d3f]">
                         <button
                           onClick={() => {
                             setUserDropdownOpen(false);
@@ -264,9 +267,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               /* LOGIN BUTTON (WHEN LOGGED OUT) */
               <button
                 onClick={() => onOpenLoginModal('customer')}
-                className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-200 hover:text-white bg-[#2e1327] hover:bg-[#3d1834] border border-[#4d1f42] transition-all flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#c2ece2] hover:text-white bg-[#022a2b] hover:bg-[#033e40] border border-[#017374]/60 transition-all flex items-center gap-1.5 shadow-sm"
               >
-                <LogIn className="w-3.5 h-3.5 text-rose-300" />
+                <LogIn className="w-3.5 h-3.5 text-[#2dd4bf]" />
                 <span>Sign In / Roles</span>
               </button>
             )}
@@ -279,10 +282,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   title={`Open ${currentUser.role.toUpperCase()} Workspace`}
                   className={`p-2 rounded-xl text-xs font-semibold border transition-colors flex items-center gap-1.5 ${
                     currentUser.role === 'admin'
-                      ? 'bg-rose-500/20 text-rose-300 border-rose-500/40 hover:bg-rose-500/30'
+                      ? 'bg-[#017374]/30 text-[#c2ece2] border-[#017374]/60 hover:bg-[#017374]/50'
                       : currentUser.role === 'operations'
                       ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 hover:bg-amber-500/30'
-                      : 'bg-rose-900/30 text-rose-200 border-rose-700/40 hover:bg-rose-900/50'
+                      : 'bg-[#023335] text-[#c2ece2] border-[#045456] hover:bg-[#034446]'
                   }`}
                 >
                   <LayoutDashboard className="w-4 h-4" />
@@ -293,7 +296,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   onClick={onLogout}
                   title="Sign out of account"
-                  className="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-rose-950/50 hover:bg-rose-900/70 text-rose-300 hover:text-rose-100 border border-rose-800/50 transition-all flex items-center gap-1.5 shadow-sm"
+                  className="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-[#022324] hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 border border-[#044345] transition-all flex items-center gap-1.5 shadow-sm"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span className="hidden lg:inline">Log Out</span>
@@ -305,22 +308,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenAdvisorVault}
               title="Advisor Lead Management Vault"
-              className="p-2 rounded-xl text-slate-300 hover:text-rose-300 hover:bg-white/5 transition-colors relative"
+              className="p-2 rounded-xl text-slate-300 hover:text-[#c2ece2] hover:bg-white/5 transition-colors relative"
             >
               <UserCheck className="w-5 h-5" />
               {leadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-slate-950 text-[10px] font-bold px-1.5 py-0.2 rounded-full font-mono shadow-sm">
+                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#c2ece2] to-[#2dd4bf] text-[#013536] text-[10px] font-bold px-1.5 py-0.2 rounded-full font-mono shadow-sm">
                   {leadCount}
                 </span>
               )}
             </button>
 
-            {/* Primary CTA in Royal Burgundy */}
+            {/* Primary CTA in Echo & Keenon */}
             <button
               onClick={() => scrollTo('advice')}
-              className="bg-[#881337] hover:bg-[#70102d] text-white font-semibold text-xs sm:text-sm px-4 sm:px-4.5 py-2 sm:py-2.5 rounded-xl shadow-md hover:shadow-rose-900/30 active:scale-98 transition-all flex items-center gap-1.5 border border-rose-700/40"
+              className="bg-[#017374] hover:bg-[#005f60] text-white font-semibold text-xs sm:text-sm px-4 sm:px-4.5 py-2 sm:py-2.5 rounded-xl shadow-md hover:shadow-[#017374]/30 active:scale-98 transition-all flex items-center gap-1.5 border border-[#2dd4bf]/30"
             >
-              <Send className="w-3.5 h-3.5 text-rose-200" />
+              <Send className="w-3.5 h-3.5 text-[#c2ece2]" />
               <span>Get Advice</span>
             </button>
           </div>
@@ -330,7 +333,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {currentUser ? (
               <button
                 onClick={onOpenRoleWorkspace}
-                className="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-rose-900/40 text-rose-200 border border-rose-700/40 flex items-center gap-1"
+                className="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-[#017374]/40 text-[#c2ece2] border border-[#017374]/60 flex items-center gap-1"
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
                 <span>{currentUser.role}</span>
@@ -338,9 +341,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={() => onOpenLoginModal('customer')}
-                className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#2a1123] text-white border border-[#421b37] flex items-center gap-1"
+                className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#022425] text-white border border-[#044c4e] flex items-center gap-1"
               >
-                <LogIn className="w-3.5 h-3.5 text-rose-300" />
+                <LogIn className="w-3.5 h-3.5 text-[#2dd4bf]" />
                 <span>Sign In</span>
               </button>
             )}
@@ -359,14 +362,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#1f0d1b] border-b border-[#3b172e] px-4 pt-2 pb-6 space-y-2 shadow-2xl">
+        <div className="lg:hidden bg-[#021819] border-b border-[#033638] px-4 pt-2 pb-6 space-y-2 shadow-2xl">
           
+          {/* AMFI ARN Mobile Trust Bar */}
+          <div className="flex items-center justify-between px-3 py-1.5 bg-[#03292a] rounded-lg border border-[#017374]/50 text-[11px] text-[#c2ece2] mb-2 font-mono">
+            <span className="font-semibold">AMFI Registered Distributor</span>
+            <span className="font-bold text-white bg-[#017374] px-2 py-0.5 rounded text-[10px]">ARN-363293</span>
+          </div>
+
           {/* User Status Bar in Mobile */}
           {currentUser ? (
-            <div className="p-3 bg-[#150812] rounded-xl border border-[#331328] flex items-center justify-between mb-2">
+            <div className="p-3 bg-[#011011] rounded-xl border border-[#03292a] flex items-center justify-between mb-2">
               <div>
                 <div className="text-xs font-bold text-white">{currentUser.name}</div>
-                <div className="text-[10px] text-rose-300 font-bold uppercase">{currentUser.role} ACCESS</div>
+                <div className="text-[10px] text-[#c2ece2] font-bold uppercase">{currentUser.role} ACCESS</div>
               </div>
               <div className="flex items-center gap-1.5">
                 <button
@@ -374,7 +383,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setMobileMenuOpen(false);
                     onOpenRoleWorkspace();
                   }}
-                  className="px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-900/40 text-rose-200 border border-rose-700/40"
+                  className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#017374]/40 text-[#c2ece2] border border-[#017374]/60"
                 >
                   Workspace
                 </button>
@@ -396,9 +405,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenLoginModal('customer');
               }}
-              className="w-full py-2.5 bg-gradient-to-r from-[#3b122a] to-[#200c19] border border-[#5c1e43] rounded-xl text-xs font-bold text-rose-200 flex items-center justify-center gap-2 mb-2"
+              className="w-full py-2.5 bg-gradient-to-r from-[#023335] to-[#011b1c] border border-[#017374]/50 rounded-xl text-xs font-bold text-[#c2ece2] flex items-center justify-center gap-2 mb-2"
             >
-              <LogIn className="w-4 h-4" />
+              <LogIn className="w-4 h-4 text-[#2dd4bf]" />
               <span>Sign In (Admin / Operations / Customer)</span>
             </button>
           )}
@@ -407,7 +416,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => scrollTo('explorer')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
           >
-            <Compass className="w-4 h-4 text-rose-400" />
+            <Compass className="w-4 h-4 text-[#2dd4bf]" />
             Explore Mutual Funds
           </button>
           <button
@@ -431,7 +440,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => scrollTo('calculator')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
           >
-            <Calculator className="w-4 h-4 text-rose-400" />
+            <Calculator className="w-4 h-4 text-[#2dd4bf]" />
             Mutual Fund vs FD Calculator
           </button>
           <button
@@ -445,16 +454,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => scrollTo('faq')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
           >
-            <HelpCircle className="w-4 h-4 text-rose-400" />
+            <HelpCircle className="w-4 h-4 text-[#2dd4bf]" />
             Frequently Asked Questions
           </button>
           
-          <div className="pt-2 border-t border-[#3b172e] flex flex-col gap-2">
+          <div className="pt-2 border-t border-[#033638] flex flex-col gap-2">
             <button
               onClick={() => scrollTo('advice')}
-              className="w-full bg-[#881337] hover:bg-[#70102d] text-white text-center font-bold text-sm py-2.5 rounded-xl flex items-center justify-center gap-2 shadow"
+              className="w-full bg-[#017374] hover:bg-[#005f60] text-white text-center font-bold text-sm py-2.5 rounded-xl flex items-center justify-center gap-2 shadow"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4 text-[#c2ece2]" />
               Request Custom Advisory Plan
             </button>
             <button
@@ -462,9 +471,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenAdvisorVault();
               }}
-              className="w-full bg-[#271021] text-slate-300 text-center font-medium text-xs py-2 rounded-lg flex items-center justify-center gap-1.5"
+              className="w-full bg-[#022425] text-[#c2ece2] text-center font-medium text-xs py-2 rounded-lg flex items-center justify-center gap-1.5 border border-[#043d3f]"
             >
-              <UserCheck className="w-4 h-4 text-slate-400" />
+              <UserCheck className="w-4 h-4 text-[#2dd4bf]" />
               Advisor Lead Vault ({leadCount})
             </button>
           </div>
@@ -473,3 +482,4 @@ export const Navbar: React.FC<NavbarProps> = ({
     </nav>
   );
 };
+

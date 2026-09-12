@@ -20,34 +20,34 @@ export const OwlLogo: React.FC<OwlLogoProps> = ({
         className="w-full h-full drop-shadow-md select-none"
       >
         <defs>
-          {/* Outer circle gradient matching avatar */}
+          {/* Outer circle gradient matching Echo & Keenon */}
           <linearGradient id="wwBackdropGrad" x1="15%" y1="15%" x2="85%" y2="85%">
-            <stop offset="0%" stopColor="#1e1456" />
-            <stop offset="35%" stopColor="#1a256f" />
-            <stop offset="70%" stopColor="#08647a" />
-            <stop offset="100%" stopColor="#088ea2" />
+            <stop offset="0%" stopColor="#021c1d" />
+            <stop offset="40%" stopColor="#033031" />
+            <stop offset="75%" stopColor="#01595a" />
+            <stop offset="100%" stopColor="#017374" />
           </linearGradient>
 
-          {/* Owl Body gradient: periwinkle top to bright cyan bottom */}
-          <linearGradient id="wwBodyGrad" x1="50%" y1="12%" x2="50%" y2="92%">
-            <stop offset="0%" stopColor="#8da2fc" />
-            <stop offset="28%" stopColor="#7a93f8" />
-            <stop offset="65%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#06b6d4" />
+          {/* Owl Body gradient: Echo teal to Keenon mint glow */}
+          <linearGradient id="wwBodyGrad" x1="50%" y1="10%" x2="50%" y2="92%">
+            <stop offset="0%" stopColor="#015253" />
+            <stop offset="35%" stopColor="#017374" />
+            <stop offset="75%" stopColor="#0d9488" />
+            <stop offset="100%" stopColor="#c2ece2" />
           </linearGradient>
 
           {/* Left Wing Gradient */}
           <linearGradient id="wwLeftWingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#6f88ec" />
-            <stop offset="60%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#0284c7" />
+            <stop offset="0%" stopColor="#023a3b" />
+            <stop offset="60%" stopColor="#017374" />
+            <stop offset="100%" stopColor="#2dd4bf" />
           </linearGradient>
 
           {/* Right Wing Gradient */}
           <linearGradient id="wwRightWingGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#6f88ec" />
-            <stop offset="60%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#0284c7" />
+            <stop offset="0%" stopColor="#023a3b" />
+            <stop offset="60%" stopColor="#017374" />
+            <stop offset="100%" stopColor="#2dd4bf" />
           </linearGradient>
 
           {/* Golden Amber Beak & Feet */}
@@ -58,44 +58,40 @@ export const OwlLogo: React.FC<OwlLogoProps> = ({
 
           {/* Ear Horns Gradient */}
           <linearGradient id="wwEarLeftGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="#6b86ec" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#017374" />
+            <stop offset="100%" stopColor="#c2ece2" />
           </linearGradient>
           <linearGradient id="wwEarRightGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="#6b86ec" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#017374" />
+            <stop offset="100%" stopColor="#c2ece2" />
           </linearGradient>
 
           {/* Subtle drop shadow */}
           <filter id="wwSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#06b6d4" floodOpacity="0.25" />
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#017374" floodOpacity="0.3" />
           </filter>
         </defs>
 
-        {/* 1. Outer Backdrop Circle (as in avatar) */}
+        {/* 1. Outer Backdrop Circle */}
         {showBackdrop && (
           <circle cx="60" cy="60" r="58" fill="url(#wwBackdropGrad)" />
         )}
 
         {/* 2. Ear Tufts / Horns */}
-        {/* Left Ear Horn */}
         <path
           d="M38 31C38 31 35 17 41 16C47 15 46 29 46 31Z"
           fill="url(#wwEarLeftGrad)"
         />
-        {/* Right Ear Horn */}
         <path
           d="M82 31C82 31 85 17 79 16C73 15 74 29 74 31Z"
           fill="url(#wwEarRightGrad)"
         />
 
-        {/* 3. Left & Right Wings behind/around body */}
-        {/* Left Wing */}
+        {/* 3. Left & Right Wings */}
         <path
           d="M31 52C24 55 23 76 32 94C35 91 37 77 37 68C37 59 34 54 31 52Z"
           fill="url(#wwLeftWingGrad)"
         />
-        {/* Right Wing */}
         <path
           d="M89 52C96 55 97 76 88 94C85 91 83 77 83 68C83 59 86 54 89 52Z"
           fill="url(#wwRightWingGrad)"
@@ -107,43 +103,37 @@ export const OwlLogo: React.FC<OwlLogoProps> = ({
           fill="url(#wwBodyGrad)"
         />
 
-        {/* 5. Face Mask (Cloud Ice White Oval) */}
-        <ellipse cx="60" cy="49" rx="24" ry="19.5" fill="#f0f6fc" />
+        {/* 5. Face Mask (Cloud Mint Ice Tinted Oval) */}
+        <ellipse cx="60" cy="49" rx="24" ry="19.5" fill="#f0faf7" />
 
         {/* 6. Eyebrows */}
-        {/* Left Eyebrow (Lavender) */}
         <path
           d="M44 41C47 38 52 39 53 41"
-          stroke="#9aa8e4"
+          stroke="#017374"
           strokeWidth="2"
           strokeLinecap="round"
         />
-        {/* Right Eyebrow (Mint / Cyan) */}
         <path
           d="M67 41C68 39 73 38 76 41"
-          stroke="#55b0bd"
+          stroke="#017374"
           strokeWidth="2"
           strokeLinecap="round"
         />
 
         {/* 7. Eyes: Midnight Orbits with Upward Growth Arrow Pupil Highlights */}
-        {/* Left Eye */}
-        <circle cx="51" cy="50" r="8.5" fill="#1b1538" />
-        {/* Left Eye Upward Arrow Reflection */}
+        <circle cx="51" cy="50" r="8.5" fill="#032021" />
         <path
           d="M51 45.5L48.5 48.5H50V52.5H52V48.5H53.5L51 45.5Z"
-          fill="#ffffff"
+          fill="#c2ece2"
         />
-        <circle cx="49" cy="52" r="0.75" fill="#ffffff" opacity="0.8" />
+        <circle cx="49" cy="52" r="0.75" fill="#ffffff" opacity="0.9" />
 
-        {/* Right Eye */}
-        <circle cx="69" cy="50" r="8.5" fill="#1b1538" />
-        {/* Right Eye Upward Arrow Reflection */}
+        <circle cx="69" cy="50" r="8.5" fill="#032021" />
         <path
           d="M69 45.5L66.5 48.5H68V52.5H70V48.5H71.5L69 45.5Z"
-          fill="#ffffff"
+          fill="#c2ece2"
         />
-        <circle cx="67" cy="52" r="0.75" fill="#ffffff" opacity="0.8" />
+        <circle cx="67" cy="52" r="0.75" fill="#ffffff" opacity="0.9" />
 
         {/* 8. Golden Teardrop Beak */}
         <path
@@ -151,18 +141,17 @@ export const OwlLogo: React.FC<OwlLogoProps> = ({
           fill="url(#wwGoldGrad)"
         />
 
-        {/* 9. Belly Feathers / Scallop Droplets */}
-        {/* Row 1 */}
-        <path d="M47 67C47 70.5 45.5 74 44.5 75C43.5 74 42 70.5 42 67C42 64.5 44.5 64.5 47 67Z" fill="#a5f3fc" fillOpacity="0.45" />
-        <path d="M54 68C54 72 52.5 75.5 51.5 76.5C50.5 75.5 49 72 49 68C49 65 51.5 65 54 68Z" fill="#a5f3fc" fillOpacity="0.45" />
-        <path d="M68.5 68C68.5 72 70 75.5 71 76.5C72 75.5 73.5 72 73.5 68C73.5 65 71 65 68.5 68Z" fill="#a5f3fc" fillOpacity="0.45" />
-        <path d="M75.5 67C75.5 70.5 77 74 78 75C79 74 80.5 70.5 80.5 67C80.5 64.5 78 64.5 75.5 67Z" fill="#a5f3fc" fillOpacity="0.45" />
+        {/* 9. Belly Feathers / Scallop Droplets (Keenon Mint) */}
+        <path d="M47 67C47 70.5 45.5 74 44.5 75C43.5 74 42 70.5 42 67C42 64.5 44.5 64.5 47 67Z" fill="#c2ece2" fillOpacity="0.75" />
+        <path d="M54 68C54 72 52.5 75.5 51.5 76.5C50.5 75.5 49 72 49 68C49 65 51.5 65 54 68Z" fill="#c2ece2" fillOpacity="0.75" />
+        <path d="M68.5 68C68.5 72 70 75.5 71 76.5C72 75.5 73.5 72 73.5 68C73.5 65 71 65 68.5 68Z" fill="#c2ece2" fillOpacity="0.75" />
+        <path d="M75.5 67C75.5 70.5 77 74 78 75C79 74 80.5 70.5 80.5 67C80.5 64.5 78 64.5 75.5 67Z" fill="#c2ece2" fillOpacity="0.75" />
 
-        {/* Row 2 (Center belly) */}
-        <path d="M51 77C51 81.5 49.5 85 48.5 86C47.5 85 46 81.5 46 77C46 73.5 48.5 73.5 51 77Z" fill="#a5f3fc" fillOpacity="0.45" />
-        <path d="M58 78C58 83 56.5 87 55.5 88C54.5 87 53 83 53 78C53 74 55.5 74 58 78Z" fill="#a5f3fc" fillOpacity="0.45" />
-        <path d="M65 78C65 83 66.5 87 67.5 88C68.5 87 70 83 70 78C70 74 67.5 74 65 78Z" fill="#a5f3fc" fillOpacity="0.45" />
-        <path d="M72 77C72 81.5 73.5 85 74.5 86C75.5 85 77 81.5 77 77C77 73.5 74.5 73.5 72 77Z" fill="#a5f3fc" fillOpacity="0.45" />
+        <path d="M51 77C51 81.5 49.5 85 48.5 86C47.5 85 46 81.5 46 77C46 73.5 48.5 73.5 51 77Z" fill="#c2ece2" fillOpacity="0.75" />
+        <path d="M58 78C58 83 56.5 87 55.5 88C54.5 87 53 83 53 78C53 74 55.5 74 58 78Z" fill="#c2ece2" fillOpacity="0.75" />
+        <path d="M65 78C65 83 66.5 87 67.5 88C68.5 87 70 83 70 78C70 74 67.5 74 65 78Z" fill="#c2ece2" fillOpacity="0.75" />
+        <path d="M72 77C72 81.5 73.5 85 74.5 86C75.5 85 77 81.5 77 77C77 73.5 74.5 73.5 72 77Z" fill="#c2ece2" fillOpacity="0.75" />
+
 
         {/* 10. Cute Yellow Talons / Feet at bottom */}
         <path
