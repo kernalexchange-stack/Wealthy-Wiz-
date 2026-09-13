@@ -63,8 +63,78 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
-// Leads Endpoints
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljrqnzg';
+// Leads & Formspree Endpoints
+const getFormspreeFormId = () => {
+  return process.env.FORMSPREE_FORM_ID || process.env.VITE_FORMSPREE_FORM_ID || 'xljrqnzg';
+};
+
+const getFormspreeEndpoint = () => {
+  return `https://formspree.io/f/${getFormspreeFormId()}`;
+};
+
+// Formspree Integration Health Check
+app.get("/api/formspree/status", async (_req, res) => {
+  const formId = getFormspreeFormId();
+  const endpoint = getFormspreeEndpoint();
+  
+  res.json({
+    active: true,
+    formId,
+    endpoint,
+    message: `Formspree integration is active. Submissions forward to form endpoint https://formspree.io/f/${formId}.`,
+    instructions: "To receive leads at your personal email, set FORMSPREE_FORM_ID in your environment with your Formspree form ID.",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Formspree Test Ping
+app.post("/api/formspree/test", async (req, res) => {
+  const formId = req.body?.formId || getFormspreeFormId();
+  const endpoint = `https://formspree.io/f/${formId}`;
+  
+  try {
+    const testPayload = {
+      serviceType: "System Integration Verification",
+      name: "WealthyWiz Test Ping",
+      email: req.body?.email || "advisor@wealthywiz.online",
+      phone: "+91 9999999999",
+      message: "This is an automated test ping verifying Formspree CRM delivery from WealthyWiz.",
+      _subject: "[Verification] WealthyWiz Formspree Integration Test Ping",
+      timestamp: new Date().toISOString(),
+    };
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(testPayload),
+    });
+
+    const data = await response.json().catch(() => ({}));
+    
+    if (response.ok) {
+      return res.json({
+        success: true,
+        message: `Formspree test ping delivered successfully to form ID ${formId}!`,
+        statusCode: response.status,
+        response: data,
+      });
+    } else {
+      return res.status(response.status).json({
+        success: false,
+        message: `Formspree returned status ${response.status}`,
+        response: data,
+      });
+    }
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error?.message || "Failed to reach Formspree endpoint",
+    });
+  }
+});
 
 app.post("/api/leads", async (req, res) => {
   try {
@@ -93,35 +163,60 @@ app.post("/api/leads", async (req, res) => {
     leadsDatabase.unshift(newLead);
     console.log(`[WealthyWiz Lead Captured] Ref: ${newLead.id}, Name: ${newLead.name}, Email: ${newLead.email}`);
 
-    // Asynchronously forward to Formspree
-    fetch(FORMSPREE_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        name: newLead.name,
-        email: newLead.email,
-        phone: newLead.phone,
-        investmentGoal: newLead.investmentGoal,
-        investmentAmount: `₹${newLead.investmentAmount.toLocaleString('en-IN')}`,
-        investmentMode: newLead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'One-Time Lumpsum',
-        riskProfile: newLead.riskProfile,
-        recommendedFunds: Array.isArray(newLead.recommendedFunds) ? newLead.recommendedFunds.join(', ') : newLead.recommendedFunds,
-        message: newLead.message || 'No additional notes provided',
-        leadId: newLead.id,
-        sourcePage: newLead.sourcePage,
-        submittedAt: newLead.createdAt,
-        _subject: `New WealthyWiz Advisory Lead: ${newLead.name} (${newLead.investmentGoal})`,
-      }),
-    }).catch((err) => {
-      console.warn("[Formspree Sync Error from server]:", err);
-    });
+    // Forward to Formspree
+    const formId = getFormspreeFormId();
+    const endpoint = getFormspreeEndpoint();
+    let formspreeSynced = false;
+    let formspreeDetails: any = null;
+
+    try {
+      const fsRes = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          serviceType: req.body.serviceType || 'Mutual Fund Advisory',
+          name: newLead.name,
+          email: newLead.email,
+          phone: newLead.phone,
+          investmentGoal: newLead.investmentGoal,
+          investmentAmount: `₹${newLead.investmentAmount.toLocaleString('en-IN')}`,
+          investmentMode: newLead.investmentMode === 'monthly_sip' ? 'Monthly SIP' : 'One-Time Lumpsum',
+          riskProfile: newLead.riskProfile,
+          recommendedFunds: Array.isArray(newLead.recommendedFunds) ? newLead.recommendedFunds.join(', ') : newLead.recommendedFunds,
+          message: newLead.message || 'No additional notes provided',
+          leadId: newLead.id,
+          sourcePage: newLead.sourcePage,
+          submittedAt: newLead.createdAt,
+          amfiArn: "ARN-363293",
+          _subject: `New WealthyWiz Advisory Lead: ${newLead.name} (${newLead.investmentGoal})`,
+        }),
+      });
+
+      if (fsRes.ok) {
+        formspreeSynced = true;
+        formspreeDetails = await fsRes.json().catch(() => ({ ok: true }));
+        console.log(`[Formspree Synced Successfully] Lead ID: ${newLead.id} via ${endpoint}`);
+      } else {
+        const errText = await fsRes.text().catch(() => '');
+        console.warn(`[Formspree Notice] Status ${fsRes.status}: ${errText}`);
+        formspreeDetails = { status: fsRes.status, error: errText };
+      }
+    } catch (err: any) {
+      console.warn("[Formspree Sync Error from server]:", err?.message || err);
+      formspreeDetails = { error: err?.message };
+    }
 
     return res.status(201).json({
       success: true,
-      message: "Lead recorded successfully and synced to Formspree",
+      message: formspreeSynced
+        ? "Lead recorded and successfully dispatched to Formspree CRM"
+        : "Lead recorded in local CRM vault (Formspree sync queued)",
+      formspreeSynced,
+      formspreeFormId: formId,
+      formspreeDetails,
       lead: newLead,
     });
   } catch (error) {

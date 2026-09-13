@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { LeadPayload } from '../types';
+import { getFormspreeEndpoint, getFormspreeFormId } from '../utils/formspree';
 
 interface LoanAgainstMfSectionProps {
   onLeadSubmitted: (lead: LeadPayload) => void;
@@ -50,7 +51,8 @@ export const LoanAgainstMfSection: React.FC<LoanAgainstMfSectionProps> = ({ onLe
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljrqnzg';
+  const FORMSPREE_ENDPOINT = getFormspreeEndpoint();
+  const FORMSPREE_FORM_ID = getFormspreeFormId();
 
   // LTV (Loan to Value) Ratios according to RBI guidelines
   const ltvRatio = useMemo(() => {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { LeadPayload } from '../types';
-import { X, Download, Search, UserCheck, Phone, Mail, Calendar, CheckCircle2, Shield, Trash2, Filter } from 'lucide-react';
+import { X, Download, Search, UserCheck, Phone, Mail, Calendar, CheckCircle2, Shield, Trash2, Filter, Send, AlertCircle, RefreshCw } from 'lucide-react';
 import { formatINR } from '../utils/mfapi';
+import { getFormspreeFormId, getFormspreeEndpoint } from '../utils/formspree';
 
 interface LeadsVaultModalProps {
   isOpen: boolean;
@@ -20,8 +21,45 @@ export const LeadsVaultModal: React.FC<LeadsVaultModalProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRisk, setFilterRisk] = useState<string>('All');
+  const [isTestingFormspree, setIsTestingFormspree] = useState(false);
+  const [formspreeTestMessage, setFormspreeTestMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const formId = getFormspreeFormId();
+  const formEndpoint = getFormspreeEndpoint();
 
   if (!isOpen) return null;
+
+  const handleTestFormspree = async () => {
+    setIsTestingFormspree(true);
+    setFormspreeTestMessage(null);
+    try {
+      const res = await fetch('/api/formspree/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ formId }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setFormspreeTestMessage({
+          type: 'success',
+          text: `Formspree test ping delivered! Form ID ${formId} is active & receiving leads.`,
+        });
+      } else {
+        setFormspreeTestMessage({
+          type: 'error',
+          text: data.message || `Formspree returned error status ${res.status}.`,
+        });
+      }
+    } catch (err: any) {
+      setFormspreeTestMessage({
+        type: 'error',
+        text: 'Network error communicating with Formspree test endpoint.',
+      });
+    } finally {
+      setIsTestingFormspree(false);
+      setTimeout(() => setFormspreeTestMessage(null), 6000);
+    }
+  };
 
   const filtered = leads.filter((lead) => {
     const matchesSearch =
@@ -77,16 +115,30 @@ export const LeadsVaultModal: React.FC<LeadsVaultModalProps> = ({
               <h2 className="text-xl font-bold text-slate-900 font-['Fraunces',serif] flex items-center gap-2">
                 <span>WealthyWiz Advisory Lead Vault</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-bold">
-                  Formspree Sync Active
+                  Formspree Sync Active ({formId})
                 </span>
               </h2>
               <p className="text-xs text-slate-500">
-                Incoming investor queries & tailored portfolio requests ({leads.length} total) • Synced to Formspree endpoint (xljrqnzg)
+                Incoming investor queries & tailored portfolio requests ({leads.length} total) • Synced to Formspree endpoint ({formEndpoint})
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleTestFormspree}
+              disabled={isTestingFormspree}
+              title="Send a live test ping to Formspree to verify email routing"
+              className="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-semibold px-3.5 py-2 rounded-xl flex items-center gap-1.5 disabled:opacity-50 transition-colors"
+            >
+              {isTestingFormspree ? (
+                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Send className="w-3.5 h-3.5 text-emerald-600" />
+              )}
+              <span>{isTestingFormspree ? 'Testing...' : 'Test Formspree Ping'}</span>
+            </button>
+
             <button
               onClick={handleExportCSV}
               disabled={leads.length === 0}
@@ -103,6 +155,18 @@ export const LeadsVaultModal: React.FC<LeadsVaultModalProps> = ({
             </button>
           </div>
         </div>
+
+        {/* Formspree Notification Banner */}
+        {formspreeTestMessage && (
+          <div className={`px-6 py-2.5 text-xs flex items-center gap-2 ${formspreeTestMessage.type === 'success' ? 'bg-emerald-50 text-emerald-900 border-b border-emerald-200' : 'bg-rose-50 text-rose-900 border-b border-rose-200'}`}>
+            {formspreeTestMessage.type === 'success' ? (
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            ) : (
+              <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
+            )}
+            <span>{formspreeTestMessage.text}</span>
+          </div>
+        )}
 
         {/* Filter Controls */}
         <div className="p-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
