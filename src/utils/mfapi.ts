@@ -131,6 +131,43 @@ export async function searchSchemes(query: string): Promise<MfApiSchemeSummary[]
 }
 
 /**
+ * Resolves an AMFI scheme by scheme name or URL-friendly slug
+ */
+export async function resolveSchemeByNameOrSlug(slugOrName: string): Promise<MfApiSchemeSummary | null> {
+  if (!slugOrName) return null;
+  const clean = slugOrName.toLowerCase().trim();
+  
+  // 1. Check CURATED_FUNDS
+  for (const f of CURATED_FUNDS) {
+    const fSlug = f.schemeName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    if (fSlug === clean || f.schemeName.toLowerCase() === clean) {
+      return { schemeCode: f.schemeCode, schemeName: f.schemeName };
+    }
+  }
+
+  // 2. Search AMFI full list
+  try {
+    const list = await getFullList();
+    const exact = list.find(s => {
+      const sSlug = s.schemeName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      return sSlug === clean;
+    });
+    if (exact) return exact;
+
+    // Search query with key words
+    const query = clean.replace(/-/g, ' ');
+    const results = await searchSchemes(query);
+    if (results && results.length > 0) {
+      return results[0];
+    }
+  } catch (err) {
+    console.warn('Could not resolve scheme by slug:', err);
+  }
+
+  return null;
+}
+
+/**
  * Fetches latest scheme details with live NAV and computed historical performance
  */
 export async function fetchSchemeDetails(schemeCode: number): Promise<{

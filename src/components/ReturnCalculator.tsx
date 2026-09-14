@@ -3,7 +3,8 @@ import { CalculatorInputs } from '../types';
 import { calculateReturns } from '../utils/calculator';
 import { CATEGORY_RETURN_PRESETS } from '../data/fundsData';
 import { formatINR, formatNumberINR } from '../utils/mfapi';
-import { Calculator, ArrowRight, Sparkles, TrendingUp, ShieldCheck, Flame, Zap, HelpCircle } from 'lucide-react';
+import { Calculator, ArrowRight, Sparkles, TrendingUp, ShieldCheck, Flame, Zap, HelpCircle, ExternalLink } from 'lucide-react';
+import { navigateToRoute } from '../utils/seoAndRouting';
 
 export const ReturnCalculator: React.FC = () => {
   const [mode, setMode] = useState<'sip' | 'lumpsum'>('sip');
@@ -47,17 +48,26 @@ export const ReturnCalculator: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="max-w-3xl mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fdf2f4] text-[#881337] text-xs font-bold uppercase tracking-wider mb-3 border border-rose-200 shadow-xs">
-            <Calculator className="w-3.5 h-3.5 text-[#881337]" />
-            Compounding & Wealth Multiplier
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fdf2f4] text-[#881337] text-xs font-bold uppercase tracking-wider mb-3 border border-rose-200 shadow-xs">
+              <Calculator className="w-3.5 h-3.5 text-[#881337]" />
+              Compounding & Wealth Multiplier
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#701a2f] tracking-tight font-['Fraunces',serif]">
+              Mutual Fund vs Fixed Deposit Return Calculator
+            </h2>
+            <p className="text-[#645c60] mt-2 text-sm sm:text-base">
+              See the exact compounding difference side-by-side. Compare how equity mutual funds outpace bank Fixed Deposits after inflation and taxes over your investment horizon.
+            </p>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#701a2f] tracking-tight font-['Fraunces',serif]">
-            Mutual Fund vs Fixed Deposit Return Calculator
-          </h2>
-          <p className="text-[#645c60] mt-2 text-sm sm:text-base">
-            See the exact compounding difference side-by-side. Compare how equity mutual funds outpace bank Fixed Deposits after inflation and taxes over your investment horizon.
-          </p>
+          <button
+            onClick={() => navigateToRoute('sip-calculator')}
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#017374] to-[#043d3f] text-white font-semibold text-xs rounded-xl hover:from-[#025c5d] hover:to-[#032e30] transition-all shadow-sm shrink-0"
+          >
+            <span>Open Dedicated SIP Page</span>
+            <ExternalLink className="w-3.5 h-3.5 text-[#c2ece2]" />
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

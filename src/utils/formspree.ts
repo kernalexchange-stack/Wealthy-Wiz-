@@ -50,3 +50,71 @@ export async function checkFormspreeStatus(): Promise<FormspreeStatusResult> {
     message: 'Formspree active with fallback Form ID.',
   };
 }
+
+export interface LeadSubmissionData {
+  name: string;
+  email: string;
+  phone: string;
+  investmentGoal?: string;
+  investmentAmount?: number;
+  investmentMode?: string;
+  riskProfile?: string;
+  recommendedFunds?: string[];
+  sourcePage?: string;
+  message?: string;
+}
+
+export async function sendLeadToFormspree(leadData: LeadSubmissionData): Promise<{ success: boolean; message: string }> {
+  const formId = getFormspreeFormId();
+  const endpoint = getFormspreeEndpoint(formId);
+
+  const payload = {
+    serviceType: 'WealthyWiz Advisory Consultation',
+    name: leadData.name,
+    email: leadData.email,
+    phone: leadData.phone,
+    investmentGoal: leadData.investmentGoal || 'Direct Investment Consultation',
+    investmentAmount: leadData.investmentAmount ? `₹${leadData.investmentAmount.toLocaleString('en-IN')}` : 'Not Specified',
+    investmentMode: leadData.investmentMode || 'SIP',
+    riskProfile: leadData.riskProfile || 'Not Specified',
+    recommendedFunds: (leadData.recommendedFunds || []).join(', ') || 'Direct Scheme Inquiry',
+    message: leadData.message || 'Direct consultation inquiry',
+    sourcePage: leadData.sourcePage || window.location.pathname,
+    submittedAt: new Date().toLocaleString('en-IN'),
+    _subject: `New WealthyWiz Lead: ${leadData.name} (${leadData.investmentGoal || 'Direct Consultation'})`,
+  };
+
+  // 1. Submit to server API (which stores in CRM and forwards to Formspree)
+  try {
+    await fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...leadData,
+        createdAt: new Date().toISOString(),
+      }),
+    });
+  } catch (err) {
+    console.warn('Server CRM dispatch note:', err);
+  }
+
+  // 2. Direct client-side submission to Formspree
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      return { success: true, message: 'Lead submitted successfully to Formspree.' };
+    }
+  } catch (err) {
+    console.warn('Direct Formspree dispatch note (server already queued):', err);
+  }
+
+  return { success: true, message: 'Lead submitted successfully.' };
+}

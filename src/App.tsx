@@ -23,6 +23,10 @@ import { CURATED_FUNDS } from './data/fundsData';
 import { FundScheme, RiskProfileInfo, LeadPayload, UserProfile, UserRole } from './types';
 import { fetchSchemeDetails } from './utils/mfapi';
 import { INITIAL_USERS } from './data/mockUsers';
+import { PageRoute, RouteState, getRouteStateFromLocation, updateSeoMetadata } from './utils/seoAndRouting';
+import { LoanAgainstSecuritiesPage } from './pages/LoanAgainstSecuritiesPage';
+import { SipCalculatorPage } from './pages/SipCalculatorPage';
+import { FundDetailsPage } from './pages/FundDetailsPage';
 
 const LEADS_STORAGE_KEY = 'wealthywiz_stored_leads';
 const SESSION_STORAGE_KEY = 'wealthywiz_visitor_session';
@@ -32,6 +36,8 @@ export function App() {
   const [funds, setFunds] = useState<FundScheme[]>(CURATED_FUNDS);
   const [selectedFunds, setSelectedFunds] = useState<string[]>([]);
   const [quizProfile, setQuizProfile] = useState<RiskProfileInfo | null>(null);
+  const [routeState, setRouteState] = useState<RouteState>(() => getRouteStateFromLocation());
+  const currentRoute = routeState.route;
   
   // User Authentication & Role State
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
@@ -60,6 +66,49 @@ export function App() {
   // Legal & AdSense Compliance Modal State
   const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
   const [legalInitialTab, setLegalInitialTab] = useState<LegalTab>('privacy');
+
+  // Listen to URL route changes (popstate, app-route-change, hash) and sync SEO metadata
+  useEffect(() => {
+    if (routeState.route !== 'fund-detail') {
+      updateSeoMetadata(routeState.route);
+    }
+
+    const handleRouteChange = (event?: Event) => {
+      const customEvt = event as CustomEvent<{
+        route: PageRoute;
+        schemeSlug?: string;
+        schemeName?: string;
+        schemeCode?: number;
+      }>;
+      if (customEvt && customEvt.detail && customEvt.detail.route) {
+        setRouteState({
+          route: customEvt.detail.route,
+          schemeSlug: customEvt.detail.schemeSlug,
+          schemeName: customEvt.detail.schemeName,
+          schemeCode: customEvt.detail.schemeCode,
+        });
+        if (customEvt.detail.route !== 'fund-detail') {
+          updateSeoMetadata(customEvt.detail.route);
+        }
+      } else {
+        const detected = getRouteStateFromLocation();
+        setRouteState(detected);
+        if (detected.route !== 'fund-detail') {
+          updateSeoMetadata(detected.route);
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('app-route-change', handleRouteChange as EventListener);
+
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('app-route-change', handleRouteChange as EventListener);
+    };
+  }, [routeState]);
 
   // Listen to URL hash for direct legal links (e.g. #privacy-policy, #terms-of-service, #adsense-policy)
   useEffect(() => {
@@ -381,57 +430,81 @@ export function App() {
         onOpenLoginModal={handleOpenLoginModal}
         onLogout={handleLogout}
         onOpenRoleWorkspace={handleOpenRoleWorkspace}
+        currentRoute={currentRoute}
       />
 
       {/* 2. AMFI Live Scrolling Ticker */}
       <LiveTicker funds={funds} />
 
       <main className="flex-1">
-        {/* 3. Hero Section with Today's Movers */}
-        <Hero 
-          moversFunds={funds} 
-          onSelectFundForAdvice={handleSelectFundForAdvice} 
-        />
+        {currentRoute === 'loan-against-securities' ? (
+          /* Dedicated Separate Page 1: Loan Against Securities & Mutual Funds (SEO Route) */
+          <LoanAgainstSecuritiesPage onLeadSubmitted={handleLeadSubmitted} />
+        ) : currentRoute === 'sip-calculator' ? (
+          /* Dedicated Separate Page 2: SIP Calculator & Compounding Engine (SEO Route) */
+          <SipCalculatorPage onSelectFundForAdvice={handleSelectFundForAdvice} />
+        ) : currentRoute === 'fund-detail' && (routeState.schemeSlug || routeState.schemeName || routeState.schemeCode) ? (
+          /* Dedicated Separate URL for each Fund Scheme using Scheme Name (e.g. /fund/parag-parikh-flexi-cap-fund-direct-plan-growth) */
+          <FundDetailsPage 
+            schemeSlug={routeState.schemeSlug}
+            schemeName={routeState.schemeName}
+            schemeCode={routeState.schemeCode}
+            onOpenLeadModal={(fundName) => {
+              if (fundName) {
+                setSelectedFunds(prev => prev.includes(fundName) ? prev : [...prev, fundName]);
+              }
+            }}
+          />
+        ) : (
+          /* Home Page: Comprehensive Mutual Fund Discovery, Live NAVs, Movers, Explorer & Profiler */
+          <>
+            {/* 3. Hero Section with Today's Movers */}
+            <Hero 
+              moversFunds={funds} 
+              onSelectFundForAdvice={handleSelectFundForAdvice} 
+            />
 
-        {/* 4. Live AMFI Fund Scheme Explorer */}
-        <FundExplorer 
-          funds={funds}
-          onSelectFundForAdvice={handleSelectFundForAdvice} 
-          selectedFunds={selectedFunds} 
-          onRefreshLiveNavs={handleRefreshLiveNavs}
-          isRefreshing={isRefreshingNavs}
-        />
+            {/* 4. Live AMFI Fund Scheme Explorer */}
+            <FundExplorer 
+              funds={funds}
+              onSelectFundForAdvice={handleSelectFundForAdvice} 
+              selectedFunds={selectedFunds} 
+              onRefreshLiveNavs={handleRefreshLiveNavs}
+              isRefreshing={isRefreshingNavs}
+            />
 
-        {/* Google AdSense Responsive Display Unit 1 */}
-        <AdBanner onOpenPrivacyPolicy={() => { setLegalInitialTab('adsense'); setIsLegalModalOpen(true); }} />
+            {/* Google AdSense Responsive Display Unit 1 */}
+            <AdBanner onOpenPrivacyPolicy={() => { setLegalInitialTab('adsense'); setIsLegalModalOpen(true); }} />
 
-        {/* 5. 60-Second Investor Risk Profiler Quiz */}
-        <RiskQuiz 
-          onCompleteQuiz={handleCompleteQuiz} 
-        />
+            {/* 5. 60-Second Investor Risk Profiler Quiz */}
+            <RiskQuiz 
+              onCompleteQuiz={handleCompleteQuiz} 
+            />
 
-        {/* 6. Mutual Fund vs Fixed Deposit Side-by-Side Calculator */}
-        <ReturnCalculator />
+            {/* 6. Mutual Fund vs Fixed Deposit Side-by-Side Calculator */}
+            <ReturnCalculator />
 
-        {/* 7. Loan Against Mutual Funds (LAMF) Section & Calculator */}
-        <LoanAgainstMfSection onLeadSubmitted={handleLeadSubmitted} />
+            {/* 7. Loan Against Mutual Funds (LAMF) Section & Calculator */}
+            <LoanAgainstMfSection onLeadSubmitted={handleLeadSubmitted} />
 
-        {/* 8. Educational Guides & Market Insights */}
-        <ArticlesSection />
+            {/* 8. Educational Guides & Market Insights */}
+            <ArticlesSection />
 
-        {/* Google AdSense Responsive Display Unit 2 */}
-        <AdBanner onOpenPrivacyPolicy={() => { setLegalInitialTab('adsense'); setIsLegalModalOpen(true); }} />
+            {/* Google AdSense Responsive Display Unit 2 */}
+            <AdBanner onOpenPrivacyPolicy={() => { setLegalInitialTab('adsense'); setIsLegalModalOpen(true); }} />
 
-        {/* 9. Frequently Asked Questions for SEO & Visitor Trust */}
-        <FaqSection />
+            {/* 9. Frequently Asked Questions for SEO & Visitor Trust */}
+            <FaqSection />
 
-        {/* 10. Advisory Lead Generation Form */}
-        <LeadForm 
-          quizProfile={quizProfile}
-          selectedFunds={selectedFunds}
-          onRemoveSelectedFund={handleRemoveSelectedFund}
-          onLeadSubmitted={handleLeadSubmitted}
-        />
+            {/* 10. Advisory Lead Generation Form */}
+            <LeadForm 
+              quizProfile={quizProfile}
+              selectedFunds={selectedFunds}
+              onRemoveSelectedFund={handleRemoveSelectedFund}
+              onLeadSubmitted={handleLeadSubmitted}
+            />
+          </>
+        )}
       </main>
 
       {/* 11. Footer with AMFI & Google AdSense Disclaimers */}

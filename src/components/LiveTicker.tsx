@@ -1,6 +1,7 @@
 import React from 'react';
 import { FundScheme } from '../types';
 import { TrendingUp, TrendingDown, Activity } from 'lucide-react';
+import { navigateToFund } from '../utils/seoAndRouting';
 
 interface LiveTickerProps {
   funds: FundScheme[];
@@ -32,10 +33,8 @@ export const LiveTicker: React.FC<LiveTickerProps> = ({ funds }) => {
                 <div
                   key={`${fund.schemeCode}-${idx}`}
                   className="flex items-center gap-2 text-xs shrink-0 cursor-pointer hover:bg-white/10 px-2 py-1 rounded transition-colors"
-                  onClick={() => {
-                    const el = document.getElementById('explorer');
-                    el?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={() => navigateToFund(fund)}
+                  title={`Open dedicated page for ${fund.schemeName}`}
                 >
                   <span className="font-medium text-slate-300 truncate max-w-[200px]">
                     {fund.schemeName.replace(' - Direct Plan - Growth', '').replace(' - Direct - Growth', '')}

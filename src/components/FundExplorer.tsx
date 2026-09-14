@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { FundScheme, FundCategory, NavHistoryPoint } from '../types';
 import { searchSchemes, fetchSchemeDetails, formatINR, MfApiResponse } from '../utils/mfapi';
 import { NavInteractiveChart } from './NavInteractiveChart';
+import { navigateToFund } from '../utils/seoAndRouting';
 import { 
   Search, 
   Filter, 
@@ -269,8 +270,9 @@ export const FundExplorer: React.FC<FundExplorerProps> = ({
 
                     {/* Fund Title */}
                     <h3 
-                      onClick={() => handleOpenDetail(fund)}
+                      onClick={() => navigateToFund(fund)}
                       className="text-base font-bold text-stone-900 group-hover:text-[#881337] cursor-pointer transition-colors leading-snug line-clamp-2"
+                      title={`Open dedicated page for ${fund.schemeName}`}
                     >
                       {fund.schemeName}
                     </h3>
@@ -311,11 +313,12 @@ export const FundExplorer: React.FC<FundExplorerProps> = ({
                   {/* Action Buttons */}
                   <div className="mt-4 pt-2 flex items-center gap-2">
                     <button
-                      onClick={() => handleOpenDetail(fund)}
+                      onClick={() => navigateToFund(fund.schemeCode, fund.schemeName)}
                       className="flex-1 bg-[#f4ece7] hover:bg-[#ebdcd3] text-stone-800 text-xs font-semibold py-2 px-3 rounded-xl transition-colors text-center flex items-center justify-center gap-1.5"
+                      title={`Open dedicated SEO page for this fund`}
                     >
                       <LineChart className="w-3.5 h-3.5 text-[#881337]" />
-                      <span>Chart & Details</span>
+                      <span>View Fund Page</span>
                     </button>
 
                     <button
@@ -458,13 +461,26 @@ export const FundExplorer: React.FC<FundExplorerProps> = ({
             </div>
 
             {/* Modal Action Controls */}
-            <div className="pt-4 border-t border-[#ecdcd3] flex items-center justify-between gap-3">
-              <button
-                onClick={() => setActiveFundDetail(null)}
-                className="px-4 py-2.5 rounded-xl border border-[#ecdcd3] text-stone-700 text-xs font-semibold hover:bg-stone-50"
-              >
-                Close
-              </button>
+            <div className="pt-4 border-t border-[#ecdcd3] flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setActiveFundDetail(null)}
+                  className="px-4 py-2.5 rounded-xl border border-[#ecdcd3] text-stone-700 text-xs font-semibold hover:bg-stone-50"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    const scheme = activeFundDetail.scheme;
+                    setActiveFundDetail(null);
+                    navigateToFund(scheme);
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-rose-50 text-[#881337] hover:bg-rose-100 border border-rose-200 text-xs font-semibold flex items-center gap-1.5"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Open Dedicated Page (URL)</span>
+                </button>
+              </div>
 
               <button
                 onClick={() => {

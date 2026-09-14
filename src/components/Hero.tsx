@@ -1,6 +1,7 @@
 import React from 'react';
 import { FundScheme } from '../types';
 import { Compass, Calculator, Sparkles, TrendingUp, TrendingDown, ArrowRight, ShieldCheck, Zap, CreditCard } from 'lucide-react';
+import { navigateToFund } from '../utils/seoAndRouting';
 
 interface HeroProps {
   moversFunds: FundScheme[];
@@ -157,14 +158,16 @@ export const Hero: React.FC<HeroProps> = ({ moversFunds, onSelectFundForAdvice }
                   return (
                     <div
                       key={fund.schemeCode}
-                      className="py-3 flex items-center justify-between gap-3 group hover:bg-white/5 px-2 -mx-2 rounded-lg transition-colors"
+                      onClick={() => navigateToFund(fund)}
+                      className="py-3 flex items-center justify-between gap-3 group hover:bg-white/10 px-2.5 -mx-2 rounded-xl transition-all cursor-pointer border border-transparent hover:border-[#017374]/50"
+                      title={`View separate page & analytics for ${fund.schemeName}`}
                     >
                       <div className="flex-1 min-w-0">
-                        <div className="text-xs font-semibold text-slate-100 group-hover:text-rose-200 truncate">
+                        <div className="text-xs font-semibold text-slate-100 group-hover:text-[#2dd4bf] truncate transition-colors">
                           {fund.schemeName.replace(' - Direct Plan - Growth', '').replace(' - Direct - Growth', '')}
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] text-rose-200/60 font-medium">
+                          <span className="text-[10px] text-[#c2ece2]/70 font-medium">
                             {fund.category}
                           </span>
                           <span className="text-slate-500 text-[10px]">•</span>

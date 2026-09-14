@@ -1,6 +1,6 @@
 {
   "name": "Wealthy Wiz",
-  "description": "Mutual fund lead-generation and discovery platform for the Indian market with live AMFI NAV tracking, Loan Against Mutual Funds (LAMF) overdraft calculator, risk profiling quiz, and synchronized Formspree CRM.",
+  "description": "Mutual fund lead-generation and discovery platform for the Indian market with live AMFI NAV tracking, dedicated SEO pages for Loan Against Securities (LAS) and SIP Step-Up Calculator, risk profiling quiz, and Formspree CRM integration.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,14 +1,19 @@
 import React from 'react';
 import { OwlLogo } from './OwlLogo';
-import { ShieldCheck, Heart, ExternalLink, Mail, Phone, MapPin, Lock, FileText, Cookie } from 'lucide-react';
+import { ShieldCheck, Heart, ExternalLink, Mail, Phone, MapPin, Lock, FileText, Cookie, CreditCard, Calculator } from 'lucide-react';
+import { navigateToRoute, PageRoute } from '../utils/seoAndRouting';
 
 interface FooterProps {
   onOpenLegal?: (tab: 'privacy' | 'terms' | 'adsense' | 'disclaimer') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
+  const navigateOrScroll = (target: PageRoute | string) => {
+    if (target === 'loan-against-securities' || target === 'sip-calculator' || target === 'home') {
+      navigateToRoute(target as PageRoute);
+      return;
+    }
+    const el = document.getElementById(target as string);
     if (el) {
       const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
@@ -18,6 +23,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
         top: elementPosition - offset,
         behavior: 'smooth',
       });
+    } else {
+      navigateToRoute('home');
+      setTimeout(() => {
+        const delayedEl = document.getElementById(target as string);
+        if (delayedEl) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elRect = delayedEl.getBoundingClientRect().top;
+          const elementPosition = elRect - bodyRect;
+          window.scrollTo({
+            top: elementPosition - offset,
+            behavior: 'smooth',
+          });
+        }
+      }, 150);
     }
   };
 
@@ -61,37 +81,39 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button onClick={() => scrollTo('explorer')} className="hover:text-[#c2ece2] transition-colors">
+                <button onClick={() => navigateOrScroll('home')} className="hover:text-[#c2ece2] transition-colors">
                   Mutual Fund Scheme Explorer
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('quiz')} className="hover:text-[#c2ece2] transition-colors">
+                <button onClick={() => navigateOrScroll('loan-against-securities')} className="hover:text-amber-300 transition-colors font-semibold flex items-center gap-1.5 text-amber-200">
+                  <CreditCard className="w-3 h-3 text-amber-400" />
+                  <span>Loan Against Securities (LAS @ 9.0%)</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigateOrScroll('sip-calculator')} className="hover:text-teal-200 transition-colors font-semibold flex items-center gap-1.5 text-teal-300">
+                  <Calculator className="w-3 h-3 text-teal-400" />
+                  <span>SIP & Step-Up Calculator</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigateOrScroll('quiz')} className="hover:text-[#c2ece2] transition-colors">
                   60-Second Risk Profiler Quiz
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('calculator')} className="hover:text-[#c2ece2] transition-colors">
-                  Mutual Fund vs FD Compounding Calculator
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollTo('loan-against-mf')} className="hover:text-amber-300 transition-colors">
-                  Loan Against Mutual Funds (LAMF)
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollTo('blog')} className="hover:text-[#c2ece2] transition-colors">
+                <button onClick={() => navigateOrScroll('blog')} className="hover:text-[#c2ece2] transition-colors">
                   Educational Investment Guides
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('faq')} className="hover:text-[#c2ece2] transition-colors">
+                <button onClick={() => navigateOrScroll('faq')} className="hover:text-[#c2ece2] transition-colors">
                   Frequently Asked Questions (FAQ)
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('advice')} className="hover:text-[#c2ece2] transition-colors">
+                <button onClick={() => navigateOrScroll('advice')} className="hover:text-[#c2ece2] transition-colors">
                   Request Custom Advisory Plan
                 </button>
               </li>

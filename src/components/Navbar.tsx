@@ -18,10 +18,12 @@ import {
   LayoutDashboard,
   KeyRound,
   HelpCircle,
-  CreditCard
+  CreditCard,
+  Home
 } from 'lucide-react';
 import { UserProfile, UserRole } from '../types';
 import { ROLE_CONFIGS } from '../data/mockUsers';
+import { PageRoute, navigateToRoute } from '../utils/seoAndRouting';
 
 interface NavbarProps {
   onOpenAdvisorVault: () => void;
@@ -30,6 +32,7 @@ interface NavbarProps {
   onOpenLoginModal: (role?: UserRole) => void;
   onLogout: () => void;
   onOpenRoleWorkspace: () => void;
+  currentRoute?: PageRoute;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
@@ -39,24 +42,62 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenLoginModal,
   onLogout,
   onOpenRoleWorkspace,
+  currentRoute = 'home',
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  const scrollTo = (id: string) => {
+  const navigateOrScroll = (target: PageRoute | string, sectionId?: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+    if (target === 'loan-against-securities' || target === 'sip-calculator' || target === 'home') {
+      navigateToRoute(target as PageRoute);
+      if (sectionId && target === 'home') {
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const offset = 80;
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            window.scrollTo({
+              top: elementPosition - offset,
+              behavior: 'smooth',
+            });
+          }
+        }, 150);
+      }
+      return;
+    }
+
+    // Scroll within current page or redirect to home first
+    if (currentRoute !== 'home') {
+      navigateToRoute('home');
+      setTimeout(() => {
+        const element = document.getElementById(target as string);
+        if (element) {
+          const offset = 80;
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          window.scrollTo({
+            top: elementPosition - offset,
+            behavior: 'smooth',
+          });
+        }
+      }, 150);
+    } else {
+      const element = document.getElementById(target as string);
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: 'smooth',
+        });
+      }
     }
   };
 
@@ -70,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Brand Logo & Name */}
           <div 
             className="flex items-center gap-3 cursor-pointer select-none group"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => navigateOrScroll('home')}
           >
             <OwlLogo size={46} className="transition-transform group-hover:scale-105" />
             <div className="flex flex-col">
@@ -94,24 +135,55 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-1">
             <button
-              onClick={() => scrollTo('explorer')}
-              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
+              onClick={() => navigateOrScroll('home', 'explorer')}
+              className={`px-2.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 ${
+                currentRoute === 'home'
+                  ? 'bg-white/10 text-white font-semibold shadow-xs'
+                  : 'text-slate-200 hover:text-[#c2ece2] hover:bg-white/5'
+              }`}
             >
               <Compass className="w-3.5 h-3.5 text-[#2dd4bf]" />
               Explore Funds
             </button>
 
+            {/* Separate Page 1: Loan Against Securities */}
             <button
-              onClick={() => scrollTo('loan-against-mf')}
-              className="px-2.5 py-2 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-amber-950/40 border border-amber-500/30 transition-all flex items-center gap-1.5 shadow-sm"
+              onClick={() => navigateOrScroll('loan-against-securities')}
+              className={`px-2.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm ${
+                currentRoute === 'loan-against-securities'
+                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
+                  : 'text-amber-300 hover:text-amber-200 hover:bg-amber-950/40 border border-amber-500/30'
+              }`}
             >
-              <CreditCard className="w-3.5 h-3.5 text-amber-400" />
-              <span>Loan Against MF</span>
-              <span className="text-[9px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold px-1.5 py-0.2 rounded font-mono">9.5%</span>
+              <CreditCard className={`w-3.5 h-3.5 ${currentRoute === 'loan-against-securities' ? 'text-slate-950' : 'text-amber-400'}`} />
+              <span>Loan Against Securities</span>
+              <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded font-mono ${
+                currentRoute === 'loan-against-securities' ? 'bg-slate-900 text-amber-300' : 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950'
+              }`}>
+                9.0%
+              </span>
+            </button>
+
+            {/* Separate Page 2: SIP Calculator */}
+            <button
+              onClick={() => navigateOrScroll('sip-calculator')}
+              className={`px-2.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm ${
+                currentRoute === 'sip-calculator'
+                  ? 'bg-[#017374] text-white font-bold border border-[#2dd4bf]/50 shadow-md'
+                  : 'text-teal-300 hover:text-white hover:bg-teal-950/40 border border-teal-500/30'
+              }`}
+            >
+              <Calculator className={`w-3.5 h-3.5 ${currentRoute === 'sip-calculator' ? 'text-white' : 'text-[#2dd4bf]'}`} />
+              <span>SIP Calculator</span>
+              <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded font-mono ${
+                currentRoute === 'sip-calculator' ? 'bg-[#043335] text-teal-200' : 'bg-teal-400 text-slate-950'
+              }`}>
+                Step-Up
+              </span>
             </button>
 
             <button
-              onClick={() => scrollTo('quiz')}
+              onClick={() => navigateOrScroll('quiz')}
               className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-amber-300 hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#fbbf24]" />
@@ -119,15 +191,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => scrollTo('calculator')}
-              className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
-            >
-              <Calculator className="w-3.5 h-3.5 text-[#2dd4bf]" />
-              MF vs FD
-            </button>
-
-            <button
-              onClick={() => scrollTo('blog')}
+              onClick={() => navigateOrScroll('blog')}
               className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
               <BookOpen className="w-3.5 h-3.5 text-amber-400" />
@@ -135,7 +199,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => scrollTo('faq')}
+              onClick={() => navigateOrScroll('faq')}
               className="px-2.5 py-2 rounded-lg text-xs font-medium text-slate-200 hover:text-[#c2ece2] hover:bg-white/5 transition-colors flex items-center gap-1.5"
             >
               <HelpCircle className="w-3.5 h-3.5 text-[#2dd4bf]" />
@@ -320,7 +384,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Primary CTA in Echo & Keenon */}
             <button
-              onClick={() => scrollTo('advice')}
+              onClick={() => navigateOrScroll('home', 'advice')}
               className="bg-[#017374] hover:bg-[#005f60] text-white font-semibold text-xs sm:text-sm px-4 sm:px-4.5 py-2 sm:py-2.5 rounded-xl shadow-md hover:shadow-[#017374]/30 active:scale-98 transition-all flex items-center gap-1.5 border border-[#2dd4bf]/30"
             >
               <Send className="w-3.5 h-3.5 text-[#c2ece2]" />
@@ -413,45 +477,71 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
 
           <button
-            onClick={() => scrollTo('explorer')}
-            className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
+            onClick={() => navigateOrScroll('home', 'explorer')}
+            className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2.5 transition-colors ${
+              currentRoute === 'home' ? 'bg-white/10 text-white font-semibold' : 'text-slate-200 hover:bg-white/5'
+            }`}
           >
             <Compass className="w-4 h-4 text-[#2dd4bf]" />
             Explore Mutual Funds
           </button>
+          
+          {/* Mobile Page 1: Loan Against Securities */}
           <button
-            onClick={() => scrollTo('loan-against-mf')}
-            className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold text-amber-300 bg-amber-950/30 border border-amber-500/40 hover:bg-amber-950/50 flex items-center justify-between"
+            onClick={() => navigateOrScroll('loan-against-securities')}
+            className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold flex items-center justify-between transition-colors ${
+              currentRoute === 'loan-against-securities'
+                ? 'bg-amber-400 text-slate-950 font-bold'
+                : 'text-amber-300 bg-amber-950/30 border border-amber-500/40 hover:bg-amber-950/50'
+            }`}
           >
             <div className="flex items-center gap-2.5">
-              <CreditCard className="w-4 h-4 text-amber-400" />
-              <span>Loan Against Mutual Funds</span>
+              <CreditCard className={`w-4 h-4 ${currentRoute === 'loan-against-securities' ? 'text-slate-950' : 'text-amber-400'}`} />
+              <span>Loan Against Securities</span>
             </div>
-            <span className="text-[10px] bg-amber-400 text-slate-950 px-1.5 py-0.5 rounded font-mono font-bold">9.5% ROI</span>
+            <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${
+              currentRoute === 'loan-against-securities' ? 'bg-slate-900 text-amber-300' : 'bg-amber-400 text-slate-950'
+            }`}>
+              9.0% ROI
+            </span>
           </button>
+
+          {/* Mobile Page 2: SIP Calculator */}
           <button
-            onClick={() => scrollTo('quiz')}
+            onClick={() => navigateOrScroll('sip-calculator')}
+            className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold flex items-center justify-between transition-colors ${
+              currentRoute === 'sip-calculator'
+                ? 'bg-[#017374] text-white font-bold'
+                : 'text-teal-300 bg-teal-950/30 border border-teal-500/40 hover:bg-teal-950/50'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Calculator className={`w-4 h-4 ${currentRoute === 'sip-calculator' ? 'text-white' : 'text-[#2dd4bf]'}`} />
+              <span>SIP Calculator</span>
+            </div>
+            <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${
+              currentRoute === 'sip-calculator' ? 'bg-[#043335] text-teal-200' : 'bg-teal-400 text-slate-950'
+            }`}>
+              Step-Up
+            </span>
+          </button>
+
+          <button
+            onClick={() => navigateOrScroll('quiz')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
           >
             <Sparkles className="w-4 h-4 text-[#fbbf24]" />
             Take Risk Profiler Quiz
           </button>
           <button
-            onClick={() => scrollTo('calculator')}
-            className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
-          >
-            <Calculator className="w-4 h-4 text-[#2dd4bf]" />
-            Mutual Fund vs FD Calculator
-          </button>
-          <button
-            onClick={() => scrollTo('blog')}
+            onClick={() => navigateOrScroll('blog')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
           >
             <BookOpen className="w-4 h-4 text-amber-400" />
             Educational Guides & News
           </button>
           <button
-            onClick={() => scrollTo('faq')}
+            onClick={() => navigateOrScroll('faq')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
           >
             <HelpCircle className="w-4 h-4 text-[#2dd4bf]" />
@@ -460,7 +550,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           
           <div className="pt-2 border-t border-[#033638] flex flex-col gap-2">
             <button
-              onClick={() => scrollTo('advice')}
+              onClick={() => navigateOrScroll('home', 'advice')}
               className="w-full bg-[#017374] hover:bg-[#005f60] text-white text-center font-bold text-sm py-2.5 rounded-xl flex items-center justify-center gap-2 shadow"
             >
               <Send className="w-4 h-4 text-[#c2ece2]" />
