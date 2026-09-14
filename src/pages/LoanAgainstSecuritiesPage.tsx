@@ -34,6 +34,7 @@ import { LeadPayload } from '../types';
 import { formatINR } from '../utils/mfapi';
 import { getFormspreeEndpoint, getFormspreeFormId } from '../utils/formspree';
 import { navigateToRoute } from '../utils/seoAndRouting';
+import { trackConversion } from '../utils/analytics';
 
 interface LoanAgainstSecuritiesPageProps {
   onLeadSubmitted: (lead: LeadPayload) => void;
@@ -233,6 +234,13 @@ export const LoanAgainstSecuritiesPage: React.FC<LoanAgainstSecuritiesPageProps>
     } catch {
       // Safe fallback
     }
+
+    // Track Google Tag conversion (AW-18297262924)
+    trackConversion('Loan Against Securities Application', effectiveLoanAmount, {
+      collateral_type: collateralType,
+      portfolio_value: portfolioValue,
+      demat_rta: dematOrRta,
+    });
 
     setIsSubmitting(false);
     setSubmittedLead(payload);

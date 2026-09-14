@@ -7,6 +7,7 @@
 
 import { CURATED_FUNDS } from '../data/fundsData';
 import { FundScheme } from '../types';
+import { trackPageView } from './analytics';
 
 export type PageRoute = 'home' | 'loan-against-securities' | 'sip-calculator' | 'fund-detail';
 
@@ -426,6 +427,9 @@ export function updateSeoMetadata(route: PageRoute): void {
     document.head.appendChild(schemaScript);
   }
   schemaScript.textContent = JSON.stringify(config.schema, null, 2);
+
+  // 6. Track Page View in Google Tag (AW-18297262924)
+  trackPageView(config.canonicalPath, config.title);
 }
 
 /**
@@ -558,6 +562,9 @@ export function updateFundSeoMetadata(fund: {
     document.head.appendChild(schemaScript);
   }
   schemaScript.textContent = JSON.stringify(schema, null, 2);
+
+  // Track Fund Page View in Google Tag (AW-18297262924)
+  trackPageView(window.location.pathname, title);
 }
 
 /**

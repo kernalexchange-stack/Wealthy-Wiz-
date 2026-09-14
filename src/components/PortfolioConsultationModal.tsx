@@ -18,6 +18,7 @@ import {
 import confetti from 'canvas-confetti';
 import { sendLeadToFormspree } from '../utils/formspree';
 import { LeadPayload } from '../types';
+import { trackConversion } from '../utils/analytics';
 
 interface PortfolioConsultationModalProps {
   isOpen: boolean;
@@ -143,6 +144,13 @@ export const PortfolioConsultationModal: React.FC<PortfolioConsultationModalProp
       if (onLeadSubmitted) {
         onLeadSubmitted(leadPayload);
       }
+
+      // Track Google Tag conversion (AW-18297262924)
+      trackConversion('Portfolio Consultation Lead', leadPayload.investmentAmount, {
+        consultation_type: consultationType,
+        portfolio_size: portfolioSize,
+        source_page: leadPayload.sourcePage,
+      });
 
       setIsSuccess(true);
       try {

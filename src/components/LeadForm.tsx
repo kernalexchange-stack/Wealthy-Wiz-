@@ -3,6 +3,7 @@ import { LeadPayload, RiskProfileInfo } from '../types';
 import { Send, CheckCircle2, ShieldCheck, Sparkles, X, Phone, Mail, User, Target, IndianRupee, Download, Cloud } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { getFormspreeEndpoint, getFormspreeFormId } from '../utils/formspree';
+import { trackConversion } from '../utils/analytics';
 
 interface LeadFormProps {
   quizProfile: RiskProfileInfo | null;
@@ -158,6 +159,13 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     } catch {
       // Ignored if confetti fails
     }
+
+    // Track conversion event in Google Tag (AW-18297262924)
+    trackConversion('Advisory Lead Submission', payload.investmentAmount, {
+      goal: payload.investmentGoal,
+      mode: payload.investmentMode,
+      risk_profile: payload.riskProfile,
+    });
 
     onLeadSubmitted(payload);
     setSubmittedLead(payload);
