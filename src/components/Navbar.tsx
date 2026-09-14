@@ -33,6 +33,7 @@ interface NavbarProps {
   onLogout: () => void;
   onOpenRoleWorkspace: () => void;
   currentRoute?: PageRoute;
+  onOpenPortfolioConsultation?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
@@ -43,9 +44,19 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
   onOpenRoleWorkspace,
   currentRoute = 'home',
+  onOpenPortfolioConsultation,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+
+  const handleConsultationClick = () => {
+    setMobileMenuOpen(false);
+    if (onOpenPortfolioConsultation) {
+      onOpenPortfolioConsultation();
+    } else {
+      navigateOrScroll('home', 'advice');
+    }
+  };
 
   const navigateOrScroll = (target: PageRoute | string, sectionId?: string) => {
     setMobileMenuOpen(false);
@@ -179,6 +190,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                 currentRoute === 'sip-calculator' ? 'bg-[#043335] text-teal-200' : 'bg-teal-400 text-slate-950'
               }`}>
                 Step-Up
+              </span>
+            </button>
+
+            {/* Dedicated Tab: Portfolio Consultation */}
+            <button
+              onClick={handleConsultationClick}
+              className="px-2.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm text-teal-200 hover:text-white hover:bg-teal-950/50 border border-teal-500/40 bg-teal-950/20"
+              title="Book Free 1-on-1 Portfolio Consultation with AMFI Certified Specialist"
+            >
+              <Briefcase className="w-3.5 h-3.5 text-[#2dd4bf]" />
+              <span>Portfolio Consultation</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.2 rounded font-mono bg-amber-400 text-slate-950">
+                FREE
               </span>
             </button>
 
@@ -384,11 +408,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Primary CTA in Echo & Keenon */}
             <button
-              onClick={() => navigateOrScroll('home', 'advice')}
-              className="bg-[#017374] hover:bg-[#005f60] text-white font-semibold text-xs sm:text-sm px-4 sm:px-4.5 py-2 sm:py-2.5 rounded-xl shadow-md hover:shadow-[#017374]/30 active:scale-98 transition-all flex items-center gap-1.5 border border-[#2dd4bf]/30"
+              onClick={handleConsultationClick}
+              className="bg-gradient-to-r from-[#017374] to-[#045254] hover:from-[#005f60] hover:to-[#033e40] text-white font-semibold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl shadow-md hover:shadow-[#017374]/30 active:scale-98 transition-all flex items-center gap-1.5 border border-[#2dd4bf]/40"
+              title="Book Free 1-on-1 Portfolio Consultation"
             >
-              <Send className="w-3.5 h-3.5 text-[#c2ece2]" />
-              <span>Get Advice</span>
+              <Briefcase className="w-3.5 h-3.5 text-[#2dd4bf]" />
+              <span>Portfolio Consultation</span>
             </button>
           </div>
 
@@ -526,6 +551,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
+          {/* Mobile Tab: Portfolio Consultation */}
+          <button
+            onClick={handleConsultationClick}
+            className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold flex items-center justify-between transition-colors bg-gradient-to-r from-[#017374]/30 to-[#034446]/50 border border-[#2dd4bf]/40 text-white shadow-xs"
+          >
+            <div className="flex items-center gap-2.5">
+              <Briefcase className="w-4 h-4 text-[#5eead4]" />
+              <span>Portfolio Consultation</span>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded font-mono font-bold bg-amber-400 text-slate-950">
+              FREE
+            </span>
+          </button>
+
           <button
             onClick={() => navigateOrScroll('quiz')}
             className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/5 flex items-center gap-2.5"
@@ -550,11 +589,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           
           <div className="pt-2 border-t border-[#033638] flex flex-col gap-2">
             <button
-              onClick={() => navigateOrScroll('home', 'advice')}
-              className="w-full bg-[#017374] hover:bg-[#005f60] text-white text-center font-bold text-sm py-2.5 rounded-xl flex items-center justify-center gap-2 shadow"
+              onClick={handleConsultationClick}
+              className="w-full bg-gradient-to-r from-[#017374] to-[#045254] hover:from-[#005f60] hover:to-[#033e40] text-white text-center font-bold text-sm py-2.5 rounded-xl flex items-center justify-center gap-2 shadow border border-[#2dd4bf]/40"
             >
-              <Send className="w-4 h-4 text-[#c2ece2]" />
-              Request Custom Advisory Plan
+              <Briefcase className="w-4 h-4 text-[#c2ece2]" />
+              Book Portfolio Consultation (Free)
             </button>
             <button
               onClick={() => {

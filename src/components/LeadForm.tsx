@@ -207,12 +207,12 @@ Visit us at https://wealthywiz.online`;
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 border border-amber-500/25">
-            <Sparkles className="w-3.5 h-3.5 text-[#fbbf24]" />
-            Personalized Wealth Advisory
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3 border border-teal-500/25">
+            <Sparkles className="w-3.5 h-3.5 text-[#017374]" />
+            Free Portfolio Consultation & Advisory
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight font-cardia">
-            Get a Customized Mutual Fund Plan
+            Book Your Free 1-on-1 Portfolio Consultation
           </h2>
           <p className="text-slate-600 mt-2 text-sm sm:text-base">
             No spam. No pushy sales calls. Receive an institutional-grade portfolio blueprint aligned with your risk tolerance from an <strong className="text-slate-800">AMFI Registered Distributor (ARN-363293)</strong>.

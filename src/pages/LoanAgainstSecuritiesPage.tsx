@@ -26,7 +26,8 @@ import {
   ChevronRight,
   Calculator,
   RefreshCw,
-  Coins
+  Coins,
+  Briefcase
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { LeadPayload } from '../types';
@@ -36,9 +37,13 @@ import { navigateToRoute } from '../utils/seoAndRouting';
 
 interface LoanAgainstSecuritiesPageProps {
   onLeadSubmitted: (lead: LeadPayload) => void;
+  onOpenConsultation?: (goal?: string) => void;
 }
 
-export const LoanAgainstSecuritiesPage: React.FC<LoanAgainstSecuritiesPageProps> = ({ onLeadSubmitted }) => {
+export const LoanAgainstSecuritiesPage: React.FC<LoanAgainstSecuritiesPageProps> = ({ 
+  onLeadSubmitted,
+  onOpenConsultation,
+}) => {
   // Collateral & Calculator State
   const [portfolioValue, setPortfolioValue] = useState<number>(1000000); // ₹10 Lakhs default
   const [collateralType, setCollateralType] = useState<'equity_mf' | 'equity_shares' | 'debt_mf' | 'hybrid_mf' | 'sgb'>('equity_mf');
@@ -329,6 +334,15 @@ Helpdesk: support@wealthywiz.online | Tel: +91 98765 43210
           </nav>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => onOpenConsultation ? onOpenConsultation('Loan Against Securities & Portfolio Review') : undefined}
+              className="px-3 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+              title="Book Free 1-on-1 Portfolio Consultation"
+            >
+              <Briefcase className="w-3.5 h-3.5" />
+              <span>Portfolio Consultation</span>
+            </button>
+
             <button
               onClick={() => navigateToRoute('sip-calculator')}
               className="px-3 py-1 bg-[#032e30] hover:bg-[#043d3e] text-[#5eead4] rounded-lg text-xs font-semibold border border-[#0d9488]/40 transition-colors flex items-center gap-1.5"
@@ -963,6 +977,29 @@ Helpdesk: support@wealthywiz.online | Tel: +91 98765 43210
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Dedicated In-Page Portfolio Consultation Tab Banner */}
+        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#022425] via-[#011c1d] to-[#011415] border border-[#2dd4bf]/40 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#017374]/30 text-[#c2ece2] border border-[#017374]/60 text-xs font-bold uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4 text-[#2dd4bf]" />
+              <span>AMFI Certified Advisory • ARN-363293</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold font-['Fraunces',serif]">
+              Need Help Deciding Between LAS vs Portfolio Rebalancing?
+            </h3>
+            <p className="text-xs sm:text-sm text-[#c2ece2]/80 max-w-xl">
+              Get an unbiased 1-on-1 consultation with an AMFI registered wealth specialist. We review your mutual fund XIRR, tax liabilities, and suggest the optimal borrowing or rebalancing strategy.
+            </p>
+          </div>
+          <button
+            onClick={() => onOpenConsultation ? onOpenConsultation('Loan Against Securities & Portfolio Review') : undefined}
+            className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg transition-transform active:scale-95 shrink-0"
+          >
+            <Briefcase className="w-4 h-4" />
+            <span>Book Free Portfolio Consultation</span>
+          </button>
         </div>
 
         {/* SEO FAQ Accordion */}

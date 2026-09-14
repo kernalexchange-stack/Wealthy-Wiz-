@@ -27,6 +27,8 @@ import { PageRoute, RouteState, getRouteStateFromLocation, updateSeoMetadata } f
 import { LoanAgainstSecuritiesPage } from './pages/LoanAgainstSecuritiesPage';
 import { SipCalculatorPage } from './pages/SipCalculatorPage';
 import { FundDetailsPage } from './pages/FundDetailsPage';
+import { PortfolioConsultationModal } from './components/PortfolioConsultationModal';
+import { PortfolioConsultationTab } from './components/PortfolioConsultationTab';
 
 const LEADS_STORAGE_KEY = 'wealthywiz_stored_leads';
 const SESSION_STORAGE_KEY = 'wealthywiz_visitor_session';
@@ -63,6 +65,25 @@ export function App() {
   const [isCustomerWorkspaceOpen, setIsCustomerWorkspaceOpen] = useState(false);
   const [isAdvisorVaultOpen, setIsAdvisorVaultOpen] = useState(false);
   
+  // Universal Portfolio Consultation Modal State (Accessible from all pages)
+  const [isPortfolioConsultationOpen, setIsPortfolioConsultationOpen] = useState(false);
+  const [portfolioConsultationContext, setPortfolioConsultationContext] = useState<{
+    initialFundName?: string;
+    initialGoal?: string;
+    initialAmount?: number;
+    sourcePage?: string;
+  }>({});
+
+  const handleOpenPortfolioConsultation = (opts?: {
+    initialFundName?: string;
+    initialGoal?: string;
+    initialAmount?: number;
+    sourcePage?: string;
+  }) => {
+    setPortfolioConsultationContext(opts || {});
+    setIsPortfolioConsultationOpen(true);
+  };
+
   // Legal & AdSense Compliance Modal State
   const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
   const [legalInitialTab, setLegalInitialTab] = useState<LegalTab>('privacy');
@@ -431,6 +452,7 @@ export function App() {
         onLogout={handleLogout}
         onOpenRoleWorkspace={handleOpenRoleWorkspace}
         currentRoute={currentRoute}
+        onOpenPortfolioConsultation={() => handleOpenPortfolioConsultation({ sourcePage: window.location.pathname })}
       />
 
       {/* 2. AMFI Live Scrolling Ticker */}
@@ -439,10 +461,23 @@ export function App() {
       <main className="flex-1">
         {currentRoute === 'loan-against-securities' ? (
           /* Dedicated Separate Page 1: Loan Against Securities & Mutual Funds (SEO Route) */
-          <LoanAgainstSecuritiesPage onLeadSubmitted={handleLeadSubmitted} />
+          <LoanAgainstSecuritiesPage 
+            onLeadSubmitted={handleLeadSubmitted}
+            onOpenConsultation={(goal) => handleOpenPortfolioConsultation({ 
+              initialGoal: goal || 'Loan Against Securities & Portfolio Review', 
+              sourcePage: '/loan-against-securities' 
+            })}
+          />
         ) : currentRoute === 'sip-calculator' ? (
           /* Dedicated Separate Page 2: SIP Calculator & Compounding Engine (SEO Route) */
-          <SipCalculatorPage onSelectFundForAdvice={handleSelectFundForAdvice} />
+          <SipCalculatorPage 
+            onSelectFundForAdvice={handleSelectFundForAdvice} 
+            onOpenConsultation={(amount) => handleOpenPortfolioConsultation({ 
+              initialAmount: amount, 
+              initialGoal: 'SIP Compounding Allocation & Goal Review', 
+              sourcePage: '/sip-calculator' 
+            })}
+          />
         ) : currentRoute === 'fund-detail' && (routeState.schemeSlug || routeState.schemeName || routeState.schemeCode) ? (
           /* Dedicated Separate URL for each Fund Scheme using Scheme Name (e.g. /fund/parag-parikh-flexi-cap-fund-direct-plan-growth) */
           <FundDetailsPage 
@@ -453,6 +488,11 @@ export function App() {
               if (fundName) {
                 setSelectedFunds(prev => prev.includes(fundName) ? prev : [...prev, fundName]);
               }
+              handleOpenPortfolioConsultation({
+                initialFundName: fundName,
+                initialGoal: `Direct Investment Review for ${fundName || 'Mutual Fund'}`,
+                sourcePage: window.location.pathname,
+              });
             }}
           />
         ) : (
@@ -515,6 +555,20 @@ export function App() {
         isOpen={isLegalModalOpen}
         onClose={() => setIsLegalModalOpen(false)}
         initialTab={legalInitialTab}
+      />
+
+      {/* Universal Floating "Portfolio Consultation" Tab across ALL pages */}
+      <PortfolioConsultationTab onOpen={() => handleOpenPortfolioConsultation({ sourcePage: window.location.pathname })} />
+
+      {/* Universal Portfolio Consultation Modal (Accessible from all pages) */}
+      <PortfolioConsultationModal
+        isOpen={isPortfolioConsultationOpen}
+        onClose={() => setIsPortfolioConsultationOpen(false)}
+        onLeadSubmitted={handleLeadSubmitted}
+        initialFundName={portfolioConsultationContext.initialFundName}
+        initialGoal={portfolioConsultationContext.initialGoal}
+        initialAmount={portfolioConsultationContext.initialAmount}
+        sourcePage={portfolioConsultationContext.sourcePage || window.location.pathname}
       />
 
 

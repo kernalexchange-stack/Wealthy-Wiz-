@@ -20,7 +20,8 @@ import {
   BarChart3,
   Flame,
   PieChart,
-  CheckCircle2
+  CheckCircle2,
+  Briefcase
 } from 'lucide-react';
 import { FundScheme, NavHistoryPoint } from '../types';
 import { CURATED_FUNDS } from '../data/fundsData';
@@ -243,10 +244,26 @@ export const FundDetailsPage: React.FC<FundDetailsPageProps> = ({
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+            <button
+              onClick={() => {
+                if (onOpenLeadModal) {
+                  onOpenLeadModal(fund?.schemeName);
+                } else {
+                  const el = document.getElementById('consult-form-box');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold transition-all shadow-sm text-xs"
+              title="Book Free Portfolio Consultation for this Scheme"
+            >
+              <Briefcase className="w-3.5 h-3.5" />
+              <span>Portfolio Consultation</span>
+            </button>
+
             <button
               onClick={() => navigateToRoute('home')}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#012f31] hover:bg-[#013f42] text-slate-300 hover:text-white transition-colors border border-[#045558]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#012f31] hover:bg-[#013f42] text-slate-300 hover:text-white transition-colors border border-[#045558] text-xs"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Explorer</span>

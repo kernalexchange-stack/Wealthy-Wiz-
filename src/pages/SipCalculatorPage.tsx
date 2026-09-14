@@ -20,7 +20,8 @@ import {
   Flame,
   Award,
   BarChart3,
-  Info
+  Info,
+  Briefcase
 } from 'lucide-react';
 import { formatINR, formatNumberINR } from '../utils/mfapi';
 import { CURATED_FUNDS } from '../data/fundsData';
@@ -29,9 +30,13 @@ import { navigateToRoute, navigateToFund } from '../utils/seoAndRouting';
 
 interface SipCalculatorPageProps {
   onSelectFundForAdvice?: (fund: FundScheme) => void;
+  onOpenConsultation?: (amount?: number) => void;
 }
 
-export const SipCalculatorPage: React.FC<SipCalculatorPageProps> = ({ onSelectFundForAdvice }) => {
+export const SipCalculatorPage: React.FC<SipCalculatorPageProps> = ({ 
+  onSelectFundForAdvice,
+  onOpenConsultation,
+}) => {
   // Mode: Regular SIP, Step-Up SIP, or Lumpsum
   const [calcMode, setCalcMode] = useState<'sip' | 'stepup' | 'lumpsum'>('sip');
 
@@ -225,6 +230,15 @@ export const SipCalculatorPage: React.FC<SipCalculatorPageProps> = ({ onSelectFu
           </nav>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => onOpenConsultation ? onOpenConsultation(monthlyAmount) : undefined}
+              className="px-3 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+              title="Book Free 1-on-1 SIP Portfolio Consultation"
+            >
+              <Briefcase className="w-3.5 h-3.5" />
+              <span>Portfolio Consultation</span>
+            </button>
+
             <button
               onClick={() => navigateToRoute('loan-against-securities')}
               className="px-3 py-1 bg-amber-950/60 hover:bg-amber-900/70 text-amber-300 rounded-lg text-xs font-semibold border border-amber-500/40 transition-colors flex items-center gap-1.5"
@@ -862,6 +876,29 @@ export const SipCalculatorPage: React.FC<SipCalculatorPageProps> = ({ onSelectFu
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Dedicated In-Page Portfolio Consultation Tab Banner */}
+        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#022425] via-[#011c1d] to-[#011415] border border-[#2dd4bf]/40 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#017374]/30 text-[#c2ece2] border border-[#017374]/60 text-xs font-bold uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4 text-[#2dd4bf]" />
+              <span>Personalized SIP Allocation • AMFI Registered ARN-363293</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold font-['Fraunces',serif]">
+              Want a Tailored Mutual Fund Basket for Your ₹{monthlyAmount.toLocaleString('en-IN')}/mo SIP?
+            </h3>
+            <p className="text-xs sm:text-sm text-[#c2ece2]/80 max-w-xl">
+              Get an unbiased 1-on-1 portfolio consultation. We will map your investment horizon and risk profile to top-quartile Large, Mid, Small, and Flexi-Cap funds with low expense ratios.
+            </p>
+          </div>
+          <button
+            onClick={() => onOpenConsultation ? onOpenConsultation(monthlyAmount) : undefined}
+            className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg transition-transform active:scale-95 shrink-0"
+          >
+            <Briefcase className="w-4 h-4" />
+            <span>Book Free Portfolio Consultation</span>
+          </button>
         </div>
 
         {/* SEO FAQ Accordion */}
