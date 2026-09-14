@@ -271,8 +271,22 @@ export function findFundBySlug(slug: string, fundList?: FundScheme[]): FundSchem
 export function getRouteStateFromLocation(): RouteState {
   if (typeof window === 'undefined') return { route: 'home' };
 
-  const pathname = window.location.pathname.toLowerCase();
+  let pathname = window.location.pathname.toLowerCase();
   const hash = window.location.hash.toLowerCase();
+  const search = window.location.search;
+
+  // Check for SPA 404 query redirect fallback: e.g. /?p=/fund/...
+  const pMatch = search.match(/[?&]p=([^&]+)/);
+  if (pMatch && pMatch[1]) {
+    const decoded = decodeURIComponent(pMatch[1]).replace(/~and~/g, '&');
+    pathname = decoded.toLowerCase();
+    // Clean up URL without reload
+    try {
+      window.history.replaceState(null, '', decoded);
+    } catch {
+      // Ignore if iframe restricts replaceState
+    }
+  }
 
   // 1. Check for dedicated Fund Scheme page using Scheme Name: /fund/:schemeNameSlug or /funds/:schemeNameSlug
   const fundPathMatch = pathname.match(/^\/funds?\/([a-z0-9-]+)/i);

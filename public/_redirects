@@ -1,0 +1,2 @@
+# Netlify SPA rewrite rule - maps all deep URLs directly to index.html with 200 OK
+/*    /index.html   200
